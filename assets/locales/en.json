@@ -1,0 +1,17 @@
+{
+  "SIGN_UP": "Sign up",
+  "SIGN_UP_TIPS": "You are going to sign up, Please review our",
+  "SIGN_UP_TERMS": "Terms and Conditions Policies",
+  "ALREADY_HAVE_ACCOUNT": "Already have an account",
+  "EMAIL_OR_PHONE": "Email or phone number",
+  "PASSWORD": "Password",
+  "CONFIRM_PASSWORD": "Confirm password",
+  "INVALID_MAIL": "Invalid mail format",
+  "INVALID_PHONE": "Invalid phone format",
+  "INVALID_MAIL_OR_PHONE": "Invalid mail or phone number",
+  "CONFIRM_PASSWORD_ERROR": "Passwords doesn't match",
+  "REQUIRED_FIELD": "Required field",
+  "YOU_HAVE_TO_VERIFY": "You will have to verify!",
+  "WHAT_YOU_HAVE_TO_VERIFY": "We will send you a link through\n your preferred mean of communication, \nClick on it and it will bring you back to us.",
+  "REGISTRATION_MESSAGE": "Fill your info. It will take only seconds"
+}

@@ -1,0 +1,17 @@
+{
+  "SIGN_UP": "تسجيل",
+  "SIGN_UP_TIPS": "انت علي وشك تسجي حساب يرجي مراجعه",
+  "SIGN_UP_TERMS": "الشروط و الاحكام",
+  "ALREADY_HAVE_ACCOUNT": "لدي حساب بالفعل",
+  "EMAIL_OR_PHONE": "البريد الاليكتروني او رقم الهاتف",
+  "PASSWORD": "كلمه المرور",
+  "CONFIRM_PASSWORD": "تأكيد كلمه المرور",
+  "INVALID_MAIL": "بريد الاليكتروني غير صحيح",
+  "INVALID_PHONE": "رفم الهاتف غير صحيح",
+  "INVALID_MAIL_OR_PHONE": "يرجي ادخال رقم هاتف او بريد اليكتروني",
+  "CONFIRM_PASSWORD_ERROR": "كلمه المرور غير متطابقه",
+  "REQUIRED_FIELD": "حقل مطلوب",
+  "YOU_HAVE_TO_VERIFY": "سوف تحتاج لتأكيد بياناتك",
+  "WHAT_YOU_HAVE_TO_VERIFY": "سوف نرسل لك رابط\n عن طريف وسيله تواصلك المفضله \n اضعط عليه و سوف يعيدك الينا",
+  "REGISTRATION_MESSAGE": "من فضلك املا بياناتك"
+}
