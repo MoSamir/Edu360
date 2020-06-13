@@ -13,5 +13,6 @@
   "REQUIRED_FIELD": "حقل مطلوب",
   "YOU_HAVE_TO_VERIFY": "سوف تحتاج لتأكيد بياناتك",
   "WHAT_YOU_HAVE_TO_VERIFY": "سوف نرسل لك رابط\n عن طريف وسيله تواصلك المفضله \n اضعط عليه و سوف يعيدك الينا",
-  "REGISTRATION_MESSAGE": "من فضلك املا بياناتك"
+  "REGISTRATION_MESSAGE": "من فضلك املا بياناتك",
+  "SERVER_UNREACHABLE": "غير قادر علي التواصل مع الخادم حاليا يرجي المحاوله وقت لاحق"
 }

@@ -13,5 +13,6 @@
   "REQUIRED_FIELD": "Required field",
   "YOU_HAVE_TO_VERIFY": "You will have to verify!",
   "WHAT_YOU_HAVE_TO_VERIFY": "We will send you a link through\n your preferred mean of communication, \nClick on it and it will bring you back to us.",
-  "REGISTRATION_MESSAGE": "Fill your info. It will take only seconds"
+  "REGISTRATION_MESSAGE": "Fill your info. It will take only seconds",
+  "SERVER_UNREACHABLE": "Unable to communicate with server right now, please try again later"
 }

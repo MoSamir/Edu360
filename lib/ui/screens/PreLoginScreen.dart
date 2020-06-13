@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                  color: AppColors.mainThemeColor,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * .085,),
+              SizedBox(height: 20,),
               ButtonTheme(
                 minWidth: MediaQuery.of(context).size.width,
                 height: 50,
@@ -68,8 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: AppColors.white,
                 ),
               ),
-              SizedBox(height: 16,),
-              SizedBox(height: 10,),
+              SizedBox(height: MediaQuery.of(context).size.height * .05,),
               Text(LocalKeys.SIGN_UP_TIPS , textAlign: TextAlign.center ,style: Styles.baseTextStyle).tr(),
               SizedBox(height: 5,),
               GestureDetector(
@@ -78,19 +77,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: Styles.baseTextStyle.copyWith(
                     decoration: TextDecoration.underline,
                   ),).tr(),),
+              SizedBox(height: 15,),
             ],
           ),
         ),
       ),
     );
   }
-
-
   _navigateToRegistrationForm() {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => RegistrationScreen()));
   }
-
-
 
 }

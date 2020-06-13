@@ -20,6 +20,11 @@ class LocalKeys{
   static const String REGISTRATION_MESSAGE = "REGISTRATION_MESSAGE";
 
 
+ //--------------------------------GENERAL -----------------------------------
+
+
+  static const String SERVER_UNREACHABLE = "SERVER_UNREACHABLE";
+
 
 
 
