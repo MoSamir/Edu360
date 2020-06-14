@@ -1,3 +1,4 @@
+import 'package:edu360/ui/screens/FeedsScreen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'dart:io';
@@ -80,14 +81,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         } ,  afterSubmitKeyboardAction: TextInputAction.done , obscureField: true),
                     getFilesList(),
                     SizedBox(height: 50,),
-                    RaisedButton(
-                      padding: EdgeInsets.symmetric(vertical: 14,horizontal: 8),
-                      onPressed: (){},
-                      elevation: 5,
-                      color: AppColors.white,
-                      child: Text(LocalKeys.SIGN_UP , style: Styles.baseTextStyle.copyWith(
-                        color: AppColors.mainThemeColor,
-                      ),).tr(),
+                    GestureDetector(
+                      onTap: ()=> Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> FeedsScreen())),
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Text(LocalKeys.SIGN_UP , style: Styles.baseTextStyle.copyWith(
+                            color: AppColors.mainThemeColor,
+                          ),).tr(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -187,37 +194,35 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         ),
       ));
     }
-    filesWidget.add(Material(
-        type: MaterialType.card,
-        elevation: 2,
+    filesWidget.add(Container(
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(30),
+      ),
+      child: GestureDetector(
+        onTap: () async{
+          List<File> selectedImage = await FilePicker.getMultiFile(
+            type: FileType.custom,
+            allowedExtensions: ['pdf', 'doc'],
+          );
+          try {
+            uploadedDocuments.addAll(selectedImage);
+          }catch(exception){}
+          setState(() {});
+        },
         child: Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: IconButton(
-            icon: Icon(Icons.add , color: Colors.black,),
-            iconSize: 30,
-            color: AppColors.white,
-            onPressed: () async{
-              List<File> selectedImage = await FilePicker.getMultiFile(
-                type: FileType.custom,
-                allowedExtensions: ['pdf', 'doc'],
-              );
-              try {
-                uploadedDocuments.addAll(selectedImage);
-              }catch(exception){}
-              setState(() {});
-            },
-          ),
-        ),
-      ));
-
-
-
+      decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+      color: Colors.white,
+    ),
+      child: Center(child: Icon(Icons.add , color: Colors.black,),),
+    ),
+      ),
+    ));
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Wrap(children: filesWidget,spacing: 10,),
     );
   }
@@ -237,7 +242,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         borderRadius: BorderRadius.circular(8),
         color: Colors.blue,
       ),
-
       child: Center(child: Text('DOC',style: Styles.baseTextStyle,),),
     );
   }

@@ -1,11 +1,19 @@
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'ui/screens/SplashScreen.dart';
 
 void main() {
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    //statusBarBrightness: Brightness.light,
+    statusBarColor: Colors.transparent,
+    //statusBarIconBrightness: Brightness.dark
+  ));
+
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en', 'US'), Locale('ar', 'AR')],
