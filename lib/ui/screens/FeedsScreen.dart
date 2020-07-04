@@ -13,18 +13,14 @@ class FeedsScreen extends StatefulWidget {
 class _FeedsScreenState extends State<FeedsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: PreferredSize(
-        child: EduAppBar(icon: Icons.search,),
-preferredSize: Size.fromHeight(kToolbarHeight + 50),
-      ),
-      body: Container(
-//        margin: const EdgeInsets.only(top: 50),
-        child: ListView.builder(itemBuilder: (context , index) {
+    return Container(
+        color: AppColors.backgroundColor,
+        child: ListView.builder(
+          padding: EdgeInsets.only(top: 14 , left: 12, right: 12),
+          itemBuilder: (context , index) {
           return index == 1 ? UserDocumentsPostCard() : index == 2 ? UserVideoPostCard() : UserTextPostCard();
         } , itemCount: 3, shrinkWrap: true,),
-      ),
+
     );
   }
 }

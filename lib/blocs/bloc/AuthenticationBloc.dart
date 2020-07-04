@@ -3,7 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
-import 'package:edu360/utilities/NetworkUtilities.dart';
+import 'file:///E:/Testing/edu360/lib/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/utilities/Constants.dart';
 import 'package:edu360/Repository.dart';
@@ -25,32 +25,38 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
       );
       return ;
     }
-
-    yield AuthenticationLoading();
     if(event is AuthenticateUser){
       yield* _checkIfUserLoggedIn();
       return;
-    } else if(event is LoginUser){
-      yield* _loginUser(event.userPhoneNumber.trim() , event.userPassword.trim() , event);
+    }
+    else if(event is LoginUser){
+      yield* _loginUser(event.userEmail.trim() , event.userPassword.trim() , event);
       return ;
-    } else if(event is Logout){
+    }
+    else if(event is Logout){
       yield* _logoutUser(event);
       return;
     }
   }
 
   Stream<AuthenticationStates> _checkIfUserLoggedIn() async*{
-    // try retrieve the user from the shared preference to check if user exist or no
 
+    yield AuthenticationLoading();
+    await Future.delayed(Duration(seconds: 3),()=>{});
     UserViewModel loggedInUser = await Repository.getUser();
     currentUser = loggedInUser;
-    // the getter method handles if the user not exist it returns anonymous user so no need to double check it
-    yield UserAuthenticated(currentUser: loggedInUser);
-    return ;
+    if(currentUser.userId == null || currentUser.userId.toString().length == 0){
+      yield UserNotInitialized();
+      return ;
+    } else {
+      yield UserAuthenticated(currentUser: loggedInUser);
+      return ;
+    }
   }
 
-  Stream<AuthenticationStates> _loginUser(String userPhoneNumber, String userPassword , event) async*{
-    ResponseViewModel apiResponse = await Repository.signIn(userPhoneNumber:userPhoneNumber , userPassword:userPassword);
+  Stream<AuthenticationStates> _loginUser(String userMail, String userPassword , event) async*{
+    yield AuthenticationLoading();
+    ResponseViewModel apiResponse = await Repository.login(userMail:userMail , userPassword:userPassword);
     if(apiResponse.isSuccess){
       await Repository.saveUser(apiResponse.responseData);
       await Repository.saveEncryptedPassword(userPassword);
@@ -67,7 +73,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
 
   Stream<AuthenticationStates> _logoutUser(event) async*{
 
-   ResponseViewModel responseViewModel = await Repository.signOut();
+   ResponseViewModel responseViewModel = await Repository.logout( userId: currentUser.userId.toString());
    if(responseViewModel.isSuccess){
      currentUser = UserViewModel.fromAnonymousUser();
      await Repository.clearCache();
@@ -78,3 +84,4 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
    }
   }
 }
+

@@ -7,6 +7,9 @@ class Resources{
   static const String WHITE_LOGO_IMAGE = "assets/images/app_logo_white.png";
   static const String BLUE_LOGO_IMAGE = "assets/images/app_logo_blue.png";
   static const String QUESTION_MARK_IMAGE = "assets/images/question_mark.png";
+  static const String CONNECTION_ERROR_IMAGE = "assets/images/connection_error.png";
+  static const String USER_PLACEHOLDER_IMAGE = "assets/images/user_placeholder.png";
+
 
 
 

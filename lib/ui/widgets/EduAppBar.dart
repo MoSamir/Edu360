@@ -3,7 +3,7 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class EduAppBar extends StatelessWidget {
+class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   final String title ;
   final bool centerTitle , autoImplyLeading;
@@ -25,7 +25,7 @@ class EduAppBar extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             SizedBox(height: kToolbarHeight + 30, child: AppBar(
-              title: Text(title ?? ''),
+              title: Text(title ?? '' , textScaleFactor: 1,),
               centerTitle: centerTitle ?? false,
               elevation: 2,
               actions: actions ?? [],
@@ -66,4 +66,8 @@ class EduAppBar extends StatelessWidget {
   }
   EduAppBar({this.title, this.centerTitle, this.autoImplyLeading,
       this.actions, this.backgroundColor, this.onIconPressed, this.icon});
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(kToolbarHeight + 50);
 }

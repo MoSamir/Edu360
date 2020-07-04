@@ -1,17 +1,21 @@
+import 'package:edu360/blocs/BlocDelegate.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 
+import 'blocs/bloc/UserDataBloc.dart';
 import 'ui/screens/SplashScreen.dart';
 
 void main() {
+  BlocSupervisor.delegate = SimpleBlocDelegate();
+
+  WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //statusBarBrightness: Brightness.light,
     statusBarColor: Colors.transparent,
-    //statusBarIconBrightness: Brightness.dark
   ));
 
   runApp(
@@ -22,12 +26,15 @@ void main() {
         saveLocale: true,
         startLocale: Locale('en', 'US'),
         fallbackLocale: Locale('en', 'US'),
-        child: MaterialApp(
-          theme: ThemeData(
-            fontFamily: Resources.FONT_FAMILY_NAME,
+        child: BlocProvider.value(
+          value: UserDataBloc(),
+          child: MaterialApp(
+            theme: ThemeData(
+              fontFamily: Resources.FONT_FAMILY_NAME,
+            ),
+            debugShowCheckedModeBanner: false,
+            home: SplashScreen(),
           ),
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
         ),
     ),
   );

@@ -6,4 +6,7 @@ class Constants {
     errorMessage: '',
     errorCode: HttpStatus.requestTimeout,
   );
+  static const String SHARED_PREFERENCE_USER_TOKEN_KEY = "Edu_user_TokenKey_shared_pref";
+  static const String SHARED_PREFERENCE_USER_KEY = "Edu_user_userKey_shared_pref";
+
 }

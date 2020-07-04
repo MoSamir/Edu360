@@ -10,7 +10,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(4.0),
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
@@ -32,25 +32,25 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
-                      child: Center(child:Text('S' , style: Styles.baseTextStyle,),),
+                      child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                     ),
                     SizedBox(width: 5,),
                     Expanded(
-                      child:Text('Username' ,),
+                      child:Text('Username' ,textScaleFactor: 1),
                     ),
                     SizedBox(width: 5,),
                     IconButton(icon: Icon(Icons.linear_scale , color: Colors.black,),),
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text("Post Description" , maxLines: 2, textAlign: TextAlign.start,),
+                Text("Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                 SizedBox(height: 5,),
                 ListView.builder(itemBuilder: (context, index){
                   return Card(
                     elevation: 5,
                     child: Container(
                       height: 50,
-                      child: Padding(padding: EdgeInsets.all(8), child: Text('PDF File Name'),),
+                      child: Padding(padding: EdgeInsets.all(8), child: Text('PDF File Name',textScaleFactor: 1),),
                       width: MediaQuery.of(context).size.width,
                     ),
                   );
@@ -62,9 +62,9 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        IconButton(icon: Icon(Icons.comment ,color: Colors.blue), onPressed: (){},),
-                        IconButton(icon: Icon(Icons.comment ,color: Colors.red), onPressed: (){},),
-                        IconButton(icon: Icon(Icons.thumb_up ,color: Colors.blue), onPressed: (){},),
+                        IconButton(icon: Icon(Icons.comment ,color: Colors.blue , size: 25,) , padding: EdgeInsets.all(0), onPressed: (){},),
+                        IconButton(icon: Icon(Icons.comment ,color: Colors.red, size: 25,) , padding: EdgeInsets.all(0), onPressed: (){},),
+                        IconButton(icon: Icon(Icons.thumb_up ,color: Colors.blue, size: 25,) , padding: EdgeInsets.all(0), onPressed: (){},),
                       ],
                     ),
                     IconButton(

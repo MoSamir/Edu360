@@ -5,10 +5,15 @@ abstract class AuthenticationStates {}
 
 class AuthenticationInitiated extends AuthenticationStates{}
 
+
+
 class UserAuthenticated extends AuthenticationStates{
   final UserViewModel currentUser ;
   UserAuthenticated({this.currentUser});
 }
+
+class UserNotInitialized extends AuthenticationStates{}
+
 
 class AuthenticationLoading extends AuthenticationStates {}
 

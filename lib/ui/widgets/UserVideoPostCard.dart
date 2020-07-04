@@ -31,7 +31,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(4.0),
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
@@ -53,18 +53,18 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
-                      child: Center(child:Text('S' , style: Styles.baseTextStyle,),),
+                      child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                     ),
                     SizedBox(width: 5,),
                     Expanded(
-                      child:Text('Username' ,),
+                      child:Text('Username' ,textScaleFactor: 1,),
                     ),
                     SizedBox(width: 5,),
                     IconButton(icon: Icon(Icons.linear_scale , color: Colors.black,),),
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text("Post Description" , maxLines: 2, textAlign: TextAlign.start,),
+                Text("Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                 SizedBox(height: 5,),
                 Container(height: 120, child: Chewie(
                   controller: chewieController,
@@ -76,13 +76,13 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        IconButton(icon: Icon(Icons.comment ,color: Colors.blue), onPressed: (){},),
-                        IconButton(icon: Icon(Icons.comment ,color: Colors.red), onPressed: (){},),
-                        IconButton(icon: Icon(Icons.thumb_up ,color: Colors.blue), onPressed: (){},),
+                        IconButton(icon: Icon(Icons.comment ,color: Colors.blue), padding: EdgeInsets.all(0), onPressed: (){},),
+                        IconButton(icon: Icon(Icons.comment ,color: Colors.red), padding: EdgeInsets.all(0), onPressed: (){},),
+                        IconButton(icon: Icon(Icons.thumb_up ,color: Colors.blue), padding: EdgeInsets.all(0), onPressed: (){},),
                       ],
                     ),
                     IconButton(
-                      icon: Icon(Icons.share,),
+                      icon: Icon(Icons.share,), padding: EdgeInsets.all(0),
                       onPressed: (){},
                     ),
                   ],
