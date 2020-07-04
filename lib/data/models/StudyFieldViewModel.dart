@@ -46,7 +46,7 @@ class StudyFieldViewModel {
       studyFieldDescEn: studyFieldJson[ApiParseKeys.DESCRIPTION_EN],
       studyFieldNameAr: studyFieldJson[ApiParseKeys.NAME_AR],
       studyFieldNameEn: studyFieldJson[ApiParseKeys.NAME_EN],
-      studyFieldId: studyFieldJson[ApiParseKeys.ID],
+      studyFieldId: studyFieldJson[ApiParseKeys.FIELD_OF_STUDY_ID],
     );
   }
 

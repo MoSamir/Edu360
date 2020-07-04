@@ -1,16 +1,21 @@
 import 'package:chewie/chewie.dart';
+import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class UserVideoPostCard extends StatefulWidget {
+  final PostViewModel postModel ;
+  UserVideoPostCard({this.postModel});
+
   @override
   _UserVideoPostCardState createState() => _UserVideoPostCardState();
 }
 
 class _UserVideoPostCardState extends State<UserVideoPostCard> {
 
-  final videoPlayerController = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4');
+  final videoPlayerController = VideoPlayerController.network('${URL.BASE_URL}/Uploads//Edu360Files//2cae8ba8-3cef-46c1-9942-affad496772f_videoplayback.mp4');
 
   ChewieController chewieController ;
 

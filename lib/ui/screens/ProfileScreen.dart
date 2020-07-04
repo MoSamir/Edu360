@@ -1,7 +1,10 @@
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
+import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/widgets/ProfileScreenHeader.dart';
+import 'package:edu360/ui/widgets/UserDocumentsPostCard.dart';
 import 'package:edu360/ui/widgets/UserTextPostCard.dart';
+import 'package:edu360/ui/widgets/UserVideoPostCard.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -68,14 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               ),
             ),
           ),
-          GridView.count(crossAxisCount: 2,
-          shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.all(0),
-            childAspectRatio: .55,
-            crossAxisSpacing: 0,
-            children: List.generate(25, (index) => UserTextPostCard()),
-          )
+          getPostsView(currentTabIndex),
         ],
       ),
     );
@@ -94,5 +90,40 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             )),),);
     }
     return itemsList;
+  }
+
+  getPostsView(int currentTabIndex) {
+    UserProfileBloc bloc = BlocProvider.of<UserDataBloc>(context).userProfileBloc;
+
+    if(currentTabIndex == 0){
+      return GridView.count(crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.all(0),
+        crossAxisSpacing: 0,
+        children: List.generate(bloc.userTextPosts.length , (index) => UserTextPostCard(postModel: bloc.userTextPosts[index],)),
+      );
+    } else if(currentTabIndex == 1){
+      return GridView.count(crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.all(0),
+        childAspectRatio: .55,
+        crossAxisSpacing: 0,
+        children: List.generate(bloc.userFilePosts.length , (index) => UserDocumentsPostCard(postModel: bloc.userFilePosts[index],)),
+      );
+    } else if(currentTabIndex == 2){
+      return GridView.count(crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.all(0),
+        childAspectRatio: .55,
+        crossAxisSpacing: 0,
+        children: List.generate(bloc.userVideoPosts.length , (index) => UserVideoPostCard(postModel: bloc.userVideoPosts[index],)),
+      );
+    } else {
+     return Container();
+    }
+
   }
 }

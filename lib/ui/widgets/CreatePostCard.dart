@@ -132,7 +132,11 @@ class _CreatePostCardState extends State<CreatePostCard> {
                         Expanded(
                           child: EduButton(
                             borderColor: AppColors.mainThemeColor,
-                            onPressed: (){},
+                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
+                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
+                              picVideoFile();
+                              return ;
+                            },
                             title: "Media",
                           ),
                         ),
@@ -207,7 +211,9 @@ class _CreatePostCardState extends State<CreatePostCard> {
         return Expanded(
           child: getFilesList(),
         );
-      default:
+      case ContentType.VIDEO_POST:
+        return Expanded(child: getVideoWidget());
+      default :
         return Container();
     }
   }
@@ -310,7 +316,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   pickDocumentFile() async{
       try{
         FilePicker.getMultiFile(
-          type: FileType.custom, allowedExtensions: ['pdf', 'doc'],).then((value){
+          type: FileType.custom , allowedExtensions: ['pdf', 'doc'], ).then((value){
           if(value!= null){
             postFiles.addAll(value);
             setState(() {});
@@ -320,10 +326,69 @@ class _CreatePostCardState extends State<CreatePostCard> {
         print("Exception while picking file => $exception");
       }
   }
+
+
+  picVideoFile() async{
+    try{
+      FilePicker.getFile(
+        type: FileType.video).then((value){
+        if(value!= null){
+          postFiles.add(value);
+          setState(() {});
+        }
+      });
+    } catch(exception){
+      print("Exception while picking file => $exception");
+    }
+  }
+
   void _createPost() {
     if(postFormKey.currentState.validate()) {
       newPostBloc.newPost.postBody = _postBodyController.text;
       newPostBloc.add(CreatePost(postViewModel: newPostBloc.newPost,postDocuments: postFiles));
     }
+  }
+
+  Widget getVideoWidget() {
+    String ext = postFiles[0].path.substring(postFiles[0].path.lastIndexOf('.')+1);
+    return  Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Expanded(
+          child: TextFormField(
+            controller: _postBodyController ,
+            obscureText:  false,
+            textInputAction: TextInputAction.done,
+            validator: Validator.requiredField,
+            autovalidate:false,
+            maxLines: 10,
+            decoration: InputDecoration(
+              filled: true,
+              isDense: true,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                borderSide: BorderSide(
+                  color: Colors.transparent,
+                ),
+              ),
+              fillColor: AppColors.white,
+              hintText: LocalKeys.ADD_POST_DESCRIPTION,
+              hintStyle: Styles.baseTextStyle.copyWith(
+                color: AppColors.registrationTextPlaceholderColor,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 10,),
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            color: Colors.blue,
+          ),
+          child: Center(child: Text(ext ,textScaleFactor: 1,style: Styles.baseTextStyle,),),
+        )
+      ],
+    );
   }
 }

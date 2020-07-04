@@ -14,7 +14,6 @@ class UserViewModel {
       this.profileImagePath,
       this.userMobileNumber,
       this.userEducation,
-
       this.userPassword,
       this.userAge,
       this.userId,
@@ -24,11 +23,16 @@ class UserViewModel {
   List<String> userFiles = List();
 
 
+
+
   static UserViewModel fromAnonymousUser() {
-    return UserViewModel();
+    return UserViewModel(
+
+    );
   }
 
   static UserViewModel fromJson(userJson) {
+
     var userInformation = userJson[ApiParseKeys.USER_DATA];
     return UserViewModel(
       userEmail: userInformation[ApiParseKeys.USER_MAIL],
@@ -41,7 +45,7 @@ class UserViewModel {
       userId: userInformation[ApiParseKeys.ID],
       userEducation: userInformation[ApiParseKeys.USER_EDUCATION],
       userFieldOfStudy: StudyFieldViewModel(
-        studyFieldId: userInformation[ApiParseKeys.USER_FIELD_OF_STUDY],
+        studyFieldId: userInformation[ApiParseKeys.FIELD_OF_STUDY_ID],
       ),
       userToken: userJson[ApiParseKeys.USER_TOKEN],
     );
@@ -58,7 +62,7 @@ class UserViewModel {
       ApiParseKeys.USER_BIRTHDAY: userBirthDay.toString(),
       ApiParseKeys.ID : userId ,
       ApiParseKeys.USER_EDUCATION: userEducation,
-       ApiParseKeys.USER_FIELD_OF_STUDY: userFieldOfStudy.studyFieldId,
+      ApiParseKeys.FIELD_OF_STUDY_ID : userFieldOfStudy.studyFieldId,
     };
     return {
       ApiParseKeys.USER_DATA: userInformation,

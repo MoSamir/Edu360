@@ -12,6 +12,8 @@ class URL{
   static const String GET_RETRIEVE_FIELDS_OF_STUDY = "FieldOfStudy/GetAll";
   static const String POST_CREATE_POST = "Post/CreatePost";
   static const String POST_UPLOAD_POST_FILES = "Post/UploadAttachedFiles";
+  static const String GET_GET_USER_POSTS = "Post/GetMyPosts";
+
 
 
 }

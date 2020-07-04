@@ -67,7 +67,7 @@ class PostDataProvider{
         'AttachmentType' : userPost.contentType == ContentType.FILE_POST ? 1 : 2,
         'Title' : '',
         'Description' : '',
-        'FieldOfStudy' : userVm.userFieldOfStudy.studyFieldId,
+        'FieldOfStudyID' : userVm.userFieldOfStudy.studyFieldId,
         'PostAttachmentPath': uploadedFiles[i],
       });
     }

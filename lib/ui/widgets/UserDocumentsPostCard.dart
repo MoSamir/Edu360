@@ -1,7 +1,14 @@
+import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
 
 class UserDocumentsPostCard extends StatefulWidget {
+
+
+  final PostViewModel postModel ;
+  UserDocumentsPostCard({this.postModel});
+
+
   @override
   _UserDocumentsPostCardState createState() => _UserDocumentsPostCardState();
 }

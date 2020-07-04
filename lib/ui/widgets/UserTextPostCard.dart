@@ -1,7 +1,12 @@
+import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
 
 class UserTextPostCard extends StatefulWidget {
+
+  final PostViewModel postModel ;
+  UserTextPostCard({this.postModel});
+
   @override
   _UserTextPostCardState createState() => _UserTextPostCardState();
 }
@@ -20,6 +25,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
           padding: const EdgeInsets.all(4.0),
           child: Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Row(
                   children: <Widget>[
@@ -28,21 +34,24 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(widget.postModel.ownerImagePath ?? ''),
+                        ),
                         shape: BoxShape.circle,
                         color: Colors.blue,
                       ),
-                      child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
+                      //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                     ),
                     SizedBox(width: 5,),
                     Expanded(
-                      child:Text('Username' , textScaleFactor: 1,),
+                      child:Text(widget.postModel.ownerName ?? 'User name' , textScaleFactor: 1,),
                     ),
                     SizedBox(width: 5,),
                     IconButton(icon: Icon(Icons.linear_scale , color: Colors.black,),),
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text('ContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContentContent' , textScaleFactor: 1,maxLines: 10, overflow: TextOverflow.ellipsis,),
+                Text(widget.postModel.postBody , textAlign: TextAlign.start ,textScaleFactor: 1,maxLines: 10, overflow: TextOverflow.ellipsis,),
                 SizedBox(height: 10,),
                 Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .25,),
                 Wrap(

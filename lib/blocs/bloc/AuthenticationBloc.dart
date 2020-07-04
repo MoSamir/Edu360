@@ -56,8 +56,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
 
   Stream<AuthenticationStates> _loginUser(String userMail, String userPassword , event) async*{
     yield AuthenticationLoading();
-    ResponseViewModel apiResponse = await Repository.login(userMail:userMail , userPassword:userPassword);
+    ResponseViewModel<UserViewModel> apiResponse = await Repository.login(userMail:userMail , userPassword:userPassword);
     if(apiResponse.isSuccess){
+
+      print('User Field of Study => ${apiResponse.responseData.userFieldOfStudy.studyFieldId}');
       await Repository.saveUser(apiResponse.responseData);
       await Repository.saveEncryptedPassword(userPassword);
 

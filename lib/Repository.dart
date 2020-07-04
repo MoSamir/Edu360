@@ -84,4 +84,11 @@ class Repository {
 
   }
 
+  static loadUserProfile({int pageNo}) async{
+
+    var loadUserProfileResponse = await UserDataProvider.loadUserPosts(pageNo ?? 1);
+    return loadUserProfileResponse;
+
+  }
+
 }
