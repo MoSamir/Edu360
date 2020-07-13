@@ -1,3 +1,4 @@
+import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/UserDocumentsPostCard.dart';
 import 'package:edu360/ui/widgets/UserTextPostCard.dart';
@@ -18,9 +19,8 @@ class _FeedsScreenState extends State<FeedsScreen> {
         child: ListView.builder(
           padding: EdgeInsets.only(top: 14 , left: 12, right: 12),
           itemBuilder: (context , index) {
-          return index == 1 ? UserDocumentsPostCard() : index == 2 ? UserVideoPostCard() : UserTextPostCard();
+          return index == 1 ? UserDocumentsPostCard(postModel: PostViewModel(),) : index == 2 ? UserVideoPostCard(postModel: PostViewModel(),) : UserTextPostCard(postModel: PostViewModel(),);
         } , itemCount: 3, shrinkWrap: true,),
-
     );
   }
 }

@@ -51,7 +51,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text(widget.postModel.postBody , textAlign: TextAlign.start ,textScaleFactor: 1,maxLines: 10, overflow: TextOverflow.ellipsis,),
+                Text(widget.postModel.postBody ?? '', textAlign: TextAlign.start ,textScaleFactor: 1,maxLines: 10, overflow: TextOverflow.ellipsis,),
                 SizedBox(height: 10,),
                 Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .25,),
                 Wrap(

@@ -47,9 +47,16 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
     tobeRegistered = event.userViewModel ?? UserViewModel();
     ResponseViewModel<List<String>> uploadFilesResponse = await Repository.uploadFiles(event.userUploadedDocuments , event.profileImage);
     if(uploadFilesResponse.isSuccess){
-      tobeRegistered.profileImagePath = uploadFilesResponse.responseData[0];
-      uploadFilesResponse.responseData.removeAt(0);
-      tobeRegistered.userFiles = uploadFilesResponse.responseData;
+
+      if(uploadFilesResponse.responseData != null && uploadFilesResponse.responseData.length > 0) {
+        if (uploadFilesResponse.responseData[0].endsWith(".jpg") ||
+            uploadFilesResponse.responseData[0].endsWith(".png") ||
+            uploadFilesResponse.responseData[0].endsWith(".jpeg"))
+        tobeRegistered.profileImagePath = uploadFilesResponse.responseData[0];
+
+        uploadFilesResponse.responseData.removeAt(0);
+        tobeRegistered.userFiles = uploadFilesResponse.responseData;
+      }
     } else {
       yield RegistrationFailed(failedEvent: event,error: uploadFilesResponse.errorViewModel);
       return ;

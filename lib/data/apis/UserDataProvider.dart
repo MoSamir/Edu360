@@ -65,6 +65,9 @@ class UserDataProvider {
 
   static Future<ResponseViewModel<int>> registerUser(
       UserViewModel userModel, File profileImage) async {
+
+    print("User Field of study => ${userModel.userFieldOfStudy.toString()}");
+
     var json = {
       "ProfileImagePath": userModel.profileImagePath,
       "FullName": userModel.userFullName,

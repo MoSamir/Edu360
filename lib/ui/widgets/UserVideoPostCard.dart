@@ -62,14 +62,14 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                     ),
                     SizedBox(width: 5,),
                     Expanded(
-                      child:Text('Username' ,textScaleFactor: 1,),
+                      child:Text(widget.postModel.ownerName ?? 'Username' ,textScaleFactor: 1,),
                     ),
                     SizedBox(width: 5,),
                     IconButton(icon: Icon(Icons.linear_scale , color: Colors.black,),),
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text("Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
+                Text(widget.postModel.postBody ?? "Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                 SizedBox(height: 5,),
                 Container(height: 120, child: Chewie(
                   controller: chewieController,

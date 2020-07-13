@@ -52,7 +52,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocConsumer(
-        listener: (context, state){},
+        listener: (context, state){
+          if(state is RegistrationPageInitiated){
+            if(user.userFieldOfStudy == null){
+              user.userFieldOfStudy = _registrationBloc.userStudyFields[0] ?? null;
+            }
+          }
+        },
         bloc: _registrationBloc,
         builder: (context , state){
           return ModalProgressHUD(
@@ -89,16 +95,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             return passwordConfirmation == _passwordController.text ? null : (LocalKeys.CONFIRM_PASSWORD_ERROR).tr();
                           } ,  afterSubmitKeyboardAction: TextInputAction.done , obscureField: true),
                       SizedBox(height: 10,),
-
                       getFieldsOfStudySpinner(),
-
-
                       SizedBox(height: 10,),
                       getFilesList(),
                       SizedBox(height: 30,),
                       GestureDetector(
                         onTap: (){
                           if(_formGlobalKey.currentState.validate() && uploadedDocuments!=null && uploadedDocuments.length > 0) {
+                            print("${user.userFieldOfStudy}");
                             user = UserViewModel(
                               userFieldOfStudy: user.userFieldOfStudy,
                               userEmail: _usernameController.text,
@@ -279,7 +283,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           value: user.userFieldOfStudy,
           onChanged: (StudyFieldViewModel studyFieldViewModel) {
-            print(studyFieldViewModel);
+            print("User Selected Field Of study");
             user.userFieldOfStudy = studyFieldViewModel;
             setState(() {});
           },

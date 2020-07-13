@@ -5,6 +5,11 @@ class StudyFieldViewModel {
   int studyFieldId ;
 
   @override
+  String toString() {
+    return 'StudyFieldViewModel{studyFieldNameAr: $studyFieldNameAr, studyFieldNameEn: $studyFieldNameEn, studyFieldDescAr: $studyFieldDescAr, studyFieldDescEn: $studyFieldDescEn, studyFieldId: $studyFieldId}';
+  }
+
+  @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is StudyFieldViewModel &&

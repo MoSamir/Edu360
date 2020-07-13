@@ -208,12 +208,12 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          if(_globalKey.currentState.validate()){
-                            _bloc.add(RegisterUserWithCredentials(userUploadedDocuments: widget.userDocuments , profileImage: userImage , userViewModel:
-                            UserViewModel(
-                                userFieldOfStudy: user.userFieldOfStudy,
-                                userAge: (DateTime.now().difference(user.userBirthDay).inDays / 365).floor(),userBirthDay: user.userBirthDay,userEducation: _educationController.text ,userEmail: user.userEmail,userFullName: '${_firstNameController.text} ${_lastNameController.text}',userPassword: user.userPassword,userMobileNumber: user.userMobileNumber
-                            )));
+                          UserViewModel tobeRegistered = UserViewModel(
+                              userFieldOfStudy: widget.user.userFieldOfStudy,
+                              userAge: (DateTime.now().difference(user.userBirthDay).inDays / 365).floor(),userBirthDay: user.userBirthDay,userEducation: _educationController.text ,userEmail: user.userEmail,userFullName: '${_firstNameController.text} ${_lastNameController.text}',userPassword: user.userPassword,userMobileNumber: user.userMobileNumber
+                          );
+                          if(_globalKey.currentState.validate() && tobeRegistered.isValid()){
+                            _bloc.add(RegisterUserWithCredentials(userUploadedDocuments: widget.userDocuments , profileImage: userImage , userViewModel: tobeRegistered));
                           }
                         },
                         child: Container(

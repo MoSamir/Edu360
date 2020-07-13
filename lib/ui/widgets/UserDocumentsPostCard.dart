@@ -43,25 +43,26 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                     ),
                     SizedBox(width: 5,),
                     Expanded(
-                      child:Text('Username' ,textScaleFactor: 1),
+                      child:Text(widget.postModel.ownerName ?? "" ,textScaleFactor: 1),
                     ),
                     SizedBox(width: 5,),
                     IconButton(icon: Icon(Icons.linear_scale , color: Colors.black,),),
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text("Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
+                Text( widget.postModel.postBody ?? "Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                 SizedBox(height: 5,),
-                ListView.builder(itemBuilder: (context, index){
+                widget.postModel.postFilesPath != null ? ListView.builder(
+                  itemBuilder: (context, index){
                   return Card(
                     elevation: 5,
                     child: Container(
                       height: 50,
-                      child: Padding(padding: EdgeInsets.all(8), child: Text('PDF File Name',textScaleFactor: 1),),
+                      child: Padding(padding: EdgeInsets.all(8), child: Text(widget.postModel.postFilesPath[index],textScaleFactor: 1),),
                       width: MediaQuery.of(context).size.width,
                     ),
                   );
-                } , physics: NeverScrollableScrollPhysics() ,itemCount: 2, shrinkWrap: true,),
+                } , physics: NeverScrollableScrollPhysics() ,itemCount: widget.postModel.postFilesPath.length, shrinkWrap: true,) : Container(),
                 SizedBox(height: 10,),
                 Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .25,),
                 Row(

@@ -69,4 +69,16 @@ class UserViewModel {
       ApiParseKeys.USER_TOKEN : userToken,
     };
   }
+
+  bool isValid() {
+    return userFullName!= null && userFullName.isNotEmpty &&
+        userEmail!= null &&  userEmail.isNotEmpty &&
+        //profileImagePath!=null && profileImagePath.isNotEmpty &&
+        //userMobileNumber!=null && userMobileNumber.isNotEmpty &&
+        userEducation !=null && userEducation .isNotEmpty &&
+        userPassword!=null && userPassword .isNotEmpty &&
+        userAge > 0 &&
+        userBirthDay != null &&
+        userFieldOfStudy != null ;
+  }
 }
