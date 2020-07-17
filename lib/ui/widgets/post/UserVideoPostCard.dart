@@ -7,7 +7,8 @@ import 'package:video_player/video_player.dart';
 
 class UserVideoPostCard extends StatefulWidget {
   final PostViewModel postModel ;
-  UserVideoPostCard({this.postModel});
+  final double elevation ;
+  UserVideoPostCard({this.postModel,this.elevation});
 
   @override
   _UserVideoPostCardState createState() => _UserVideoPostCardState();
@@ -40,7 +41,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
-        elevation: 5,
+        elevation: widget.elevation ?? 5.0,
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),

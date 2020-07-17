@@ -20,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import 'FeedsScreen.dart';
+import 'WallScreen.dart';
 
 
 class CompleteYourProfileScreen extends StatefulWidget {

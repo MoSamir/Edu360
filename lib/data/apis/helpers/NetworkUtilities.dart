@@ -24,6 +24,7 @@ class NetworkUtilities {
     }
     return false ;
   }
+
   static Future <ResponseViewModel<dynamic>> handleGetRequest({String methodURL, Map<String,String> requestHeaders , Function parserFunction})async{
     ResponseViewModel getResponse ;
 
@@ -184,7 +185,6 @@ class NetworkUtilities {
     }
     catch(exception){
       print("Exception in post => $exception");
-
       postResponse =  ResponseViewModel(
         isSuccess: false ,
         errorViewModel: ErrorViewModel(
@@ -281,6 +281,7 @@ class NetworkUtilities {
     }
     return headers;
   }
+
   static void networkLogger({url , headers , body ,ResponseViewModel response}){
     debugPrint('---------------------------------------------------');
     debugPrint('URL => $url');

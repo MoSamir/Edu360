@@ -20,9 +20,13 @@ class UserViewModel {
       this.userToken,
       this.userBirthDay,
       this.userFieldOfStudy});
+
+  @override
+  String toString() {
+    return 'UserViewModel{userFullName: $userFullName, userEmail: $userEmail, userMobileNumber: $userMobileNumber, userEducation: $userEducation, userPassword: $userPassword, userToken: $userToken, profileImagePath: $profileImagePath, userAge: $userAge, userId: $userId, userBirthDay: $userBirthDay, contentCreator: $contentCreator, userFieldOfStudy: $userFieldOfStudy, userFiles: $userFiles}';
+  }
+
   List<String> userFiles = List();
-
-
 
 
   static UserViewModel fromAnonymousUser() {
@@ -45,7 +49,7 @@ class UserViewModel {
       userId: userInformation[ApiParseKeys.ID],
       userEducation: userInformation[ApiParseKeys.USER_EDUCATION],
       userFieldOfStudy: StudyFieldViewModel(
-        studyFieldId: userInformation[ApiParseKeys.FIELD_OF_STUDY_ID],
+        studyFieldId: userInformation[ApiParseKeys.FIELD_OF_STUDY_ID] ?? userInformation[ApiParseKeys.ID],
       ),
       userToken: userJson[ApiParseKeys.USER_TOKEN],
     );

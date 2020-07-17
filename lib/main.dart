@@ -1,4 +1,5 @@
 import 'package:edu360/blocs/BlocDelegate.dart';
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:easy_localization/easy_localization.dart';
 
-import 'blocs/bloc/UserDataBloc.dart';
 import 'ui/screens/SplashScreen.dart';
 
 void main() {
@@ -27,7 +27,7 @@ void main() {
         startLocale: Locale('en', 'US'),
         fallbackLocale: Locale('en', 'US'),
         child: BlocProvider.value(
-          value: UserDataBloc(),
+          value: AppDataBloc(),
           child: MaterialApp(
             theme: ThemeData(
               fontFamily: Resources.FONT_FAMILY_NAME,

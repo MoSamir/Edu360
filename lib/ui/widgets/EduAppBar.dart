@@ -37,7 +37,7 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               height: 50,
               width: 50,
               top: kToolbarHeight,
-              left: (MediaQuery.of(context).size.width * .5) - 10,
+              left: (MediaQuery.of(context).size.width * .5) - 25,
               child: GestureDetector(
                 onTap: onIconPressed ?? (){},
                 child: Material(
@@ -68,6 +68,5 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
       this.actions, this.backgroundColor, this.onIconPressed, this.icon});
 
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => Size.fromHeight(kToolbarHeight + 50);
 }

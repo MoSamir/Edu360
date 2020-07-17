@@ -16,6 +16,8 @@ class PostViewModel{
   
 
   static PostViewModel fromJson(Map<String,dynamic> postMap){
+
+
     return PostViewModel(
       postId: postMap[ApiParseKeys.POST_ID],
       postOwnerId: postMap[ApiParseKeys.POST_OWNER_ID],
@@ -24,8 +26,7 @@ class PostViewModel{
       postBody: postMap[ApiParseKeys.POST_BODY],
       postFilesPath: postMap[ApiParseKeys.POST_ATTACHMENTS],
       postComments: postMap[ApiParseKeys.POST_COMMENTS],
-      contentType: getContentType(postMap[ApiParseKeys.POST_TYPE]),
-
+      contentType:  getContentType(postMap[ApiParseKeys.POST_ATTACHMENTS]),
     );
   }
 
@@ -33,26 +34,20 @@ class PostViewModel{
   static List<PostViewModel> fromListJson(List<dynamic> postsListMap){
 
     List<PostViewModel> postsList = List();
-    print('Posts Map $postsListMap');
-    print("User List => ${postsListMap!= null && postsListMap is List}");
     if(postsListMap!= null && postsListMap is List)
       for(int i = 0 ; i < postsListMap.length ; i++)
         postsList.add(PostViewModel.fromJson(postsListMap[i]));
     return postsList;
   }
 
-  static getContentType(int postType) {
+  static getContentType(List <String> attachments) {
+    if(attachments == null || attachments.length == 0)
+      return ContentType.TEXT_POST;
 
-    switch(postType){
-      case 0 : return ContentType.VIDEO_POST;
-      case 1 : return ContentType.FILE_POST;
-     // case 2 : return ContentType.IMAGE_POST;
-      case 3 : return ContentType.TEXT_POST;
-      default : return ContentType.TEXT_POST;
-    }
-
-
-
+    for(int i = 0 ; i < attachments.length ; i++)
+      if(attachments[i].contains('.doc') || attachments[i].contains('.pdf') || attachments[i].contains('.txt'))
+        return ContentType.FILE_POST;
+    return ContentType.VIDEO_POST;
   }
 
 

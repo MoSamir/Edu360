@@ -1,6 +1,7 @@
 class URL{
-  static const String BASE_URL = "http://c7ddf7926711.ngrok.io"; // local
+  static const String BASE_URL = "http://db03d9c51301.ngrok.io"; // local
   static const String API_URL = "$BASE_URL/ar-EG/api/";
+
 
   static const String POST_CREATE_USER = "User/CreateUser";
   static const String POST_UPLOAD_FILES = "User/UploadFiles";
@@ -19,8 +20,5 @@ class URL{
   static const String POST_SHARE_POST = "Post/SharePost";
   static const String POST_ADD_COMMENT = "Post/PostComment";
   static const String POST_ADD_OBJECTION = "Post/PostObjection";
-
-
-
 
 }

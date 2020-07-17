@@ -62,6 +62,23 @@ class LocalKeys{
   static const String ADD_POST_DESCRIPTION = "ADD_POST_DESCRIPTION";
 
 
+  //----------------- EXPLORE SCREEN -------------------------------------------
+
+  static const String SHOW_MORE = "SHOW_MORE";
+  static const String TUTORS_FOR_YOU = "TUTORS_FOR_YOU";
+  static const String FEEDS_TITLE = "FEEDS_TITLE";
+  static const String EXPLORE_TITLE = "EXPLORE_TITLE";
+
+
+  //------------------- CREATE POST --------------------------------------------
+
+  static const String POST = "POST";
+  static const String FILE = "FILE";
+  static const String MEDIA = "MEDIA";
+
+
+
+
 
 
 

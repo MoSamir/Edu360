@@ -1,14 +1,11 @@
 import 'dart:io';
-
 import 'package:edu360/blocs/bloc/RegistrationBloc.dart';
 import 'package:edu360/blocs/events/RegistrationEvents.dart';
 import 'package:edu360/blocs/states/RegistrationStates.dart';
-import 'package:edu360/ui/screens/HomeScreen.dart';
-import 'package:edu360/ui/widgets/EduAppBar.dart';
+import 'package:edu360/ui/screens/TabHolderScreen.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduFormField.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
-import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:edu360/utilities/Validators.dart';
@@ -68,9 +65,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             width: 200,
                             child: EduButton(title: LocalKeys.VERIFY_ME_BUTTON_LABEL, onPressed: _verifyUser,)),
                       ) ,
-
                     ],
-
                   ),
                 ),
               ),
@@ -113,7 +108,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             }
           }
           else if(state is RegistrationSuccess){
-            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> HomeScreen()), (route) => false);
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> TabsHolderScreen()), (route) => false);
           }
         },
       ),

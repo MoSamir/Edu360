@@ -5,12 +5,15 @@ import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/UserDataEvents.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/blocs/states/UserDataStates.dart';
+import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
+import 'package:edu360/utilities/Constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
   AuthenticationBloc authenticationBloc = AuthenticationBloc() ;
   UserProfileBloc userProfileBloc = UserProfileBloc();
   HomePostsBloc homePostsBloc = HomePostsBloc();
+
 
   @override
   Future<void> close() {
@@ -32,8 +35,14 @@ class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
   UserDataStates get initialState => UserDataInitializing();
 
   @override
-  Stream<UserDataStates> mapEventToState(UserDataEvents event) {
-    // TODO: implement mapEventToState
-    throw UnimplementedError();
+  Stream<UserDataStates> mapEventToState(UserDataEvents event) async*{
+    bool isUserConnected = await NetworkUtilities.isConnected();
+    if(isUserConnected == false){
+      yield UserDataInitializationFailed(
+          failureEvent: event,
+          error: Constants.CONNECTION_TIMEOUT,
+      );
+      return ;
+    }
   }
 }

@@ -12,7 +12,7 @@ class ApiParseKeys {
   static const String NAME_EN = "nameEn";
   static const String DESCRIPTION_EN = "descriptionEn";
   static const String DESCRIPTION_AR = "descriptionAr";
-  static const String FIELD_OF_STUDY_ID = "fieldOfStudyID";
+  static const String FIELD_OF_STUDY_ID = "id";
 
  //-------------- LOGIN ----------------------------------
 

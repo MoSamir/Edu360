@@ -1,12 +1,10 @@
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
-import 'package:edu360/data/models/UserViewModel.dart';
+import 'package:edu360/data/models/PostViewModel.dart';
+import 'package:edu360/ui/UIHelper.dart';
 import 'package:edu360/ui/widgets/ProfileScreenHeader.dart';
-import 'package:edu360/ui/widgets/UserDocumentsPostCard.dart';
-import 'package:edu360/ui/widgets/UserTextPostCard.dart';
-import 'package:edu360/ui/widgets/UserVideoPostCard.dart';
 import 'package:edu360/utilities/AppStyles.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +27,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         length:5,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -37,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       child: Column(
         children: <Widget>[
           ProfileScreenHeader(
-            user: BlocProvider.of<UserDataBloc>(context).authenticationBloc.currentUser,
+            user: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser,
             isMe: true,
             isMyFriend: true,
             onFollowClicked: (){},
@@ -76,7 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       ),
     );
   }
-
   getTaps() {
     List<Widget> itemsList = List();
     for(int i = 0 ; i < 5 ; i++){
@@ -91,39 +87,50 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     }
     return itemsList;
   }
-
   getPostsView(int currentTabIndex) {
-    UserProfileBloc bloc = BlocProvider.of<UserDataBloc>(context).userProfileBloc;
-
+    UserProfileBloc bloc = BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc;
     if(currentTabIndex == 0){
       return GridView.count(crossAxisCount: 2,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(0),
         crossAxisSpacing: 0,
-        children: List.generate(bloc.userTextPosts.length , (index) => UserTextPostCard(postModel: bloc.userTextPosts[index],)),
+        children: List.generate(bloc.userPosts.length , (index) => UIHelper.getPostView(bloc.userPosts[index], context)),
       );
-    } else if(currentTabIndex == 1){
+    }
+    else if(currentTabIndex == 1){
       return GridView.count(crossAxisCount: 2,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(0),
         childAspectRatio: .55,
         crossAxisSpacing: 0,
-        children: List.generate(bloc.userFilePosts.length , (index) => UserDocumentsPostCard(postModel: bloc.userFilePosts[index],)),
+        children: List.generate(bloc.userTextPosts.length , (index) => UIHelper.getPostView(bloc.userTextPosts[index], context ,)),
       );
-    } else if(currentTabIndex == 2){
+    }
+    else if(currentTabIndex == 2){
+
       return GridView.count(crossAxisCount: 2,
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(0),
         childAspectRatio: .55,
         crossAxisSpacing: 0,
-        children: List.generate(bloc.userVideoPosts.length , (index) => UserVideoPostCard(postModel: bloc.userVideoPosts[index],)),
+        children: List.generate(bloc.userFilePosts.length , (index) => UIHelper.getPostView(bloc.userFilePosts[index], context ,)),
       );
-    } else {
+    }
+    else if(currentTabIndex == 3){
+      return GridView.count(crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.all(0),
+        childAspectRatio: .55,
+        crossAxisSpacing: 0,
+        children: List.generate(bloc.userVideoPosts.length , (index) => UIHelper.getPostView(bloc.userVideoPosts[index], context ,)),
+      );
+    }
+    else {
      return Container();
     }
-
   }
 }

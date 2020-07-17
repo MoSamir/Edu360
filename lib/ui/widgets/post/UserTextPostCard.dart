@@ -1,3 +1,4 @@
+import 'package:edu360/blocs/bloc/PostBloc.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
@@ -5,13 +6,21 @@ import 'package:flutter/material.dart';
 class UserTextPostCard extends StatefulWidget {
 
   final PostViewModel postModel ;
-  UserTextPostCard({this.postModel});
+  final double elevation ;
+  final onLike , onShare , onComment , onObjection ;
+  UserTextPostCard({this.postModel, this.elevation , this.onComment , this.onLike , this.onObjection , this.onShare});
 
   @override
   _UserTextPostCardState createState() => _UserTextPostCardState();
 }
 
 class _UserTextPostCardState extends State<UserTextPostCard> {
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,7 +28,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
-        elevation: 5,
+        elevation: widget.elevation ?? 5.0,
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),

@@ -12,6 +12,9 @@ static String mailOrPhoneValidator(String inputString){
     return (isValidMail == null || isValidPhone == null)
         ? null : (LocalKeys.INVALID_MAIL_OR_PHONE).tr();
   }
+
+
+
 static String phoneValidator(String phoneNumber){
 
   String isEmptyCheck = requiredField(phoneNumber);
@@ -24,9 +27,11 @@ static String phoneValidator(String phoneNumber){
     bool validPhoneLength = phoneNumberLength == 11;
     return (validPreFix && validPhoneLength) ? null : (LocalKeys.INVALID_PHONE).tr();
 }
+
 static String requiredField(String text){
   return (text == null || text.trim().length == 0) ?  (LocalKeys.REQUIRED_FIELD).tr() : null ;
 }
+
 static String mailValidator(String text){
     String isEmptyCheck = requiredField(text);
     if(isEmptyCheck != null){

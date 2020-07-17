@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/AuthenticationBloc.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
-import 'package:edu360/ui/screens/FeedsScreen.dart';
+import 'package:edu360/ui/screens/WallScreen.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
@@ -13,7 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'HomeScreen.dart';
+import 'ExploreScreen.dart';
+import 'TabHolderScreen.dart';
 import 'LandingScreen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -27,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    bloc = BlocProvider.of<UserDataBloc>(context).authenticationBloc;
+    bloc = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc;
     bloc.add(AuthenticateUser());
   }
 
@@ -70,10 +72,9 @@ class _SplashScreenState extends State<SplashScreen> {
           }
         }
         else if (state is UserNotInitialized) {
-
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => LandingScreen()));
         } else if(state is UserAuthenticated){
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TabsHolderScreen()));
         }
       },
       bloc: bloc,

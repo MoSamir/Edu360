@@ -48,15 +48,20 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
     ResponseViewModel<List<String>> uploadFilesResponse = await Repository.uploadFiles(event.userUploadedDocuments , event.profileImage);
     if(uploadFilesResponse.isSuccess){
 
-      if(uploadFilesResponse.responseData != null && uploadFilesResponse.responseData.length > 0) {
-        if (uploadFilesResponse.responseData[0].endsWith(".jpg") ||
-            uploadFilesResponse.responseData[0].endsWith(".png") ||
-            uploadFilesResponse.responseData[0].endsWith(".jpeg"))
-        tobeRegistered.profileImagePath = uploadFilesResponse.responseData[0];
+      if(uploadFilesResponse.responseData != null && uploadFilesResponse.responseData.length > 0)
+      for(int i = 0 ; i < uploadFilesResponse.responseData.length ; i++) {
+        print(uploadFilesResponse.responseData[i].contains(".jpg"));
+        print(uploadFilesResponse.responseData.length);
 
-        uploadFilesResponse.responseData.removeAt(0);
-        tobeRegistered.userFiles = uploadFilesResponse.responseData;
+        if (uploadFilesResponse.responseData[i].contains(".jpg") ||
+            uploadFilesResponse.responseData[i].contains(".png") ||
+            uploadFilesResponse.responseData[i].contains(".jpeg")) {
+          tobeRegistered.profileImagePath = uploadFilesResponse.responseData[i];
+        }
       }
+        uploadFilesResponse.responseData.remove(tobeRegistered.profileImagePath);
+        tobeRegistered.userFiles = uploadFilesResponse.responseData;
+
     } else {
       yield RegistrationFailed(failedEvent: event,error: uploadFilesResponse.errorViewModel);
       return ;
@@ -77,6 +82,7 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
     yield RegistrationPageLoading();
     ResponseViewModel<void> verifyUserResponse = await Repository.verifyUser(userID: tobeRegistered.userId.toString() , userVerificationCode: event.verificationCode);
     if(verifyUserResponse.isSuccess){
+      await Repository.saveUser(tobeRegistered);
       yield RegistrationSuccess();
       return ;
     } else {
@@ -99,4 +105,5 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
 
 
   }
+
 }

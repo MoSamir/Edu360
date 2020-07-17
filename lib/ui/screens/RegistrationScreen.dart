@@ -108,7 +108,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               userEmail: _usernameController.text,
                               userPassword: _passwordController.text,
                             );
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).push(
                                 MaterialPageRoute(builder: (context) =>
                                     BlocProvider.value(
                                       value: _registrationBloc,

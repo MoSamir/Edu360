@@ -42,7 +42,7 @@ class ProfileScreenHeader extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
                         image: DecorationImage(
-                          image: NetworkImage(user.profileImagePath),
+                          image: NetworkImage(user != null ? user.profileImagePath?? "" : ""),
                           onError: (error , stackTrace){
                             return AssetImage(Resources.USER_PLACEHOLDER_IMAGE);
                           },
@@ -51,9 +51,9 @@ class ProfileScreenHeader extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8,),
-                    Text(user.userFullName , style: _headerTextStyle,),
+                    Text(user.userFullName!= null ? user.userFullName ?? ""  :"", style: _headerTextStyle,),
                     SizedBox(height: 2,),
-                    Text(user.userEmail, style: _headerTextStyle,),
+                    Text(user.userEmail != null ? user.userEmail ?? "" : "", style: _headerTextStyle,),
                   ],
                 ),
               ),

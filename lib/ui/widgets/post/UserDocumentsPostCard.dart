@@ -6,7 +6,8 @@ class UserDocumentsPostCard extends StatefulWidget {
 
 
   final PostViewModel postModel ;
-  UserDocumentsPostCard({this.postModel});
+  final double elevation ;
+  UserDocumentsPostCard({this.postModel, this.elevation});
 
 
   @override
@@ -21,7 +22,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
-        elevation: 5,
+        elevation: widget.elevation ?? 5.0,
         borderRadius: BorderRadius.circular(8),
         child: Padding(
           padding: const EdgeInsets.all(4.0),

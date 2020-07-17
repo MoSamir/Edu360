@@ -1,8 +1,9 @@
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 
 class StudyFieldViewModel {
-  String studyFieldNameAr, studyFieldNameEn , studyFieldDescAr , studyFieldDescEn ;
+  String studyFieldNameAr, studyFieldNameEn , studyFieldDescAr , studyFieldDescEn ,  imagePath;
   int studyFieldId ;
+
 
   @override
   String toString() {
@@ -29,7 +30,7 @@ class StudyFieldViewModel {
       studyFieldId.hashCode;
 
   StudyFieldViewModel({this.studyFieldNameAr, this.studyFieldNameEn,
-      this.studyFieldDescAr, this.studyFieldDescEn, this.studyFieldId});
+      this.studyFieldDescAr, this.studyFieldDescEn, this.studyFieldId , this.imagePath});
 
   static List<StudyFieldViewModel> fromListJson(List<dynamic> studyFieldsListJson){
     List<StudyFieldViewModel> studyFields = List();
@@ -44,6 +45,9 @@ class StudyFieldViewModel {
   static StudyFieldViewModel fromJson(studyFieldJson) {
 
 
+print("Study Field Parse => ${studyFieldJson[ApiParseKeys.FIELD_OF_STUDY_ID]}");
+print(studyFieldJson);
+print("----------------------");
 
 
     return StudyFieldViewModel(

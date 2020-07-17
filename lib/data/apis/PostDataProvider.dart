@@ -63,15 +63,19 @@ class PostDataProvider{
 
 
 
-    for(int i = 0 ; i < uploadedFiles.length ; i++){
-      filesJson.add({
-        'PostID' : 0,
-        'AttachmentType' : userPost.contentType == ContentType.FILE_POST ? 1 : 2,
-        'Title' : '',
-        'Description' : '',
-        'FieldOfStudyID' : userVm.userFieldOfStudy.studyFieldId,
-        'PostAttachmentPath': uploadedFiles[i],
-      });
+    if(uploadedFiles != null && uploadedFiles.length > 0) {
+      for (int i = 0; i < uploadedFiles.length; i++) {
+        filesJson.add({
+          'PostID': 0,
+          'AttachmentType': userPost.contentType == ContentType.FILE_POST
+              ? 1
+              : 2,
+          'Title': '',
+          'Description': '',
+          'FieldOfStudyID': userVm.userFieldOfStudy.studyFieldId,
+          'PostAttachmentPath': uploadedFiles[i],
+        });
+      }
     }
 
 

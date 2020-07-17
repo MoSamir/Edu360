@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/AuthenticationBloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
-import 'package:edu360/ui/screens/FeedsScreen.dart';
-import 'package:edu360/ui/screens/HomeScreen.dart';
+import 'package:edu360/ui/screens/WallScreen.dart';
+import 'package:edu360/ui/screens/TabHolderScreen.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduFormField.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
@@ -151,10 +152,10 @@ class _LoginScreenState extends State<LoginScreen> {
             }
           }
           else if(state is UserAuthenticated){
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomeScreen()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> TabsHolderScreen()));
           }
         },
-        bloc: BlocProvider.of<UserDataBloc>(context).authenticationBloc,
+        bloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc,
       ),
     );
   }
@@ -162,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _loginButtonPressed() {
 
     if(_loginFormKey.currentState.validate()){
-      BlocProvider.of<UserDataBloc>(context).authenticationBloc.add(LoginUser(userEmail: _userEmailController.text, userPassword: _userPasswordController.text));
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(LoginUser(userEmail: _userEmailController.text, userPassword: _userPasswordController.text));
     }
 
   //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> HomeScreen()), (route) => false);

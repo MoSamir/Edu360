@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/CreateNewContentBloc.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/events/CreateNewContentEvents.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
+import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/blocs/states/CreateNewContentStates.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
@@ -46,7 +49,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   }
   @override
   Widget build(BuildContext context) {
-    UserViewModel loggedInUser = BlocProvider.of<UserDataBloc>(context).authenticationBloc.currentUser;
+    UserViewModel loggedInUser = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
     return BlocConsumer(
       listener: (context, state){
         print(state);
@@ -82,7 +85,9 @@ class _CreatePostCardState extends State<CreatePostCard> {
             );
           }
         }
-        else if(state is PostCreationSuccess){}
+        else if(state is PostCreationSuccess){
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+        }
       },
       builder: (context, state){
         return ModalProgressHUD(
@@ -105,7 +110,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                                 color: AppColors.mainThemeColor,
                                 borderRadius: BorderRadius.circular(20),
                                 image: DecorationImage(
-                                  image: NetworkImage(loggedInUser.profileImagePath),
+                                  image: NetworkImage(loggedInUser.profileImagePath??""),
                                 ),
                               ),
                             ),
@@ -137,7 +142,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                               picVideoFile();
                               return ;
                             },
-                            title: "Media",
+                            title: LocalKeys.MEDIA,
                           ),
                         ),
                         SizedBox(width: 10,),
@@ -149,7 +154,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                               pickDocumentFile();
                               return;
                             },
-                            title: "File",
+                            title: LocalKeys.FILE,
                           ),
                         )
                       ],
@@ -165,7 +170,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                         fontSize: 20,
                       ),
                       bgColor: AppColors.mainThemeColor,
-                      title: "Post",
+                      title: LocalKeys.POST,
                     ),
                   ),
                   SizedBox(height: 10,),

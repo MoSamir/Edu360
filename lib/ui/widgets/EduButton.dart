@@ -5,10 +5,12 @@ class EduButton extends StatefulWidget {
 
   final String title ;
   final Function onPressed;
+
   final TextStyle style ;
+  final double cornerRadius ;
   final Color bgColor , borderColor;
 
-  EduButton({this.title , this.onPressed , this.style , this.bgColor , this.borderColor});
+  EduButton({this.title , this.onPressed , this.style , this.bgColor , this.borderColor , this.cornerRadius});
 
 
   @override
@@ -19,12 +21,11 @@ class _EduButtonState extends State<EduButton> {
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
-
       minWidth: MediaQuery.of(context).size.width,
       height: 50,
       child: RaisedButton(
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(widget.cornerRadius ??  8),
           side: BorderSide(color: widget.borderColor ?? Colors.transparent),
         ),
         elevation: 2,

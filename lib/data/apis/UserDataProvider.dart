@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:edu360/Repository.dart';
-import 'package:edu360/blocs/states/RegistrationStates.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
@@ -65,9 +63,6 @@ class UserDataProvider {
 
   static Future<ResponseViewModel<int>> registerUser(
       UserViewModel userModel, File profileImage) async {
-
-    print("User Field of study => ${userModel.userFieldOfStudy.toString()}");
-
     var json = {
       "ProfileImagePath": userModel.profileImagePath,
       "FullName": userModel.userFullName,
@@ -75,7 +70,7 @@ class UserDataProvider {
       "Password": userModel.userPassword,
       "Mobile": userModel.userMobileNumber,
       "Education": userModel.userEducation,
-      "FieldOfStudy": userModel.userFieldOfStudy.studyFieldId,
+      "FieldOfStudyID": userModel.userFieldOfStudy.studyFieldId,
       "BirthDate": userModel.userBirthDay.toString(),
       "Agee": userModel.userAge ?? 0,
       "UploadedFilesPaths": userModel.userFiles,
@@ -216,6 +211,8 @@ class UserDataProvider {
     var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.GET_GET_USER_POSTS),parserFunction: (postsJson){
       return PostViewModel.fromListJson(postsJson[ApiParseKeys.POSTS_DATA]);
     });
+
+
     return ResponseViewModel<List<PostViewModel>>(
       responseData: getUserPostsResponse.responseData,
       isSuccess: getUserPostsResponse.isSuccess,

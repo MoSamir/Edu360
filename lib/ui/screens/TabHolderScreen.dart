@@ -1,4 +1,5 @@
-import 'package:edu360/ui/screens/FeedsScreen.dart';
+import 'package:edu360/ui/screens/CategoriesScreen.dart';
+import 'package:edu360/ui/screens/WallScreen.dart';
 import 'package:edu360/ui/screens/ProfileScreen.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/utilities/AppStyles.dart';
@@ -6,17 +7,18 @@ import 'package:flutter/material.dart';
 
 import 'CreatePostScreen.dart';
 
-class HomeScreen extends StatefulWidget {
+class TabsHolderScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _TabsHolderScreenState createState() => _TabsHolderScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
 
   List<Widget> screens = [
-    FeedsScreen(),
+    WallScreen(),
     ProfileScreen(),
+    CategoriesScreen(),
     CreatePostScreen(),
   ];
   List<BottomNavigationBarItem> barTabs = [
@@ -27,6 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
     BottomNavigationBarItem(
       title: Container(width: 0,height: 0,),
       icon: Icon(Icons.person,size: 25,),
+    ),
+    BottomNavigationBarItem(
+      title: Container(width: 0,height: 0,),
+      icon: Icon(Icons.dashboard ,size: 25,),
     ),
     BottomNavigationBarItem(
       title: Container(width: 0,height: 0,),
@@ -53,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Stack(
         children: <Widget>[
-
           Container(
             color: AppColors.backgroundColor,
             margin: EdgeInsets.only(top: kToolbarHeight + 30),
