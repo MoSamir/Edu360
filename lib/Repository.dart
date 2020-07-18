@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:edu360/data/apis/PostDataProvider.dart';
+import 'package:edu360/data/models/CategoryPostViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
@@ -91,6 +92,30 @@ class Repository {
   static sharePost({int postId , String shareDescription}) async{
     var loadUserProfileResponse = await PostDataProvider.sharePost(postId , shareDescription);
     return loadUserProfileResponse;
+  }
+
+  static Future<ResponseViewModel<List<CategoryPostViewModel>> >loadUserCategories() async{
+   await Future.delayed(Duration(seconds: 1),(){});
+
+   return ResponseViewModel<List<CategoryPostViewModel>>(
+     responseData: [CategoryPostViewModel(
+       studyField: StudyFieldViewModel(
+         studyFieldNameEn: 'Category Name',
+         imagePath: null,
+       ),
+     ),CategoryPostViewModel(
+       studyField: StudyFieldViewModel(
+         studyFieldNameEn: 'Category Name',
+         imagePath: null,
+       ),
+     ),CategoryPostViewModel(
+       studyField: StudyFieldViewModel(
+         studyFieldNameEn: 'Category Name',
+         imagePath: null,
+       ),
+     ),],
+     isSuccess: true,
+   );
   }
 
 }

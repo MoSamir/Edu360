@@ -30,11 +30,10 @@ class NetworkUtilities {
 
     try{
       var serverResponse  = await http.get(methodURL , headers: requestHeaders);
-
       if(serverResponse.statusCode == 200){
         if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){
           if (json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE] != null) {
-            return ResponseViewModel(
+            getResponse =  ResponseViewModel(
               isSuccess: false,
               errorViewModel: ErrorViewModel(
                 errorMessage: json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE],
@@ -44,10 +43,9 @@ class NetworkUtilities {
             );
           }
         }
-        else {
+        else if(json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null){
           if (json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null) {
-
-            return ResponseViewModel(
+            getResponse =  ResponseViewModel(
               isSuccess: false,
               errorViewModel: ErrorViewModel(
                 errorMessage: json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE],
@@ -57,12 +55,13 @@ class NetworkUtilities {
             );
           }
         }
-        getResponse =  ResponseViewModel(
-          isSuccess: true ,
-          errorViewModel: null,
-          responseData: parserFunction(json.decode(serverResponse.body)),
-        );
-
+        else {
+          getResponse = ResponseViewModel(
+            isSuccess: true,
+            errorViewModel: null,
+            responseData: parserFunction(json.decode(serverResponse.body)),
+          );
+        }
       }
       else {
         String serverError = "";
@@ -118,7 +117,7 @@ class NetworkUtilities {
       if(serverResponse.statusCode == 200){
         if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){
           if (json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE] != null) {
-            return ResponseViewModel(
+            postResponse = ResponseViewModel(
               isSuccess: false,
               errorViewModel: ErrorViewModel(
                 errorMessage: json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE],
@@ -128,9 +127,9 @@ class NetworkUtilities {
             );
           }
         }
-        else {
+        else if(json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null){
           if (json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null) {
-            return ResponseViewModel(
+            postResponse =  ResponseViewModel(
               isSuccess: false,
               errorViewModel: ErrorViewModel(
                 errorMessage: json.decode(serverResponse.body)[ApiParseKeys
@@ -141,11 +140,13 @@ class NetworkUtilities {
             );
           }
         }
-        postResponse =  ResponseViewModel(
-          isSuccess: true,
-          errorViewModel: null,
-          responseData: parserFunction(json.decode(serverResponse.body)),
-        );
+        else {
+          postResponse = ResponseViewModel(
+            isSuccess: true,
+            errorViewModel: null,
+            responseData: parserFunction(json.decode(serverResponse.body)),
+          );
+        }
       }
       else {
         print(serverResponse.body);

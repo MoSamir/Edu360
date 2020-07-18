@@ -81,6 +81,7 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (context, state){
         return ModalProgressHUD(
           inAsyncCall: state is AuthenticationLoading,
+          opacity: 0,
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

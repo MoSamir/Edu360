@@ -25,6 +25,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'NetworkErrorView.dart';
 
 class CreatePostCard extends StatefulWidget {
+  final Function onFinish;
+  CreatePostCard({this.onFinish});
   @override
   _CreatePostCardState createState() => _CreatePostCardState();
 }
@@ -34,6 +36,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   CreateNewContentBloc newPostBloc ;
   List<File> postFiles = List<File>();
   GlobalKey<FormState> postFormKey = GlobalKey();
+
 
   @override
   void initState() {
@@ -83,10 +86,12 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
+            widget.onFinish(success:true);
           }
         }
         else if(state is PostCreationSuccess){
           BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+          widget.onFinish(success:true);
         }
       },
       builder: (context, state){
@@ -205,7 +210,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 ),
               ),
               fillColor: AppColors.white,
-              hintText: LocalKeys.ADD_POST_DESCRIPTION,
+              hintText: (LocalKeys.ADD_POST_DESCRIPTION).tr(),
               hintStyle: Styles.baseTextStyle.copyWith(
                 color: AppColors.registrationTextPlaceholderColor,
               ),

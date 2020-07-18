@@ -15,31 +15,70 @@ class TabsHolderScreen extends StatefulWidget {
 class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
 
-  List<Widget> screens = [
-    WallScreen(),
-    ProfileScreen(),
-    CategoriesScreen(),
-    CreatePostScreen(),
-  ];
-  List<BottomNavigationBarItem> barTabs = [
-    BottomNavigationBarItem(
-      title: Container(width: 0,height: 0,),
-      icon: Icon(Icons.home,size: 25,),
-    ),
-    BottomNavigationBarItem(
-      title: Container(width: 0,height: 0,),
-      icon: Icon(Icons.person,size: 25,),
-    ),
-    BottomNavigationBarItem(
-      title: Container(width: 0,height: 0,),
-      icon: Icon(Icons.dashboard ,size: 25,),
-    ),
-    BottomNavigationBarItem(
-      title: Container(width: 0,height: 0,),
-      icon: Icon(Icons.add_alert,size: 25,),
-    ),
-  ];
-  int currentVisiblePageIndex  = 0 ;
+
+
+
+   _onPostCreated({bool success}){
+    currentVisiblePageIndex = success ? 1 : 0 ;
+    setState(() {});
+  }
+
+  _moveToScreen(SCREEN screen){
+     switch (screen){
+       case SCREEN.WALL_SCREEN :
+         currentVisiblePageIndex = 0 ;
+         break;
+       case SCREEN.PROFILE_SCREEN :
+         currentVisiblePageIndex = 1 ;
+         break;
+       case SCREEN.CATEGORIES_SCREEN :
+         currentVisiblePageIndex = 2 ;
+         break;
+       case SCREEN.POST_CREATION_SCREEN :
+         currentVisiblePageIndex = 3 ;
+         break;
+       default:
+         currentVisiblePageIndex = 0 ;
+     }
+
+     setState(() {});
+  }
+
+
+  List<Widget> screens = [];
+  List<BottomNavigationBarItem> barTabs = [];
+  static int currentVisiblePageIndex  = 0 ;
+
+
+  @override
+  void initState() {
+    super.initState();
+    screens = [
+      WallScreen(_moveToScreen),
+      ProfileScreen(_moveToScreen),
+      CategoriesScreen(_moveToScreen),
+      CreatePostScreen(_onPostCreated , _moveToScreen),
+    ];
+
+    barTabs = [
+      BottomNavigationBarItem(
+        title: Container(width: 0,height: 0,),
+        icon: Icon(Icons.home,size: 25,),
+      ),
+      BottomNavigationBarItem(
+        title: Container(width: 0,height: 0,),
+        icon: Icon(Icons.person,size: 25,),
+      ),
+      BottomNavigationBarItem(
+        title: Container(width: 0,height: 0,),
+        icon: Icon(Icons.dashboard ,size: 25,),
+      ),
+      BottomNavigationBarItem(
+        title: Container(width: 0,height: 0,),
+        icon: Icon(Icons.add_alert,size: 25,),
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,4 +108,11 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
       ),
     );
   }
+}
+
+enum SCREEN {
+  WALL_SCREEN ,
+  PROFILE_SCREEN,
+  POST_CREATION_SCREEN,
+  CATEGORIES_SCREEN,
 }

@@ -34,9 +34,12 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
       return;
     }
   }
+
   Stream<UserProfileStates> _loadUserProfile(LoadUserProfile event) async*{
+    yield UserProfileLoading();
     ResponseViewModel<List<PostViewModel>> userPostsResponse = await Repository.loadUserProfile();
     if(userPostsResponse.isSuccess){
+      userPosts.clear();
       userPosts = userPostsResponse.responseData;
       yield UserProfileLoaded();
       return ;

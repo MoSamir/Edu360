@@ -26,6 +26,11 @@ class LocalKeys{
 
 
   static const String SERVER_UNREACHABLE = "SERVER_UNREACHABLE";
+  static const String TEXT_POSTS_PLACE_HOLDER = "TEXT_POSTS_PLACE_HOLDER";
+  static const String DOCUMENT_POSTS_PLACE_HOLDER = "DOCUMENT_POSTS_PLACE_HOLDER";
+  static const String WHOLE_POSTS_PLACE_HOLDER = "WHOLE_POSTS_PLACE_HOLDER";
+
+
 
 
   //-------------------------- COMPLETE YOUR PROFILE SCREEN -------------------

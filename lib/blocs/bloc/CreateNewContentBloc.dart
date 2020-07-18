@@ -46,7 +46,6 @@ class CreateNewContentBloc extends Bloc<CreateNewContentEvents , CreateNewConten
       if(event.postDocuments!=null && event.postDocuments.length > 0)
         uploadFilesResponse = await Repository.uploadPostFiles(event.postDocuments);
       if(uploadFilesResponse == null || uploadFilesResponse.isSuccess){
-        print("Upload File Success");
         createPostResponse = await Repository.createPostWithMedia(userPost : event.postViewModel , postFilesPath : uploadFilesResponse.responseData);
       } else {
         yield PostCreationFailed(failedEvent: event , error: uploadFilesResponse.errorViewModel);

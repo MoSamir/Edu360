@@ -7,16 +7,24 @@ import 'CommentViewModel.dart';
 class PostViewModel{
 
   String postBody , ownerName , ownerImagePath ;
-  int postId , postOwnerId ;
+  int postId , postOwnerId  , numberOfLikes , numberOfComments, numberOfObjections , numberOfShares;
+
+  @override
+  String toString() {
+    return 'PostViewModel{postBody: $postBody, ownerName: $ownerName, postId: $postId, postOwnerId: $postOwnerId, numberOfLikes: $numberOfLikes, numberOfComments: $numberOfComments, numberOfObjections: $numberOfObjections, numberOfShares: $numberOfShares}';
+  }
+
   List<CommentViewModel> postComments = List();
   ContentType contentType;
   List<String> postFilesPath;
-
-  PostViewModel({this.ownerName, this.ownerImagePath , this.postBody , this.postComments , this.postId , this.postOwnerId , this.contentType , this.postFilesPath});
+  PostViewModel({this.ownerName, this.ownerImagePath , this.numberOfLikes , this.numberOfObjections , this.numberOfComments , this.numberOfShares , this.postBody , this.postComments , this.postId , this.postOwnerId , this.contentType , this.postFilesPath});
   
 
   static PostViewModel fromJson(Map<String,dynamic> postMap){
 
+    print("postMap");
+    print(postMap);
+    print('-------------------------------');
 
     return PostViewModel(
       postId: postMap[ApiParseKeys.POST_ID],
@@ -26,6 +34,12 @@ class PostViewModel{
       postBody: postMap[ApiParseKeys.POST_BODY],
       postFilesPath: postMap[ApiParseKeys.POST_ATTACHMENTS],
       postComments: postMap[ApiParseKeys.POST_COMMENTS],
+
+      numberOfLikes: postMap[ApiParseKeys.POST_NUMBER_OF_LIKES],
+      numberOfObjections: postMap[ApiParseKeys.POST_NUMBER_OF_OBJECTIONS],
+      numberOfComments: postMap[ApiParseKeys.POST_NUMBER_OF_COMMENTS],
+      numberOfShares: postMap[ApiParseKeys.POST_NUMBER_OF_SHARES],
+
       contentType:  getContentType(postMap[ApiParseKeys.POST_ATTACHMENTS]),
     );
   }

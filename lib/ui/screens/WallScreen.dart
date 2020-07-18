@@ -9,6 +9,10 @@ import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 class WallScreen extends StatefulWidget {
+
+  Function moveToScreen;
+  WallScreen(this.moveToScreen);
+
   @override
   _WallScreenState createState() => _WallScreenState();
 }

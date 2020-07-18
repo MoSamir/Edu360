@@ -37,6 +37,7 @@ class UserViewModel {
 
   static UserViewModel fromJson(userJson) {
 
+
     var userInformation = userJson[ApiParseKeys.USER_DATA];
     return UserViewModel(
       userEmail: userInformation[ApiParseKeys.USER_MAIL],

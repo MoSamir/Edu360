@@ -35,7 +35,9 @@
   "FEEDS_TITLE": "الاخبار",
   "POST": "منشور",
   "FILE": "ملف",
-  "MEDIA": "ملف وساظط"
-
+  "MEDIA": "ملف وساظط",
+  "TEXT_POSTS_PLACE_HOLDER": "لا يوجد منشورات نصيه حتي الان",
+  "DOCUMENT_POSTS_PLACE_HOLDER": "لا يوجد منشورات تحتوي ملفات حتي الان",
+  "WHOLE_POSTS_PLACE_HOLDER": "لا يوجد منشورات حتي الان"
 }
 

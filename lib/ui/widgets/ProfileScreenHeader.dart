@@ -42,10 +42,9 @@ class ProfileScreenHeader extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(40),
                         image: DecorationImage(
-                          image: NetworkImage(user != null ? user.profileImagePath?? "" : ""),
-                          onError: (error , stackTrace){
-                            return AssetImage(Resources.USER_PLACEHOLDER_IMAGE);
-                          },
+                          image: user != null && user.profileImagePath != null && user.profileImagePath.length > 0 ?
+                          NetworkImage(user.profileImagePath) :
+                          AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
                           fit: BoxFit.contain,
                         ),
                       ),

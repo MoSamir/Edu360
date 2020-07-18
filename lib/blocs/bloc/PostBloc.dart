@@ -31,12 +31,42 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     } else if(event is LikePost){
       yield* _handleLikePost(event);
       return ;
+    } else if(event is AddComment){
+      yield* _handleUserComment(event);
+      return ;
+    } else if(event is AddObjection){
+      yield* _handleUserObjection(event);
+      return ;
+    } else if(event is SharePost){
+      yield* _handlePostSharing(event);
+      return ;
     }
   }
 
   Stream<PostStates> _handleLikePost(LikePost event) async*{
     ResponseViewModel<void> likePostResult = await Repository.likePost(postId: event.postViewModel.postId);
-    print(likePostResult.isSuccess);
+    if(likePostResult.isSuccess){
+      profileBloc.add(LoadUserProfile());
+    } else {}
+  }
+
+  Stream<PostStates> _handleUserComment(AddComment event)  async*{
+    ResponseViewModel<void> likePostResult = await Repository.addComment(postId: event.postModel.postId , comment: event.commentViewModel);
+    if(likePostResult.isSuccess){
+      profileBloc.add(LoadUserProfile());
+    } else {}
+  }
+
+  Stream<PostStates> _handleUserObjection(AddObjection event) async* {
+    ResponseViewModel<void> likePostResult = await Repository.addObjection(postId: event.postModel.postId , comment: event.commentViewModel);
+
+    if(likePostResult.isSuccess){
+      profileBloc.add(LoadUserProfile());
+    } else {}
+  }
+
+  Stream<PostStates> _handlePostSharing(SharePost event) async* {
+    ResponseViewModel<void> likePostResult = await Repository.sharePost(postId: event.postViewModel.postId , shareDescription: event.shareDescription);
     if(likePostResult.isSuccess){
       profileBloc.add(LoadUserProfile());
     } else {}

@@ -58,9 +58,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
     yield AuthenticationLoading();
     ResponseViewModel<UserViewModel> apiResponse = await Repository.login(userMail:userMail , userPassword:userPassword);
     if(apiResponse.isSuccess){
-
-      print(apiResponse.responseData.toString());
-
       await Repository.saveUser(apiResponse.responseData);
       await Repository.saveEncryptedPassword(userPassword);
 
