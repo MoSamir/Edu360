@@ -35,6 +35,7 @@
   "FEEDS_TITLE": "Feeds",
   "POST": "post",
   "FILE": "file",
-  "MEDIA": "media"
+  "MEDIA": "media",
+  "COURSE_NAME": "Course Name"
 
 }

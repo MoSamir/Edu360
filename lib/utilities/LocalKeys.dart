@@ -78,6 +78,10 @@ class LocalKeys{
 
 
 
+//------------------- COURSE NAME
+  static const String Subscribe = "Subscribe";
+  static const String MarkDone = "Mark Done";
+  static const String CourseName = "Course Name";
 
 
 
