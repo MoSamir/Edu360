@@ -61,18 +61,10 @@ class LocalKeys{
   static const String FOLLOW = "FOLLOW";
 
 
-  //------------- POST SCREEN --------------------------------------------------
+  //-------------- FEEDS SCREEN ------------------------------------------------
 
-
-  static const String ADD_POST_DESCRIPTION = "ADD_POST_DESCRIPTION";
-
-
-  //----------------- EXPLORE SCREEN -------------------------------------------
-
-  static const String SHOW_MORE = "SHOW_MORE";
-  static const String TUTORS_FOR_YOU = "TUTORS_FOR_YOU";
   static const String FEEDS_TITLE = "FEEDS_TITLE";
-  static const String EXPLORE_TITLE = "EXPLORE_TITLE";
+  static const String SHARE_YOUR_THOUGHTS = "SHARE_YOUR_THOUGHTS";
 
 
   //------------------- CREATE POST --------------------------------------------
@@ -80,13 +72,30 @@ class LocalKeys{
   static const String POST = "POST";
   static const String FILE = "FILE";
   static const String MEDIA = "MEDIA";
+  static const String ADD_POST_DESCRIPTION = "ADD_POST_DESCRIPTION";
 
 
 
-//------------------- COURSE NAME
+  //----------------- EXPLORE SCREEN -------------------------------------------
+
+  static const String SHOW_MORE = "SHOW_MORE";
+  static const String TUTORS_FOR_YOU = "TUTORS_FOR_YOU";
+  static const String EXPLORE_TITLE = "EXPLORE_TITLE";
+
+
+
+//------------------- COURSE NAME ----------------------------------------------
   static const String Subscribe = "Subscribe";
   static const String MarkDone = "Mark Done";
   static const String CourseName = "Course Name";
+
+//------------------ SINGLE POST PAGE ------------------------------------------
+
+  static const String NO_COMMENTS_YET = "NO_COMMENTS_YET_PLACEHOLDER";
+
+//------------------ NOTIFICATIONS SCREEN --------------------------------------
+  static const String NO_MORE_NOTIFICATIONS = "NO_MORE_NOTIFICATIONS";
+  static const String NO_NOTIFICATION_PLACEHOLDER = "NO_NOTIFICATION_PLACEHOLDER";
 
 
 

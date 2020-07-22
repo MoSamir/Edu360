@@ -34,7 +34,6 @@ class _CourseNameState extends State<CourseName> {
 //      ),
       body: Stack(
         children: <Widget>[
-
           ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
@@ -65,8 +64,6 @@ class _CourseNameState extends State<CourseName> {
                       ),
                     ),
                   ),
-
-
                 ],
               ),
               SizedBox(

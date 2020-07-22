@@ -1,11 +1,13 @@
 import 'package:edu360/ui/screens/CategoriesScreen.dart';
-import 'package:edu360/ui/screens/WallScreen.dart';
+import 'package:edu360/ui/screens/ExploreScreen.dart';
+import 'package:edu360/ui/screens/FeedsScreen.dart';
 import 'package:edu360/ui/screens/ProfileScreen.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
 
 import 'CreatePostScreen.dart';
+import 'NotificationsScreen.dart';
 
 class TabsHolderScreen extends StatefulWidget {
   @override
@@ -14,16 +16,12 @@ class TabsHolderScreen extends StatefulWidget {
 
 class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
-
-
-
-
-   _onPostCreated({bool success}){
+   void _onPostCreated({bool success}){
     currentVisiblePageIndex = success ? 1 : 0 ;
     setState(() {});
   }
 
-  _moveToScreen(SCREEN screen){
+  void _moveToScreen(SCREEN screen){
      switch (screen){
        case SCREEN.WALL_SCREEN :
          currentVisiblePageIndex = 0 ;
@@ -54,10 +52,10 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
   void initState() {
     super.initState();
     screens = [
-      WallScreen(_moveToScreen),
+      FeedsScreen(_onPostCreated , _moveToScreen),
+      NotificationsScreen(_moveToScreen),
       ProfileScreen(_moveToScreen),
       CategoriesScreen(_moveToScreen),
-      CreatePostScreen(_onPostCreated , _moveToScreen),
     ];
 
     barTabs = [
@@ -67,15 +65,15 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
       ),
       BottomNavigationBarItem(
         title: Container(width: 0,height: 0,),
+        icon: Icon(Icons.notifications,size: 25,),
+      ),
+      BottomNavigationBarItem(
+        title: Container(width: 0,height: 0,),
         icon: Icon(Icons.person,size: 25,),
       ),
       BottomNavigationBarItem(
         title: Container(width: 0,height: 0,),
         icon: Icon(Icons.dashboard ,size: 25,),
-      ),
-      BottomNavigationBarItem(
-        title: Container(width: 0,height: 0,),
-        icon: Icon(Icons.add_alert,size: 25,),
       ),
     ];
   }
@@ -103,7 +101,13 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
             margin: EdgeInsets.only(top: kToolbarHeight + 30),
             child: screens[currentVisiblePageIndex],
           ),
-          EduAppBar(icon: Icons.search,),
+          EduAppBar(
+            logoWidth: MediaQuery.of(context).size.width * 0.25,
+            icon: Icons.filter_list,
+            onIconPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ExploreScreen()));
+            },
+          ),
         ],
       ),
     );

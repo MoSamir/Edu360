@@ -6,7 +6,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
-import 'package:edu360/ui/screens/WallScreen.dart';
 import 'package:edu360/ui/screens/TabHolderScreen.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduFormField.dart';

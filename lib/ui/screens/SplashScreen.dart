@@ -5,7 +5,6 @@ import 'package:edu360/blocs/bloc/AuthenticationBloc.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
-import 'package:edu360/ui/screens/WallScreen.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';

@@ -36,7 +36,7 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               elevation: 2,
               actions: actions ?? [],
               automaticallyImplyLeading: autoImplyLeading ?? true,
-              backgroundColor: backgroundColor ?? Colors.white,
+              backgroundColor: backgroundColor ?? AppColors.mainThemeColor,
 
             ),),
             icon != null ? Positioned(
@@ -61,8 +61,8 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               ),
             ) : Container(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,),
-              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width / 2, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
+              padding: EdgeInsets.symmetric(horizontal: (autoImplyLeading !=null && autoImplyLeading) ? 50 : 15,),
+              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width * 0.3 , height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
             )
           ],
         ),

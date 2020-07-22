@@ -1,8 +1,5 @@
 import 'package:edu360/blocs/BlocDelegate.dart';
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
-import 'package:edu360/ui/screens/CourseName.dart';
-import 'package:edu360/ui/screens/ProfileScreen.dart';
-import 'package:edu360/ui/screens/WallScreen.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,7 +33,7 @@ void main() {
               fontFamily: Resources.FONT_FAMILY_NAME,
             ),
             debugShowCheckedModeBanner: false,
-            home: CourseName(),
+            home: SplashScreen(),
           ),
         ),
     ),

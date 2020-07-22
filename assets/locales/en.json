@@ -40,5 +40,9 @@
   "MEDIA": "media",
   "TEXT_POSTS_PLACE_HOLDER": "No text posts for you yet",
   "DOCUMENT_POSTS_PLACE_HOLDER": "No document posts for you yet",
-  "WHOLE_POSTS_PLACE_HOLDER": "No posts for you yet"
+  "WHOLE_POSTS_PLACE_HOLDER": "No posts for you yet",
+  "NO_COMMENTS_YET_PLACEHOLDER": "No Comments , Add your first comment",
+  "SHARE_YOUR_THOUGHTS": "Present a thought",
+  "NO_MORE_NOTIFICATIONS": "No more notifications",
+  "NO_NOTIFICATION_PLACEHOLDER": "No notifications yet"
 }
