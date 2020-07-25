@@ -4,6 +4,8 @@ import 'package:edu360/blocs/events/PostEvents.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/blocs/states/PostStates.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
+import 'package:edu360/data/models/CommentViewModel.dart';
+import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/utilities/Constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,17 +30,24 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
         error: Constants.CONNECTION_TIMEOUT,
       );
       return ;
-    } else if(event is LikePost){
+    }
+      else if(event is LikePost){
       yield* _handleLikePost(event);
       return ;
-    } else if(event is AddComment){
+    }
+      else if(event is AddComment){
       yield* _handleUserComment(event);
       return ;
     } else if(event is AddObjection){
       yield* _handleUserObjection(event);
       return ;
-    } else if(event is SharePost){
+    }
+      else if(event is SharePost){
       yield* _handlePostSharing(event);
+      return ;
+    }
+      else if(event is FetchPostComments){
+      yield* _handlePostCommentsFetching(event);
       return ;
     }
   }
@@ -69,6 +78,15 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     ResponseViewModel<void> likePostResult = await Repository.sharePost(postId: event.postViewModel.postId , shareDescription: event.shareDescription);
     if(likePostResult.isSuccess){
       profileBloc.add(LoadUserProfile());
+    } else {}
+  }
+
+  _handlePostCommentsFetching(FetchPostComments event) async*{
+    ResponseViewModel<List<CommentViewModel>> post = await Repository.getPostComments(post: event.postModel);
+    PostViewModel postModel = event.postModel;
+    postModel.postComments = post.responseData;
+    if(post.isSuccess){
+      yield PostLoaded(postViewModel: postModel);
     } else {}
   }
 }

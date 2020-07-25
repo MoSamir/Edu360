@@ -10,7 +10,13 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
   final List<Widget> actions;
   final Color backgroundColor ;
   final Function onIconPressed ;
-  final IconData icon;
+  final Widget icon;
+  final double logoWidth;
+  final double logoHeight;
+
+  EduAppBar({this.title, this.centerTitle, this.autoImplyLeading,
+    this.actions, this.backgroundColor, this.onIconPressed, this.icon,this.logoWidth,this.logoHeight});
+
   @override
   Widget build(BuildContext context) {
 
@@ -30,7 +36,7 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               elevation: 2,
               actions: actions ?? [],
               automaticallyImplyLeading: autoImplyLeading ?? true,
-              backgroundColor: backgroundColor ?? Colors.white,
+              backgroundColor: backgroundColor ?? AppColors.mainThemeColor,
 
             ),),
             icon != null ? Positioned(
@@ -41,9 +47,11 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               child: GestureDetector(
                 onTap: onIconPressed ?? (){},
                 child: Material(
-                  shadowColor: AppColors.backgroundColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
-                  child: Container(child: Icon(icon , color: Colors.white, size: 25,), decoration: BoxDecoration(
+                  child: Container(
+                    child: Padding(
+                        padding: EdgeInsets.all(2),
+                        child: icon) , decoration: BoxDecoration(
                     color: AppColors.mainThemeColor,
                     shape: BoxShape.circle,
                     border: Border.all(
@@ -55,8 +63,8 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               ),
             ) : Container(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.BLUE_LOGO_IMAGE , width: MediaQuery.of(context).size.width / 2, height: 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
+              padding: EdgeInsets.symmetric(horizontal: (autoImplyLeading !=null && autoImplyLeading) ? 50 : 15,),
+              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width * 0.3 , height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
             )
           ],
         ),
@@ -64,8 +72,7 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
       preferredSize: Size.fromHeight(kToolbarHeight + 50),
     );
   }
-  EduAppBar({this.title, this.centerTitle, this.autoImplyLeading,
-      this.actions, this.backgroundColor, this.onIconPressed, this.icon});
+
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight + 50);

@@ -25,8 +25,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'NetworkErrorView.dart';
 
 class CreatePostCard extends StatefulWidget {
-  final Function onFinish;
-  CreatePostCard({this.onFinish});
+  final Function onFinish , onCancel;
+  CreatePostCard({this.onFinish, this.onCancel});
   @override
   _CreatePostCardState createState() => _CreatePostCardState();
 }
@@ -128,7 +128,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                         ),
                         IconButton(
                           icon: Icon(Icons.close),
-                          onPressed: (){},
+                          onPressed: widget.onCancel,
                         ),
                       ],
                     ),

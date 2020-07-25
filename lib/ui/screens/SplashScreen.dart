@@ -2,10 +2,8 @@ import 'dart:io';
 
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/AuthenticationBloc.dart';
-import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
-import 'package:edu360/ui/screens/WallScreen.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
@@ -13,24 +11,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'ExploreScreen.dart';
 import 'TabHolderScreen.dart';
 import 'LandingScreen.dart';
-
+import 'dart:math' as Math;
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin{
 
+  AnimationController rotationController;
   AuthenticationBloc bloc ;
   @override
   void initState() {
     super.initState();
     bloc = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc;
     bloc.add(AuthenticateUser());
+    rotationController = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+    rotationController.forward();
   }
 
   @override
@@ -59,17 +58,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 fontSize: 16.0
             );
           }
-          else {
-            Fluttertoast.showToast(
-                msg: state.error.errorMessage ?? '',
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0
-            );
-          }
         }
         else if (state is UserNotInitialized) {
           Navigator.of(context).push(MaterialPageRoute(builder: (context) => LandingScreen()));
@@ -79,19 +67,15 @@ class _SplashScreenState extends State<SplashScreen> {
       },
       bloc: bloc,
       builder: (context, state){
-        return ModalProgressHUD(
-          inAsyncCall: state is AuthenticationLoading,
-          opacity: 0,
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(Resources.SPLASH_BG_IMAGE),
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Center(child: RotationTransition(
+            turns: Tween(begin: 0.0, end: 1.0).animate(rotationController),
+            child: Hero(
+                tag: Resources.SPLASH_LOGO_IMAGE,
+                child: Image.asset(Resources.SPLASH_LOGO_IMAGE , height: MediaQuery.of(context).size.height * .4,)),
+          ))
         );
       },
     );

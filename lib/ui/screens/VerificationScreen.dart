@@ -39,18 +39,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 padding: EdgeInsets.all(screenPadding),
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(Resources.SPLASH_BG_IMAGE),
-                    fit: BoxFit.fill,
-                  ),
-                ),
                 child: Form(
                   key: _verificationCodeFormKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
+
+                      Hero(
+                          tag: Resources.SPLASH_LOGO_IMAGE,
+                          child: Image.asset(Resources.SPLASH_LOGO_IMAGE , height: MediaQuery.of(context).size.height * .25,)),
+                      SizedBox(height: 30,),
                       EduFormField(
                         validatorFn: Validator.requiredField,
                         obscureField: false,

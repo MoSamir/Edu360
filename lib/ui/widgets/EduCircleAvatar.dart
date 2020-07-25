@@ -1,5 +1,6 @@
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 
 class EduCircleAvatar extends StatelessWidget {
@@ -29,7 +30,9 @@ class EduCircleAvatar extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                          image: NetworkImage(userModel.profileImagePath),
+                          image: userModel.profileImagePath != null && userModel.profileImagePath.length > 0 ? NetworkImage(
+                            userModel.profileImagePath,
+                        ) : AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
                         ),
                       ),
                     ),

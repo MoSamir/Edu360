@@ -4,6 +4,7 @@ import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/UserDataEvents.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
+import 'package:edu360/blocs/states/AuthenticationStates.dart';
 import 'package:edu360/blocs/states/UserDataStates.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/utilities/Constants.dart';
@@ -25,8 +26,10 @@ class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
 
   UserDataBloc(){
    authenticationBloc.listen((authenticationState) {
-     userProfileBloc.add(LoadUserProfile());
-     homePostsBloc.add(LoadHomeUserPosts());
+     if(authenticationState is UserAuthenticated){
+       userProfileBloc.add(LoadUserProfile());
+       homePostsBloc.add(LoadHomeUserPosts());
+     }
    });
   }
 
