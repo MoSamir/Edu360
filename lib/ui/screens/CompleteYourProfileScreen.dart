@@ -115,7 +115,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
             return ModalProgressHUD(
               inAsyncCall: state is RegistrationPageLoading,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 20),
                 child: Form(
                   key: _globalKey,
                   child: Column(
@@ -123,7 +123,8 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Image.asset(Resources.BLUE_LOGO_IMAGE , width: 100, height: 100, fit: BoxFit.contain,),
+                      SizedBox(height: 10,),
+                      Image.asset(Resources.BLUE_LOGO_IMAGE , width: 70, height: 70, fit: BoxFit.contain,),
                       Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),

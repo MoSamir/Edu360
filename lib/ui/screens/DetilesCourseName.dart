@@ -25,8 +25,8 @@ class _DetailsCourseNameState extends State<DetailsCourseName> {
       backgroundColor: AppColors.backgroundColor,
       appBar:  EduAppBar(
         backgroundColor: AppColors.mainThemeColor,
-        icon: Icons.search,
-        actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
+        icon:   Image.asset(Resources.WHITE_LOGO_IMAGE)  , //ImageIcon(),
+        actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.transparent,),],
         logoWidth: MediaQuery.of(context).size.width / 3,
         logoHeight: 20,
       ),

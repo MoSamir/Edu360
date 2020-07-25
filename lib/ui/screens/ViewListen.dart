@@ -22,8 +22,10 @@ class _ViewListenState extends State<ViewListen> {
   bool showComment1 = false;
   bool showComment2 = false;
   bool enable = false;
-  final videoPlayerController = VideoPlayerController.network(
-      '${URL.BASE_URL}/Uploads//Edu360Files//2cae8ba8-3cef-46c1-9942-affad496772f_videoplayback.mp4');
+  final videoPlayerController = VideoPlayerController.network('http://ref360.net/assets/video/ref360_video_intro.mp4');
+
+
+
 
   ChewieController chewieController;
   @override
@@ -45,7 +47,6 @@ class _ViewListenState extends State<ViewListen> {
       backgroundColor: AppColors.backgroundColor,
       appBar: EduAppBar(
         backgroundColor: AppColors.mainThemeColor,
-        icon: Icons.search,
         actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
         logoWidth: MediaQuery.of(context).size.width / 3,
         logoHeight: 20,

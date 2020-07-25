@@ -10,7 +10,7 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
   final List<Widget> actions;
   final Color backgroundColor ;
   final Function onIconPressed ;
-  final IconData icon;
+  final Widget icon;
   final double logoWidth;
   final double logoHeight;
 
@@ -47,9 +47,11 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               child: GestureDetector(
                 onTap: onIconPressed ?? (){},
                 child: Material(
-                  shadowColor: AppColors.backgroundColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
-                  child: Container(child: Icon(icon , color: Colors.white, size: 25,), decoration: BoxDecoration(
+                  child: Container(
+                    child: Padding(
+                        padding: EdgeInsets.all(2),
+                        child: icon) , decoration: BoxDecoration(
                     color: AppColors.mainThemeColor,
                     shape: BoxShape.circle,
                     border: Border.all(

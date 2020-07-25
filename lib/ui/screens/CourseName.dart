@@ -1,5 +1,4 @@
 import 'package:edu360/ui/screens/DetilesCourseName.dart';
-import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
@@ -25,19 +24,12 @@ class _CourseNameState extends State<CourseName> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-//      appBar:  EduAppBar(
-//        backgroundColor: AppColors.mainThemeColor,
-//        icon: Icons.search,
-//        actions: <Widget>[Icon(Icons.message)],
-//        logoWidth: MediaQuery.of(context).size.width / 3,
-//        logoHeight: 20,
-//      ),
       body: Stack(
         children: <Widget>[
           ListView(
             padding: EdgeInsets.zero,
             children: <Widget>[
-              SizedBox(height: 80,),
+//              SizedBox(height: 30,),
               Stack(
                 children: <Widget>[
                   Padding(
@@ -163,7 +155,6 @@ class _CourseNameState extends State<CourseName> {
                       ],
                     ),
                     SizedBox(height: 15,),
-                    EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Column(
@@ -184,21 +175,13 @@ class _CourseNameState extends State<CourseName> {
                         ],
                       ),
                     )
-
                   ],
                 ),
               ),
-              ],
-          ),
-          EduAppBar(
-            backgroundColor: AppColors.mainThemeColor,
-            icon: Icons.search,
-            actions: <Widget>[
 
-           Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
+              EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+
             ],
-            logoWidth: MediaQuery.of(context).size.width / 3,
-            logoHeight: 20,
           ),
         ],
       ),

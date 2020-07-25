@@ -67,7 +67,7 @@ class UserViewModel {
       ApiParseKeys.USER_BIRTHDAY: userBirthDay.toString(),
       ApiParseKeys.ID : userId ,
       ApiParseKeys.USER_EDUCATION: userEducation,
-      ApiParseKeys.FIELD_OF_STUDY_ID : userFieldOfStudy.studyFieldId,
+      //ApiParseKeys.FIELD_OF_STUDY_ID : userFieldOfStudy.studyFieldId,
     };
     return {
       ApiParseKeys.USER_DATA: userInformation,
