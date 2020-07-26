@@ -150,13 +150,12 @@ class NetworkUtilities {
     networkLogger(url: methodURL , body: requestBody, headers: requestHeaders , response: postResponse);
     return postResponse;
   }
+
   static Future <ResponseViewModel> handleFilesUploading({ bool acceptJson = false ,  String methodURL, Map<String,String> requestHeaders, FormData formData , Function parserFunction})async{
     ResponseViewModel postResponse ;
     try{
       var uploadResponse = await Dio().post(
         NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_FILES),options: Options(
-        sendTimeout: 5 * 60 * 1000 ,
-        contentType: 'video/*'
       ) ,data: formData, onSendProgress: (int progress, int total){
           print('$progress of $total sent');
       });
@@ -219,6 +218,7 @@ class NetworkUtilities {
     networkLogger(url: methodURL , body: formData , headers: requestHeaders , response: postResponse);
     return postResponse;
   }
+
   static Map<String, String> getHeaders({Map<String,String> customHeaders}){
 
     Map<String,String> headers = {

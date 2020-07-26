@@ -11,7 +11,7 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10 , horizontal: 8),
+      padding: EdgeInsets.symmetric(vertical: 4 , horizontal: 0),
       child: GestureDetector(
         onTap: onNotificationClick ?? (){},
         child: Material(
@@ -23,8 +23,8 @@ class NotificationCard extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Container(
-                  width: 75,
-                  height: 75,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.mainThemeColor,

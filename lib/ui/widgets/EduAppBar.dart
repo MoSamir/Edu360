@@ -19,7 +19,6 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarBrightness: Brightness.dark,
       statusBarColor: Colors.black,
@@ -27,7 +26,7 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
     ));
     return PreferredSize(
       child: Container(
-        height: kToolbarHeight + 50,
+        height: icon != null ? kToolbarHeight +  50 : kToolbarHeight + 30,
         child: Stack(
           children: <Widget>[
             SizedBox(height: kToolbarHeight + 30, child: AppBar(
@@ -72,7 +71,6 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
       preferredSize: Size.fromHeight(kToolbarHeight + 50),
     );
   }
-
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight + 50);
