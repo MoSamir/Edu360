@@ -11,27 +11,22 @@ import 'ui/screens/SplashScreen.dart';
 
 void main() {
   BlocSupervisor.delegate = SimpleBlocDelegate();
-
   WidgetsFlutterBinding.ensureInitialized();
-
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
   ));
 
   runApp(
     EasyLocalization(
-        supportedLocales: [Locale('en', 'US'), Locale('ar', 'AR')],
+        supportedLocales: [Locale('en'), Locale('ar')],
         path: 'assets/locales',
         useOnlyLangCode: true,
         saveLocale: true,
-        startLocale: Locale('en', 'US'),
-        fallbackLocale: Locale('en', 'US'),
+        startLocale: Locale('en'),
+        fallbackLocale: Locale('en'),
         child: BlocProvider.value(
           value: AppDataBloc(),
           child: MaterialApp(
-            theme: ThemeData(
-              fontFamily: Resources.FONT_FAMILY_NAME,
-            ),
             debugShowCheckedModeBanner: false,
             home: SplashScreen(),
           ),

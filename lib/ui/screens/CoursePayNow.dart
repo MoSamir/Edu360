@@ -1,5 +1,6 @@
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
+import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
@@ -196,8 +197,9 @@ class _CoursePayNowState extends State<CoursePayNow> {
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
 
-            icon: IconData(0xE800,fontFamily:'AppIcon',),
-          actions: <Widget>[
+            icon: EduIconImage(icon: AssetImage(Resources.WHITE_LOGO_IMAGE),),
+
+            actions: <Widget>[
 
               Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
             ],

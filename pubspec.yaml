@@ -31,20 +31,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - assets/
-    - assets/fonts/
     - assets/locales/
     - assets/images/
-
-  fonts:
-    - family: Segoe UI
-      fonts:
-        - asset: assets/fonts/Segoe UI.ttf
-        - asset: assets/fonts/Segoe UI Italic.ttf
-          style: italic
-        - asset: assets/fonts/Segoe UI Bold.ttf
-    - family: AppIcon
-      fonts:
-        - asset: assets/fonts/applacation.ttf
+    - assets/fonts/

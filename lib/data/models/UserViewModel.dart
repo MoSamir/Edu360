@@ -1,4 +1,5 @@
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
+import 'package:edu360/data/apis/helpers/URL.dart';
 import 'StudyFieldViewModel.dart';
 class UserViewModel {
   String userFullName  ,userEmail , userMobileNumber , userEducation  , userPassword ,  userToken , profileImagePath ;
@@ -44,7 +45,7 @@ class UserViewModel {
       userMobileNumber: userInformation[ApiParseKeys.USER_MOBILE],
       contentCreator : userInformation[ApiParseKeys.USER_TYPE] != 0,
       userFullName: userInformation[ApiParseKeys.USER_FULL_NAME],
-      profileImagePath: userInformation[ApiParseKeys.USER_PROFILE_IMAGE],
+      profileImagePath: URL.BASE_URL+"/"+userInformation[ApiParseKeys.USER_PROFILE_IMAGE],
       userAge: userInformation[ApiParseKeys.USER_AGE] ?? 0,
       userBirthDay: userInformation[ApiParseKeys.USER_BIRTHDAY] != null ? DateTime.parse(userInformation[ApiParseKeys.USER_BIRTHDAY]) : DateTime.now(),
       userId: userInformation[ApiParseKeys.ID],

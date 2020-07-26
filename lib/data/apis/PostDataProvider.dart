@@ -35,15 +35,8 @@ class PostDataProvider{
     ResponseViewModel uploadFiles = await NetworkUtilities.handleFilesUploading(
         formData: formData,
         requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),
-        methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_POST_FILES),
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_FILES),
         parserFunction: (responseJson) {
-
-          print("Upload Authrized Files Res =>");
-          print(responseJson);
-          print('-------------------------------');
-
-
-
           try{
             List<String> urls = List<String>();
             for(int i = 0 ; i <responseJson.length ; i++)

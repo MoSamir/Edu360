@@ -40,7 +40,6 @@ class UserDataProvider {
         requestHeaders: NetworkUtilities.getHeaders(),
         methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_FILES),
         parserFunction: (responseJson) {
-
           try{
             List<String> urls = List<String>();
             for(int i = 0 ; i <responseJson.length ; i++)

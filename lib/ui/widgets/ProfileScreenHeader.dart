@@ -45,7 +45,7 @@ class ProfileScreenHeader extends StatelessWidget {
                           image: user != null && user.profileImagePath != null && user.profileImagePath.length > 0 ?
                           NetworkImage(user.profileImagePath) :
                           AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
-                          fit: BoxFit.contain,
+                          fit: BoxFit.cover,
                         ),
                       ),
                     ),
