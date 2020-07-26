@@ -2,8 +2,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/states/AuthenticationStates.dart';
+import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
-import 'file:///E:/Testing/edu360/lib/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/utilities/Constants.dart';
 import 'package:edu360/Repository.dart';
