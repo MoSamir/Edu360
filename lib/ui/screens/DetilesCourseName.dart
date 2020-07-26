@@ -3,7 +3,7 @@ import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 
-import 'ViewListen.dart';
+import 'ViewLesson.dart';
 
 class DetailsCourseName extends StatefulWidget {
   @override
@@ -65,7 +65,7 @@ class _DetailsCourseNameState extends State<DetailsCourseName> {
 
   Widget lesions() {
     return InkWell(
-      onTap: ()=>  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ViewListen())),
+      onTap: ()=>  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ViewLesson())),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Container(

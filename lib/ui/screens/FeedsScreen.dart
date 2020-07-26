@@ -12,7 +12,7 @@ import 'CreatePostScreen.dart';
 class FeedsScreen extends StatefulWidget {
 
   final Function moveToScreen , onPostCreated;
-  FeedsScreen(this.moveToScreen , this.onPostCreated);
+  FeedsScreen( this.onPostCreated , this.moveToScreen);
 
 
   @override

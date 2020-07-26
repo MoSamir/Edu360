@@ -86,12 +86,12 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
-            widget.onFinish(success:true);
+            widget.onFinish(success: false);
           }
         }
         else if(state is PostCreationSuccess){
           BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
-          widget.onFinish(success:true);
+          widget.onFinish(success: true);
         }
       },
       builder: (context, state){
