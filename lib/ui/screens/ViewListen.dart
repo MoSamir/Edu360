@@ -10,6 +10,8 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import 'CoursePayNow.dart';
+
 class ViewListen extends StatefulWidget {
   final PostViewModel postModel;
   final double elevation;
@@ -43,59 +45,63 @@ class _ViewListenState extends State<ViewListen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: EduAppBar(
-        backgroundColor: AppColors.mainThemeColor,
-        icon: Icons.search,
-        actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
-        logoWidth: MediaQuery.of(context).size.width / 3,
-        logoHeight: 20,
-      ),
-      body: Column(
+
+      body: Stack(
         children: <Widget>[
-          Expanded(
-              child: ListView(
+          Column(
             children: <Widget>[
-              Container(
-                height: 170,
-                color: AppColors.white,
-                child: Stack(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20),
-                      child: Container(
-                        height: 120,
-                        child: Chewie(
-                          controller: chewieController,
+              Expanded(
+                  child: ListView(
+                children: <Widget>[
+                  SizedBox(height: 65,),
+                  Container(
+                    height: 180,
+                    color: AppColors.white,
+                    child: Stack(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 25),
+                          child: Container(
+                            height: 120,
+                            child: Chewie(
+                              controller: chewieController,
+                            ),
+                          ),
                         ),
-                      ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          color: Colors.black12,
+                          width: MediaQuery.of(context).size.width,
+                          height: .25,
+                        ),
+                        commentCont(),
+                      ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      color: Colors.black12,
-                      width: MediaQuery.of(context).size.width,
-                      height: .25,
-                    ),
-                    commentCont(),
-                  ],
-                ),
-              ),
-             Padding(
-               padding: const EdgeInsets.all(10.0),
-               child: Column(
-                 children: <Widget>[
-                   text(),
-                   SizedBox(height: 10,),
-                   flashCards(),
-                   SizedBox(height: 10,),
-                   quiz(),
-                 ],
-               ),
-             ),
+                  ),
+                 Padding(
+                   padding: const EdgeInsets.all(10.0),
+                   child: Column(
+                     children: <Widget>[
+                       text(),
+                       SizedBox(height: 10,),
+                       flashCards(),
+                       SizedBox(height: 10,),
+                       quiz(),
+                     ],
+                   ),
+                 ),
+                ],
+              )),
+              EduButton( title: LocalKeys.MarkDone , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
             ],
-          )),
-          EduButton( title: LocalKeys.MarkDone , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+          ),
+          EduAppBar(
+            backgroundColor: AppColors.mainThemeColor,
+             logoWidth: MediaQuery.of(context).size.width / 3,
+            logoHeight: 20,
+          ),
         ],
       ),
     );
@@ -300,7 +306,7 @@ class _ViewListenState extends State<ViewListen> {
   }
   void _navigateToDetailsCourseName() {
 
-    //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CoursePayNow()));
   }
 
 }

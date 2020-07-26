@@ -84,8 +84,10 @@ class LocalKeys{
   static const String CourseName = "Course Name";
 
 
-
-
+//.............................. COURSE PAY NOW
+  static const String PayNow = "Pay Now";
+  static const String NextQuestion = "Next Question";
+  static const String Done = "Done";
 
 
 

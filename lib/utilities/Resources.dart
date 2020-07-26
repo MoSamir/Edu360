@@ -13,6 +13,7 @@ class Resources{
   static const String SETTINGS_IMAGE = "assets/images/settings.png";
   static const String REF360_IMAGE = "assets/images/ref360.png";
   static const String COMMENT_IMAGE = "assets/images/comment.png";
+  static const String LOGO_IMAGE = "assets/images/logo_profile.svg";
 
 
 

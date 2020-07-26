@@ -35,167 +35,131 @@ class _CourseNameState extends State<CourseName> {
       body: Stack(
         children: <Widget>[
 
-          ListView(
-            padding: EdgeInsets.zero,
+          Column(
             children: <Widget>[
-              SizedBox(height: 80,),
-              Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * .3,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: AppColors.mainThemeColor.withOpacity(.8),
-                        image: DecorationImage(
-                          image: AssetImage(Resources.USER_PROFILE_IMAGE),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 0),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * .3,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: AppColors.mainThemeColor.withOpacity(.4),
-                      ),
-                    ),
-                  ),
-
-
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                color: AppColors.mainThemeColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              Expanded(
+                child: ListView(
+                  padding: EdgeInsets.zero,
                   children: <Widget>[
-                    Text(
-                      'Course Name',
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.white),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    SizedBox(height: 80,),
+                    Stack(
                       children: <Widget>[
-                        Text(
-                          'Education',
-                          style: Styles.studyTextStyle,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * .3,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: AppColors.mainThemeColor.withOpacity(.8),
+                              image: DecorationImage(
+                                image: AssetImage(Resources.USER_PROFILE_IMAGE),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
                         ),
-                        Text(
-                          '100 EGP/mo',
-                          style: Styles.studyTextStyle,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * .3,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: AppColors.mainThemeColor.withOpacity(.4),
+                            ),
+                          ),
                         ),
+
+
                       ],
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                height: 50,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    // physics: NeverScrollableScrollPhysics(),
-                    itemCount: schoolStageItem.length,
-                    itemBuilder: (context, index) {
-                      return schoolStage(schoolStageItem[index]['name'], index);
-                    }),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                    color: AppColors.white,
-                    ),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 7,top: 10,bottom: 10),
-                      child: Text('Learning outcomes:',
-                          style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold)),
-                    ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 7,
-                        itemBuilder: (context, index) {
-                          return learningOutcomes();
-                        }),
                     SizedBox(
-                      height: 15,
+                      height: 5,
                     ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppColors.mainThemeColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text('1 lesson/week',
-                                style: Styles.baseTextStyle,)),
-                        SizedBox(width: 15,),
-                        Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: AppColors.mainThemeColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text('1 lesson/week',
-                              style: Styles.baseTextStyle,)),
-                      ],
-                    ),
-                    SizedBox(height: 15,),
-                    EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
                     Container(
                       padding: EdgeInsets.all(10),
+                      color: AppColors.mainThemeColor,
                       child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('Teacher Description',
+                          Text(
+                            'Course Name',
                             style: TextStyle(
-                              color: AppColors.mainThemeColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold
-                            )),
-                          SizedBox(height: 10,),
-                          Text('teacher description teacher description teacher description teacher description teacher description teacher description teacher description teacher description teacher description teacher description teacher description ',
-                              style: TextStyle(
-                                  color: AppColors.mainThemeColor,
-                                  fontSize: 14,
-                              )),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.white),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Education',
+                                style: Styles.studyTextStyle,
+                              ),
+                              Text(
+                                '100 EGP/mo',
+                                style: Styles.studyTextStyle,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          // physics: NeverScrollableScrollPhysics(),
+                          itemCount: schoolStageItem.length,
+                          itemBuilder: (context, index) {
+                            return schoolStage(schoolStageItem[index]['name'], index);
+                          }),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          color: AppColors.white,
+                          ),
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(left: 7,top: 10,bottom: 10),
+                            child: Text('Learning outcomes:',
+                                style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold)),
+                          ),
+                          ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: 7,
+                              itemBuilder: (context, index) {
+                                return learningOutcomes();
+                              }),
 
-                  ],
+                        ],
+                      ),
+                    ),
+                    ],
                 ),
               ),
-              ],
+              EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+
+            ],
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
-            icon: Icons.search,
+
+            icon: IconData(0xE800,fontFamily:'AppIcon',),
+
+           /* icon:Icon(IconData(0xE802,fontFamily:'AppIcon',)),*/
+
             actions: <Widget>[
 
            Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
@@ -227,7 +191,6 @@ class _CourseNameState extends State<CourseName> {
       ),
     );
   }
-
   Widget learningOutcomes() {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
@@ -243,7 +206,6 @@ class _CourseNameState extends State<CourseName> {
     );
   }
   void _navigateToDetailsCourseName() {
-
    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName())
    );
   }
