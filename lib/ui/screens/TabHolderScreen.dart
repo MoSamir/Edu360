@@ -113,7 +113,7 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
           ),
           EduAppBar(
             logoWidth: MediaQuery.of(context).size.width * 0.25,
-            icon: Image.asset(Resources.WHITE_LOGO_IMAGE) , //ImageIcon( , color: AppColors.white, size: 25,),
+            icon: Icons.search , //ImageIcon( , color: AppColors.white, size: 25,),
             onIconPressed: (){
               Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ExploreScreen()));
             },

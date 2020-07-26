@@ -8,6 +8,8 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import 'CoursePayNow.dart';
+
 class ViewLesson extends StatefulWidget {
   final PostViewModel postModel;
   final double elevation;
