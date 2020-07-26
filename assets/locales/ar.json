@@ -39,6 +39,13 @@
   "TEXT_POSTS_PLACE_HOLDER": "لا يوجد منشورات نصيه حتي الان",
   "DOCUMENT_POSTS_PLACE_HOLDER": "لا يوجد منشورات تحتوي ملفات حتي الان",
   "WHOLE_POSTS_PLACE_HOLDER": "لا يوجد منشورات حتي الان",
+  "MEDIA": "ملف وساظط",
+  "COURSE_NAME": "اسم دورة",
+  "NO_COMMENTS_YET_PLACEHOLDER": "لا يوجد تعليقات افتتح التعليقات",
+  "SHARE_YOUR_THOUGHTS": "شارك فكرتك",
+  "NO_MORE_NOTIFICATIONS": "لا يوجد اشعارات اخري",
+  "NO_NOTIFICATION_PLACEHOLDER": "ليس لديك اشعارات"
+  "WHOLE_POSTS_PLACE_HOLDER": "لا يوجد منشورات حتي الان",
   "COURSE_NAME": "اسم دورة"
 
 }

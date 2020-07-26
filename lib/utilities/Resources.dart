@@ -3,9 +3,9 @@ class Resources{
 
   //--------------------- Images -------------------------------
   static const String SPLASH_BG_IMAGE = "assets/images/splash_background_img.png";
-  static const String SPLASH_LOGO_IMAGE = "assets/images/app_logo.png";
+  static const String SPLASH_LOGO_IMAGE = "assets/images/splash_logo.png";
   static const String WHITE_LOGO_IMAGE = "assets/images/app_logo_white.png";
-  static const String BLUE_LOGO_IMAGE = "assets/images/app_logo_blue.png";
+  static const String BLUE_LOGO_IMAGE = "assets/images/app_logo_colored.png";
   static const String QUESTION_MARK_IMAGE = "assets/images/question_mark.png";
   static const String CONNECTION_ERROR_IMAGE = "assets/images/connection_error.png";
   static const String USER_PLACEHOLDER_IMAGE = "assets/images/user_placeholder.png";
@@ -15,6 +15,19 @@ class Resources{
   static const String COMMENT_IMAGE = "assets/images/comment.png";
   static const String LOGO_IMAGE = "assets/images/logo_profile.svg";
 
+  //--------------------- Appbar Icons ------------------------------
+
+  static const String WALL_ICON_INACTIVE = "assets/images/inactive_wall.png";
+  static const String WALL_ICON_ACTIVE = "assets/images/active_wall.png";
+
+  static const String PROFILE_ICON_INACTIVE = "assets/images/inactive_profile.png";
+  static const String PROFILE_ICON_ACTIVE = "assets/images/active_profile.png";
+
+  static const String NOTIFICATION_ICON_INACTIVE = "assets/images/inactive_notification.png";
+  static const String NOTIFICATION_ICON_ACTIVE = "assets/images/active_notification.png";
+
+  static const String COURSES_ICON_INACTIVE = "assets/images/inactive_courses.png";
+  static const String COURSES_ICON_ACTIVE = "assets/images/active_courses.png";
 
 
 

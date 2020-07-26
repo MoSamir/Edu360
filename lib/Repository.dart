@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:edu360/data/apis/PostDataProvider.dart';
 import 'package:edu360/data/models/CategoryPostViewModel.dart';
+import 'package:edu360/data/models/ErrorViewModel.dart';
+import 'package:edu360/data/models/NotificationViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
@@ -116,6 +118,116 @@ class Repository {
      ),],
      isSuccess: true,
    );
+  }
+
+  static Future<ResponseViewModel<List<CommentViewModel>>>getPostComments({PostViewModel post}) async {
+    await Future.delayed(Duration(seconds: 1), (){});
+    return ResponseViewModel<List<CommentViewModel>>(
+      responseData: [
+        CommentViewModel(
+          ownerId: 1,
+          ownerName: 'User',
+          commentText: 'Hello Dummy comment',
+          likesCount: 1,
+          commentId: 1,
+          ownerImagePath: '',
+        ), CommentViewModel(
+          ownerId: 2,
+          ownerName: 'User 2',
+          commentText: 'Hello Dummy comment 22',
+          likesCount: 2,
+          commentId: 2,
+          ownerImagePath: '',
+        ),
+        CommentViewModel(
+          ownerId: 3,
+          ownerName: 'User 2',
+          commentText: 'Hello Dummy comment 23432',
+          likesCount: 0,
+          commentId: 3,
+          ownerImagePath: '',
+        )
+      ],
+      isSuccess: true,
+      errorViewModel: null,
+    );
+  }
+
+  static Future<ResponseViewModel<List<NotificationViewModel>>>loadUserNotifications({int pageNo}) async{
+    Future.delayed(Duration(seconds: 1),(){});
+
+    if(pageNo == 1 ){
+      return ResponseViewModel<List<NotificationViewModel>>(
+        responseData: [
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: 'https://img.icons8.com/material/4ac144/256/user-male.png',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+          NotificationViewModel(
+            notificationBody: 'You Liked me',
+            notificationId: 1,
+            notificationURL: '',
+          ),
+        ],
+        isSuccess: true,
+        errorViewModel: null,
+      );
+    } else {
+      return ResponseViewModel<List<NotificationViewModel>>(
+        responseData: null,
+        isSuccess: false,
+        errorViewModel: ErrorViewModel(
+          errorCode: 99,
+          errorMessage: "No More Notifications Enough please",
+        ),
+      );
+    }
+
+
+
+
+
   }
 
 }

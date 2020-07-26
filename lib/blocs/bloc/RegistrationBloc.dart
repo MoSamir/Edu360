@@ -82,7 +82,8 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
     yield RegistrationPageLoading();
     ResponseViewModel<void> verifyUserResponse = await Repository.verifyUser(userID: tobeRegistered.userId.toString() , userVerificationCode: event.verificationCode);
     if(verifyUserResponse.isSuccess){
-      await Repository.saveUser(tobeRegistered);
+      ResponseViewModel<UserViewModel> user = await Repository.login(userPassword: tobeRegistered.userPassword , userMail: tobeRegistered.userEmail);
+      await Repository.saveUser(user.responseData);
       yield RegistrationSuccess();
       return ;
     } else {

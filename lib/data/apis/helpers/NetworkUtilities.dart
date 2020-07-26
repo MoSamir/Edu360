@@ -30,38 +30,14 @@ class NetworkUtilities {
 
     try{
       var serverResponse  = await http.get(methodURL , headers: requestHeaders);
+
       if(serverResponse.statusCode == 200){
-        if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){
-          if (json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE] != null) {
-            getResponse =  ResponseViewModel(
-              isSuccess: false,
-              errorViewModel: ErrorViewModel(
-                errorMessage: json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE],
-                errorCode: 99,
-              ),
-              responseData: null,
-            );
-          }
-        }
-        else if(json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null){
-          if (json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null) {
-            getResponse =  ResponseViewModel(
-              isSuccess: false,
-              errorViewModel: ErrorViewModel(
-                errorMessage: json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE],
-                errorCode: 99,
-              ),
-              responseData: null,
-            );
-          }
-        }
-        else {
-          getResponse = ResponseViewModel(
+        ResponseViewModel checkServerError = handleServerError(serverResponse);
+        getResponse = checkServerError ?? ResponseViewModel(
             isSuccess: true,
             errorViewModel: null,
             responseData: parserFunction(json.decode(serverResponse.body)),
           );
-        }
       }
       else {
         String serverError = "";
@@ -115,38 +91,12 @@ class NetworkUtilities {
     try{
       http.Response serverResponse  = await http.post(methodURL , headers: requestHeaders , body: acceptJson ? json.encode(requestBody) : requestBody);
       if(serverResponse.statusCode == 200){
-        if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){
-          if (json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE] != null) {
-            postResponse = ResponseViewModel(
-              isSuccess: false,
-              errorViewModel: ErrorViewModel(
-                errorMessage: json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE],
-                errorCode:  99,
-              ),
-              responseData: null,
-            );
-          }
-        }
-        else if(json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null){
-          if (json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null) {
-            postResponse =  ResponseViewModel(
-              isSuccess: false,
-              errorViewModel: ErrorViewModel(
-                errorMessage: json.decode(serverResponse.body)[ApiParseKeys
-                    .ERROR_MESSAGE],
-                errorCode: 99,
-              ),
-              responseData: null,
-            );
-          }
-        }
-        else {
-          postResponse = ResponseViewModel(
+        ResponseViewModel checkServerError = handleServerError(serverResponse);
+          postResponse = checkServerError ?? ResponseViewModel(
             isSuccess: true,
             errorViewModel: null,
             responseData: parserFunction(json.decode(serverResponse.body)),
           );
-        }
       }
       else {
         print(serverResponse.body);
@@ -200,13 +150,12 @@ class NetworkUtilities {
     networkLogger(url: methodURL , body: requestBody, headers: requestHeaders , response: postResponse);
     return postResponse;
   }
+
   static Future <ResponseViewModel> handleFilesUploading({ bool acceptJson = false ,  String methodURL, Map<String,String> requestHeaders, FormData formData , Function parserFunction})async{
     ResponseViewModel postResponse ;
     try{
       var uploadResponse = await Dio().post(
         NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_FILES),options: Options(
-        sendTimeout: 5 * 60 * 1000 ,
-        contentType: 'video/*'
       ) ,data: formData, onSendProgress: (int progress, int total){
           print('$progress of $total sent');
       });
@@ -269,6 +218,7 @@ class NetworkUtilities {
     networkLogger(url: methodURL , body: formData , headers: requestHeaders , response: postResponse);
     return postResponse;
   }
+
   static Map<String, String> getHeaders({Map<String,String> customHeaders}){
 
     Map<String,String> headers = {
@@ -293,5 +243,33 @@ class NetworkUtilities {
   }
   static String getFullURL({String method}) {
     return URL.API_URL + method;
+  }
+
+  static ResponseViewModel handleServerError(http.Response serverResponse) {
+    if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){
+      if (json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE] != null) {
+        return  ResponseViewModel(
+          isSuccess: false,
+          errorViewModel: ErrorViewModel(
+            errorMessage: json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE],
+            errorCode: 99,
+          ),
+          responseData: null,
+        );
+      }
+    }
+    else if(json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null){
+      if (json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE] != null) {
+        return  ResponseViewModel(
+          isSuccess: false,
+          errorViewModel: ErrorViewModel(
+            errorMessage: json.decode(serverResponse.body)[ApiParseKeys.ERROR_MESSAGE],
+            errorCode: 99,
+          ),
+          responseData: null,
+        );
+      }
+    }
+    return null ;
   }
 }

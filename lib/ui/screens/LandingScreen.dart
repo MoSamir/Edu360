@@ -21,36 +21,41 @@ class _LandingScreenState extends State<LandingScreen> {
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Resources.SPLASH_BG_IMAGE),
-            fit: BoxFit.fill,
-          ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal:  screenPadding, vertical: 8),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Image.asset(Resources.SPLASH_LOGO_IMAGE , height: 80,),
-              SizedBox(height: 30,),
-              EduButton( title: LocalKeys.SIGN_UP , onPressed: _navigateToRegistrationForm),
-              SizedBox(height: 20,),
-              EduButton( title: LocalKeys.ALREADY_HAVE_ACCOUNT , onPressed: _navigateToLoginForm),
-              SizedBox(height: MediaQuery.of(context).size.height * .05,),
-              Text(LocalKeys.SIGN_UP_TIPS , textScaleFactor: 1, textAlign: TextAlign.center ,style: Styles.baseTextStyle).tr(),
-              SizedBox(height: 5,),
-              GestureDetector(
-                onTap: (){},
-                child: Text(LocalKeys.SIGN_UP_TERMS, textScaleFactor: 1,
-                  style: Styles.baseTextStyle.copyWith(
-                    decoration: TextDecoration.underline,
-                  ),).tr(),),
-              SizedBox(height: 15,),
-            ],
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Expanded(child: Center(child: Hero(
+                tag: Resources.SPLASH_LOGO_IMAGE,
+                child: Image.asset(Resources.SPLASH_LOGO_IMAGE , height: MediaQuery.of(context).size.height * .25,)))),
+            Container(
+              color: AppColors.mainThemeColor,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: screenPadding , vertical: 8),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    SizedBox(height: 30,),
+                    EduButton( title: LocalKeys.SIGN_UP , onPressed: _navigateToRegistrationForm),
+                    SizedBox(height: 20,),
+                    EduButton( title: LocalKeys.ALREADY_HAVE_ACCOUNT , onPressed: _navigateToLoginForm),
+                    SizedBox(height: MediaQuery.of(context).size.height * .05,),
+                    Text(LocalKeys.SIGN_UP_TIPS , textScaleFactor: 1, textAlign: TextAlign.center ,style: Styles.baseTextStyle).tr(),
+                    SizedBox(height: 5,),
+                    GestureDetector(
+                      onTap: (){},
+                      child: Text(LocalKeys.SIGN_UP_TERMS, textAlign: TextAlign.center  ,textScaleFactor: 1,
+                        style: Styles.baseTextStyle.copyWith(
+                          decoration: TextDecoration.underline,
+                        ),).tr(),),
+                    SizedBox(height: 15,),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

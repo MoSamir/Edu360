@@ -37,6 +37,13 @@ class PostDataProvider{
         requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),
         methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_POST_FILES),
         parserFunction: (responseJson) {
+
+          print("Upload Authrized Files Res =>");
+          print(responseJson);
+          print('-------------------------------');
+
+
+
           try{
             List<String> urls = List<String>();
             for(int i = 0 ; i <responseJson.length ; i++)
@@ -61,15 +68,11 @@ class PostDataProvider{
 
     List<dynamic> filesJson = List();
 
-
-
     if(uploadedFiles != null && uploadedFiles.length > 0) {
       for (int i = 0; i < uploadedFiles.length; i++) {
         filesJson.add({
           'PostID': 0,
-          'AttachmentType': userPost.contentType == ContentType.FILE_POST
-              ? 1
-              : 2,
+          'AttachmentType': userPost.contentType == ContentType.FILE_POST ? 1 : 2,
           'Title': '',
           'Description': '',
           'FieldOfStudyID': userVm.userFieldOfStudy.studyFieldId,

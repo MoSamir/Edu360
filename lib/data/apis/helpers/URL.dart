@@ -1,5 +1,5 @@
 class URL{
-  static const String BASE_URL = "http://ef47f90ef575.ngrok.io"; // local
+  static const String BASE_URL = "http://161.97.87.130:2000"; // local
   static const String API_URL = "$BASE_URL/ar-EG/api/";
 
 

@@ -1,6 +1,6 @@
 name: edu360
 description: A new Flutter application.
-
+authors: ['Mohamed Samir Abbas']
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1

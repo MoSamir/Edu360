@@ -1,31 +1,31 @@
 import 'package:chewie/chewie.dart';
-import 'package:edu360/data/apis/helpers/URL.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
-import 'package:edu360/ui/widgets/EduFormField.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
-import 'CoursePayNow.dart';
-
-class ViewListen extends StatefulWidget {
+class ViewLesson extends StatefulWidget {
   final PostViewModel postModel;
   final double elevation;
-  ViewListen({this.postModel, this.elevation});
+  ViewLesson({this.postModel, this.elevation});
   @override
-  _ViewListenState createState() => _ViewListenState();
+  _ViewLessonState createState() => _ViewLessonState();
 }
 
-class _ViewListenState extends State<ViewListen> {
+class _ViewLessonState extends State<ViewLesson> {
   bool showComment1 = false;
   bool showComment2 = false;
   bool enable = false;
-  final videoPlayerController = VideoPlayerController.network(
-      '${URL.BASE_URL}/Uploads//Edu360Files//2cae8ba8-3cef-46c1-9942-affad496772f_videoplayback.mp4');
+
+  final videoPlayerController = VideoPlayerController.network('http://ref360.net/assets/video/ref360_video_intro.mp4');
+//  final videoPlayerController = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/videos/butterfly.mp4');
+
+
+
 
   ChewieController chewieController;
   @override
@@ -33,7 +33,7 @@ class _ViewListenState extends State<ViewListen> {
     super.initState();
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
-      aspectRatio: 3 / 2,
+      aspectRatio: 3/4,
       autoPlay: false,
       autoInitialize: true,
       placeholder: Container(),
