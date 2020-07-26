@@ -49,13 +49,9 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
                 child: Material(
                   shadowColor: AppColors.backgroundColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
-                  child: Container(child: Icon(icon , color: Colors.white, size: 25,), decoration: BoxDecoration(
-                    color: AppColors.mainThemeColor,
+                  child: Container(child: Icon(icon , color: AppColors.mainThemeColor, size: 50,), decoration: BoxDecoration(
+                    color: AppColors.white,
                     shape: BoxShape.circle,
-                    border: Border.all(
-                      color: AppColors.backgroundColor,
-                      width: 5,
-                    )
                   ), ),
                 ),
               ),

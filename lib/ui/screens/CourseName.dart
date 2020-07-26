@@ -195,7 +195,11 @@ class _CourseNameState extends State<CourseName> {
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
-            icon: Icons.search,
+
+            icon: IconData(0xE800,fontFamily:'AppIcon',),
+
+           /* icon:Icon(IconData(0xE802,fontFamily:'AppIcon',)),*/
+
             actions: <Widget>[
 
            Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
@@ -227,7 +231,6 @@ class _CourseNameState extends State<CourseName> {
       ),
     );
   }
-
   Widget learningOutcomes() {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
@@ -243,7 +246,6 @@ class _CourseNameState extends State<CourseName> {
     );
   }
   void _navigateToDetailsCourseName() {
-
    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName())
    );
   }

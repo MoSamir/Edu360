@@ -10,6 +10,8 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
+import 'CoursePayNow.dart';
+
 class ViewListen extends StatefulWidget {
   final PostViewModel postModel;
   final double elevation;
@@ -97,9 +99,7 @@ class _ViewListenState extends State<ViewListen> {
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
-            icon: Icons.search,
-            actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
-            logoWidth: MediaQuery.of(context).size.width / 3,
+             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,
           ),
         ],
@@ -306,7 +306,7 @@ class _ViewListenState extends State<ViewListen> {
   }
   void _navigateToDetailsCourseName() {
 
-    //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CoursePayNow()));
   }
 
 }
