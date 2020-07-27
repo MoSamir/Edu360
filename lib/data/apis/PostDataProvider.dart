@@ -17,9 +17,7 @@ class PostDataProvider{
 
   static Future<ResponseViewModel<List<String>>> uploadPostFiles(List<File> tobeUploadedFiles) async {
     List<MultipartFile> files = List();
-
     String userToken = (await Repository.getUser()).userToken;
-
     for (int i = 0; i < tobeUploadedFiles.length; i++) {
       String fileName = tobeUploadedFiles[i]
           .path

@@ -44,9 +44,11 @@ class UserDataProvider {
             List<String> urls = List<String>();
             for(int i = 0 ; i <responseJson.length ; i++)
               urls.add(responseJson[i].toString());
+            print(urls.length);
             return urls;
+
           }catch(exception){
-            print("Exception => $exception");
+            print("Exception Happened While parsing URLs => $exception");
             return List<String>();
           }
         });

@@ -42,7 +42,7 @@ class CreateNewContentBloc extends Bloc<CreateNewContentEvents , CreateNewConten
     ResponseViewModel<List<String>> uploadFilesResponse;
 
       if(event.postDocuments!=null && event.postDocuments.length > 0)
-        uploadFilesResponse = await Repository.uploadFiles(event.postDocuments , null);
+        uploadFilesResponse = await Repository.uploadPostFiles(event.postDocuments);
       if(uploadFilesResponse == null || uploadFilesResponse.isSuccess){
         createPostResponse = await Repository.createPostWithMedia(userPost : event.postViewModel , postFilesPath : uploadFilesResponse.responseData);
       } else {
