@@ -1,6 +1,8 @@
 import 'package:edu360/blocs/bloc/AuthenticationBloc.dart';
 import 'package:edu360/blocs/bloc/HomePostsBloc.dart';
 import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
+import 'package:edu360/blocs/bloc/UserSubscribedCoursesBloc.dart';
+import 'package:edu360/blocs/events/CoursesEvents.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/UserDataEvents.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
@@ -14,6 +16,7 @@ class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
   AuthenticationBloc authenticationBloc = AuthenticationBloc() ;
   UserProfileBloc userProfileBloc = UserProfileBloc();
   HomePostsBloc homePostsBloc = HomePostsBloc();
+  UserSubscribedCoursesBloc coursesBloc = UserSubscribedCoursesBloc();
 
 
   @override
@@ -21,6 +24,7 @@ class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
     homePostsBloc.close();
     userProfileBloc.close();
     authenticationBloc.close();
+    coursesBloc.close();
     return super.close();
   }
 
@@ -29,10 +33,10 @@ class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
      if(authenticationState is UserAuthenticated){
        userProfileBloc.add(LoadUserProfile());
        homePostsBloc.add(LoadHomeUserPosts());
+       coursesBloc.add(LoadUserCourses());
      }
    });
   }
-
 
   @override
   UserDataStates get initialState => UserDataInitializing();

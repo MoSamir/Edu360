@@ -43,5 +43,8 @@
   "NO_COMMENTS_YET_PLACEHOLDER": "No Comments , Add your first comment",
   "SHARE_YOUR_THOUGHTS": "Present a thought",
   "NO_MORE_NOTIFICATIONS": "No more notifications",
-  "NO_NOTIFICATION_PLACEHOLDER": "No notifications yet"
+  "NO_NOTIFICATION_PLACEHOLDER": "No notifications yet",
+  "EGP_PER_MONTH": "EGP/month",
+  "COURSE_LEARNING_OUTCOMES":"Learning outcomes:"
+
 }

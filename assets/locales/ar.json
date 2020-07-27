@@ -43,7 +43,9 @@
   "NO_MORE_NOTIFICATIONS": "لا يوجد اشعارات اخري",
   "NO_NOTIFICATION_PLACEHOLDER": "ليس لديك اشعارات",
   "WHOLE_POSTS_PLACE_HOLDER": "لا يوجد منشورات حتي الان",
-  "COURSE_NAME": "اسم دورة"
+  "COURSE_NAME": "اسم دورة",
+  "EGP_PER_MONTH": "جنيه/شهر",
+  "COURSE_LEARNING_OUTCOMES":"الدروس المستفاده :"
 
 }
 
