@@ -5,6 +5,7 @@ import 'package:edu360/ui/widgets/post/UserTextPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserVideoPostCard.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -42,29 +43,20 @@ class _FeedsScreenState extends State<FeedsScreen> {
       onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CreatePostScreen(widget.onPostCreated , widget.moveToScreen))),
       child: Container(
         margin: EdgeInsets.only(left: 16,right: 16, top: 20 , bottom: 10),
+        padding: EdgeInsets.only(right: 10,left: 10),
         height: 50,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+          borderRadius: BorderRadius.all(Radius.circular(15)),
           color: AppColors.white,
         ),
-        child: Material(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          color: AppColors.white,
-          elevation: 5,
-          child: Padding(
-            padding: const EdgeInsets.all(8),
-            child: Align(
-              alignment: AlignmentDirectional.centerStart,
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.comment , color: AppColors.mainThemeColor, size: 25,),
-                    SizedBox(width: 10,),
-                    Text( LocalKeys.SHARE_YOUR_THOUGHTS , textAlign: TextAlign.start , style: Styles.baseTextStyle.copyWith(color: AppColors.mainThemeColor, fontWeight: FontWeight.bold),).tr(),
-                  ],
-                )),
-          ),
-        ),
+        child: Row(
+          children: <Widget>[
+            Image(image: AssetImage(Resources.COMPONENT_IMAGE)),
+            SizedBox(width: 10,),
+            Text( LocalKeys.SHARE_YOUR_THOUGHTS , textAlign: TextAlign.start , style: Styles.baseTextStyle.copyWith(color: AppColors.mainThemeColor, fontSize: 20),).tr(),
+          ],
+        )
       ),
     );
 

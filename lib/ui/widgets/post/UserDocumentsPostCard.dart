@@ -1,5 +1,6 @@
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 
 class UserDocumentsPostCard extends StatefulWidget {
@@ -38,21 +39,39 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                       height: 40,
                       width: 40,
                       decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                              widget.postModel.ownerImagePath ?? ''),
+                        ),
                         shape: BoxShape.circle,
-                        color: Colors.blue,
+                        color: AppColors.mainThemeColor,
                       ),
-                      child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
+                      //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                     ),
-                    SizedBox(width: 5,),
+                    SizedBox(
+                      width: 15,
+                    ),
                     Expanded(
-                      child:Text(widget.postModel.ownerName ?? "" ,textScaleFactor: 1),
+                      child: Text(
+                        widget.postModel.ownerName ?? 'Name',
+                        textScaleFactor: 1,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
                     ),
-                    SizedBox(width: 5,),
-                    IconButton(icon: Icon(Icons.linear_scale , color: Colors.black,),),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
                   ],
                 ),
                 SizedBox(height: 10,),
-                Text( widget.postModel.postBody ?? "Post Description" , textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
+                Padding(
+                  padding: const EdgeInsets.only(left: 5,right: 5),
+                  child: Text( widget.postModel.postBody ?? "Post Description" , style: TextStyle(
+                      color: AppColors.mainThemeColor
+                  ), textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
+                ),
                 SizedBox(height: 5,),
                 widget.postModel.postFilesPath != null ? ListView.builder(
                   itemBuilder: (context, index){
@@ -66,7 +85,8 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                   );
                 } , physics: NeverScrollableScrollPhysics() ,itemCount: widget.postModel.postFilesPath.length, shrinkWrap: true,) : Container(),
                 SizedBox(height: 10,),
-                Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .25,),
+                Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .65,),
+                SizedBox(height: 10,),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,16 +97,21 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                         Column(
                           children: <Widget>[
                             SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: IconButton(icon: Icon(Icons.comment ,color: Colors.blue , size: 20,) , padding: EdgeInsets.all(0), onPressed: (){
-                                widget.onComment("Comment");
-                                return ;
-                              } ?? (){},),
-                            ),
+                                height: 25,
+                                width: 25,
+                                child: InkWell(
+                                    onTap: widget.onLike ?? () {},
+                                    child: Image(
+                                        image: AssetImage(
+                                            Resources.Clap_IMAGE)))),
                             Visibility(
-                              replacement: Container(width: 0, height: 0,),
-                              visible: widget.postModel.numberOfComments !=null ? widget.postModel.numberOfComments > 0 : false,
+                              replacement: Container(
+                                width: 0,
+                                height: 0,
+                              ),
+                              visible: widget.postModel.numberOfLikes != null
+                                  ? widget.postModel.numberOfLikes > 0
+                                  : false,
                               child: Container(
                                   width: 20,
                                   height: 20,
@@ -94,43 +119,38 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                     color: AppColors.mainThemeColor,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Center(child: Text(widget.postModel.numberOfComments.toString() , style: Styles.baseTextStyle,))),
+                                  child: Center(
+                                      child: Text(
+                                        widget.postModel.numberOfLikes.toString(),
+                                        style: Styles.baseTextStyle,
+                                      ))),
                             ),
                           ],
                         ),
-                        Column(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: IconButton(icon: Icon(Icons.comment ,color: Colors.red, size: 20,) , padding: EdgeInsets.all(0), onPressed: (){
-                                widget.onObjection("objection");
-                                return ;
-                              } ??(){},),
-                            ),
-                            Visibility(
-                              replacement: Container(width: 0, height: 0,),
-                              visible: widget.postModel.numberOfObjections != null ? widget.postModel.numberOfObjections> 0 : false,
-                              child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.mainThemeColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(child: Text(widget.postModel.numberOfObjections.toString() , style: Styles.baseTextStyle,))),
-                            ),
-                          ],
-                        ),
+                        SizedBox(width: 6,),
                         Column(
                           children: <Widget>[
                             SizedBox(
                                 height: 25,
                                 width: 25,
-                                child: IconButton(icon: Icon(Icons.thumb_up ,color: Colors.blue, size: 20,) , padding: EdgeInsets.all(0), onPressed: widget.onLike ??(){},)),
+                                child: InkWell(
+                                  onTap: () {
+                                    widget.onComment("Comment");
+                                    return;
+                                  },
+                                  child: Image(
+                                      image: AssetImage(
+                                          Resources.COMMENT_CON_IMAGE)) ??
+                                          () {},
+                                )),
                             Visibility(
-                              replacement: Container(width: 0, height: 0,),
-                              visible: widget.postModel.numberOfLikes!= null ? widget.postModel.numberOfLikes> 0 : false,
+                              replacement: Container(
+                                width: 0,
+                                height: 0,
+                              ),
+                              visible: widget.postModel.numberOfComments != null
+                                  ? widget.postModel.numberOfComments > 0
+                                  : false,
                               child: Container(
                                   width: 20,
                                   height: 20,
@@ -138,7 +158,53 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                     color: AppColors.mainThemeColor,
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Center(child: Text(widget.postModel.numberOfLikes.toString() , style: Styles.baseTextStyle,))),
+                                  child: Center(
+                                      child: Text(
+                                        widget.postModel.numberOfComments
+                                            .toString(),
+                                        style: Styles.baseTextStyle,
+                                      ))),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 6,),
+                        Column(
+                          children: <Widget>[
+                            SizedBox(
+                                width: 25,
+                                height: 25,
+                                child: InkWell(
+                                  onTap: () {
+                                    widget.onObjection("objection");
+                                    return;
+                                  },
+                                  child: Image(
+                                      image: AssetImage(
+                                          Resources.COMMENT_ERROR_IMAGE)) ??
+                                          () {},
+                                )),
+                            Visibility(
+                              replacement: Container(
+                                width: 0,
+                                height: 0,
+                              ),
+                              visible:
+                              widget.postModel.numberOfObjections != null
+                                  ? widget.postModel.numberOfObjections > 0
+                                  : false,
+                              child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.mainThemeColor,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                        widget.postModel.numberOfObjections
+                                            .toString(),
+                                        style: Styles.baseTextStyle,
+                                      ))),
                             ),
                           ],
                         ),
@@ -147,20 +213,31 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                     Column(
                       children: <Widget>[
                         SizedBox(
-                          width: 25,
-                          height: 25,
-                          child: IconButton(
-                              padding: EdgeInsets.all(0),
-                              icon: Icon(Icons.share,),
-                              onPressed: (){
-                                widget.onShare("share");
-                                return ;
-                              } ?? (){}
+                          width: 30,
+                          height: 30,
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () {
+                                  widget.onShare("share");
+                                  return;
+                                },
+                                child: Image(
+                                    image: AssetImage(
+                                        Resources.SHARE_IMAGE)) ??
+                                        () {},
+                              ),
+                            ],
                           ),
                         ),
                         Visibility(
-                          replacement: Container(width: 0, height: 0,),
-                          visible: widget.postModel.numberOfShares!= null ? widget.postModel.numberOfShares>  0 : false,
+                          replacement: Container(
+                            width: 0,
+                            height: 0,
+                          ),
+                          visible: widget.postModel.numberOfShares != null
+                              ? widget.postModel.numberOfShares > 0
+                              : false,
                           child: Container(
                               width: 20,
                               height: 20,
@@ -168,7 +245,11 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                 color: AppColors.mainThemeColor,
                                 shape: BoxShape.circle,
                               ),
-                              child: Center(child: Text(widget.postModel.numberOfShares.toString() , style: Styles.baseTextStyle,))),
+                              child: Center(
+                                  child: Text(
+                                    widget.postModel.numberOfShares.toString(),
+                                    style: Styles.baseTextStyle,
+                                  ))),
                         ),
                       ],
                     ),

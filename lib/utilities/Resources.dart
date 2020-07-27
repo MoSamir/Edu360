@@ -10,9 +10,15 @@ class Resources{
   static const String CONNECTION_ERROR_IMAGE = "assets/images/connection_error.png";
   static const String USER_PLACEHOLDER_IMAGE = "assets/images/user_placeholder.png";
   static const String USER_PROFILE_IMAGE = "assets/images/user_profile.png";
+  static const String USER_PROFILE2_IMAGE = "assets/images/user_profile2.png";
   static const String SETTINGS_IMAGE = "assets/images/settings.png";
   static const String REF360_IMAGE = "assets/images/ref360.png";
   static const String COMMENT_IMAGE = "assets/images/comment.png";
+  static const String COMPONENT_IMAGE = "assets/images/Component.png";
+  static const String Clap_IMAGE = "assets/images/clap.png";
+  static const String COMMENT_CON_IMAGE = "assets/images/comment_con.png";
+  static const String COMMENT_ERROR_IMAGE = "assets/images/comment_error.png";
+  static const String SHARE_IMAGE = "assets/images/share.png";
   static const String LOGO_IMAGE = "assets/images/logo_profile.svg";
 
   //--------------------- Appbar Icons ------------------------------

@@ -41,7 +41,7 @@ class _CourseNameState extends State<CourseName> {
                 child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
-                    SizedBox(height: 80,),
+                    /*SizedBox(height: 80,),*/
                     Stack(
                       children: <Widget>[
                         Padding(
@@ -153,20 +153,7 @@ class _CourseNameState extends State<CourseName> {
 
             ],
           ),
-          EduAppBar(
-            backgroundColor: AppColors.mainThemeColor,
 
-            icon: IconData(0xE800,fontFamily:'AppIcon',),
-
-           /* icon:Icon(IconData(0xE802,fontFamily:'AppIcon',)),*/
-
-            actions: <Widget>[
-
-           Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
-            ],
-            logoWidth: MediaQuery.of(context).size.width / 3,
-            logoHeight: 20,
-          ),
         ],
       ),
     );

@@ -112,11 +112,13 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
             child: screens[currentVisiblePageIndex],
           ),
           EduAppBar(
-            logoWidth: MediaQuery.of(context).size.width * 0.25,
-            icon: Icons.search , //ImageIcon( , color: AppColors.white, size: 25,),
-            onIconPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ExploreScreen()));
-            },
+            backgroundColor: AppColors.mainThemeColor,
+            icon: IconData(0xE800,fontFamily:'AppIcon',),
+            actions: <Widget>[
+              Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
+            ],
+            logoWidth: MediaQuery.of(context).size.width / 3,
+            logoHeight: 20,
           ),
         ],
       ),

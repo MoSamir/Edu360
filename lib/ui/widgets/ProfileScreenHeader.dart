@@ -20,75 +20,71 @@ class ProfileScreenHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      height: 160,
       color: AppColors.mainThemeColor,
-      elevation: 3,
-      child: Container(
-        height: 160,
-        color: AppColors.transparent,
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      width: 80,
-                      height: 80,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        image: DecorationImage(
-                          image: user != null && user.profileImagePath != null && user.profileImagePath.length > 0 ?
-                          NetworkImage(user.profileImagePath) :
-                          AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
-                          fit: BoxFit.contain,
-                        ),
+      width: MediaQuery.of(context).size.width,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      image: DecorationImage(
+                        image: user != null && user.profileImagePath != null && user.profileImagePath.length > 0 ?
+                        NetworkImage(user.profileImagePath) :
+                        AssetImage(Resources.USER_PROFILE2_IMAGE),
+                        fit: BoxFit.contain,
                       ),
                     ),
-                    SizedBox(height: 8,),
-                    Text(user.userFullName!= null ? user.userFullName ?? ""  :"", style: _headerTextStyle,),
-                    SizedBox(height: 2,),
-                    Text(user.userEmail != null ? user.userEmail ?? "" : "", style: _headerTextStyle,),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 8,),
+                  Text(user.userFullName!= null ? user.userFullName ?? ""  :"", style: _headerTextStyle,),
+                  SizedBox(height: 2,),
+                  Text(user.userEmail != null ? user.userEmail ?? "" : "", style: _headerTextStyle,),
+                ],
               ),
-              Visibility(
-                replacement: Container(
-                  width: 0,
-                  height: 0,
-                ),
-                visible: !isMe,
-                child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: onFollowClicked,
-                        child: Chip(
-                          label: Text(getChipText() , softWrap: true,  style: _headerTextStyle.copyWith(
-                            color: AppColors.mainThemeColor,
-                          )),
-                          backgroundColor: AppColors.white,
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(
-                              color: AppColors.transparent,
-                            ),
+            ),
+            Visibility(
+              replacement: Container(
+                width: 0,
+                height: 0,
+              ),
+              visible: !isMe,
+              child: Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: onFollowClicked,
+                      child: Chip(
+                        label: Text(getChipText() , softWrap: true,  style: _headerTextStyle.copyWith(
+                          color: AppColors.mainThemeColor,
+                        )),
+                        backgroundColor: AppColors.white,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: BorderSide(
+                            color: AppColors.transparent,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
