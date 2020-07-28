@@ -8,6 +8,16 @@ class UserViewModel {
   bool contentCreator ;
   StudyFieldViewModel userFieldOfStudy ;
 
+  static List<UserViewModel> fromListJson(List<dynamic> usersJson){
+    List<UserViewModel> users = List();
+    if(usersJson is List){
+      for(int i = 0 ; i < usersJson.length; i++){
+        users.add(UserViewModel.fromJson(usersJson[i]));
+      }
+    }
+    return users;
+  }
+
   UserViewModel({
       this.userFullName,
       this.userEmail,
@@ -28,35 +38,33 @@ class UserViewModel {
   }
 
   List<String> userFiles = List();
-
-
   static UserViewModel fromAnonymousUser() {
-    return UserViewModel(
-
-    );
+    return UserViewModel();
   }
+  static UserViewModel fromJson(Map<String,dynamic> userJson) {
 
-  static UserViewModel fromJson(userJson) {
+    Map<String,dynamic> userInformation = Map();
+    if(userJson.containsKey(ApiParseKeys.USER_DATA))
+      userInformation = userJson[ApiParseKeys.USER_DATA];
+    else
+      userInformation = userJson;
 
-
-    var userInformation = userJson[ApiParseKeys.USER_DATA];
     return UserViewModel(
       userEmail: userInformation[ApiParseKeys.USER_MAIL],
       userMobileNumber: userInformation[ApiParseKeys.USER_MOBILE],
       contentCreator : userInformation[ApiParseKeys.USER_TYPE] != 0,
       userFullName: userInformation[ApiParseKeys.USER_FULL_NAME],
-      profileImagePath: URL.BASE_URL+"/"+userInformation[ApiParseKeys.USER_PROFILE_IMAGE],
+      profileImagePath: (userInformation[ApiParseKeys.USER_PROFILE_IMAGE]!=null) ? userInformation[ApiParseKeys.USER_PROFILE_IMAGE].toString().contains(URL.BASE_URL)? userInformation[ApiParseKeys.USER_PROFILE_IMAGE] : (URL.BASE_URL+"/"+ userInformation[ApiParseKeys.USER_PROFILE_IMAGE]) : null,
       userAge: userInformation[ApiParseKeys.USER_AGE] ?? 0,
       userBirthDay: userInformation[ApiParseKeys.USER_BIRTHDAY] != null ? DateTime.parse(userInformation[ApiParseKeys.USER_BIRTHDAY]) : DateTime.now(),
       userId: userInformation[ApiParseKeys.ID],
       userEducation: userInformation[ApiParseKeys.USER_EDUCATION],
       userFieldOfStudy: StudyFieldViewModel(
-        studyFieldId: userInformation[ApiParseKeys.FIELD_OF_STUDY_ID] ?? userInformation[ApiParseKeys.ID],
+        studyFieldId: userInformation[ApiParseKeys.USER_FIELD_OF_STUDY_ID],
       ),
       userToken: userJson[ApiParseKeys.USER_TOKEN],
     );
   }
-
   Map<String,dynamic> toJson(){
     Map<String, dynamic> userInformation = {
       ApiParseKeys.USER_MAIL: userEmail ,
@@ -68,14 +76,13 @@ class UserViewModel {
       ApiParseKeys.USER_BIRTHDAY: userBirthDay.toString(),
       ApiParseKeys.ID : userId ,
       ApiParseKeys.USER_EDUCATION: userEducation,
-      //ApiParseKeys.FIELD_OF_STUDY_ID : userFieldOfStudy.studyFieldId,
+      ApiParseKeys.USER_FIELD_OF_STUDY : userFieldOfStudy.studyFieldId,
     };
     return {
       ApiParseKeys.USER_DATA: userInformation,
       ApiParseKeys.USER_TOKEN : userToken,
     };
   }
-
   bool isValid() {
     return userFullName!= null && userFullName.isNotEmpty &&
         userEmail!= null &&  userEmail.isNotEmpty &&

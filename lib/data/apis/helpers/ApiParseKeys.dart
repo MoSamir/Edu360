@@ -13,6 +13,7 @@ class ApiParseKeys {
   static const String DESCRIPTION_EN = "descriptionEn";
   static const String DESCRIPTION_AR = "descriptionAr";
   static const String FIELD_OF_STUDY_ID = "id";
+  static const String USER_FIELD_OF_STUDY_ID = "fieldOfStudyID";
 
  //-------------- LOGIN ----------------------------------
 
@@ -24,7 +25,7 @@ class ApiParseKeys {
   static const String USER_BIRTHDAY = "birthDate";
   static const String USER_PROFILE_IMAGE = "profileImagePath";
   static const String USER_GENDER = "gender";
-  static const String USER_FIELD_OF_STUDY = "fieldOfStudy";
+  static const String USER_FIELD_OF_STUDY = "fieldOfStudyID";
   static const String USER_EDUCATION = "education";
   static const String USER_MOBILE = "mobile";
   static const String USER_TYPE = "userType";
@@ -50,5 +51,24 @@ class ApiParseKeys {
   static const String POST_COMMENTS = "postComments";
 
 
+  //-------------------- GET ALL COURSES----------------------------------------
+
+
+
+  static const String COURSE_ID = "id";
+  static const String COURSE_TEACHER_NAME = "teacherName";
+  static const String COURSE_NAME_AR = "nameAr";
+  static const String COURSE_NAME_EN = "nameEn";
+  static const String COURSE_TITLE_AR = "subjectAr";
+  static const String COURSE_TITLE_EN = "subjectEn";
+  static const String COURSE_GRADE = "grade";
+  static const String COURSE_SUBSCRIPTION_PRICE = "price";
+  static const String COURSE_IMAGE_PATH = "courseImagePath";
+
+
+  //----------------- GET SYSTEM GRADES --------------------------------------------
+
+  static const String GRADE_NAME_AR = "gradeNameAr";
+  static const String GRADE_NAME_EN = "gradeNameEn";
 
 }

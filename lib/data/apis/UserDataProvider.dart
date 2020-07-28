@@ -5,6 +5,9 @@ import 'package:edu360/Repository.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:edu360/data/models/CourseViewModel.dart';
+import 'package:edu360/data/models/ErrorViewModel.dart';
+import 'package:edu360/data/models/GradeViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
@@ -220,4 +223,98 @@ class UserDataProvider {
       errorViewModel: getUserPostsResponse.errorViewModel,
     );
   }
+
+  static Future<ResponseViewModel<List<CourseViewModel>>> loadStudyFieldCourses() async{
+
+    UserViewModel user = await getUser();
+    Map<String,dynamic> postMap = {
+      'PageNumber': 1,
+      'PageSize' : 100,
+      'UserType' : -1,
+      'GradeId' : -1,
+      'FieldOfStudyID':  -1 , //user.userFieldOfStudy.studyFieldId ,
+    };
+    String userToken = (await Repository.getUser()).userToken;
+    var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.POST_RETRIEVE_COURSES),parserFunction: (jsonResponse){
+      return CourseViewModel.fromListJson(jsonResponse[ApiParseKeys.POSTS_DATA]);
+    });
+
+
+    return ResponseViewModel<List<CourseViewModel>>(
+      responseData: getUserPostsResponse.responseData,
+      isSuccess: getUserPostsResponse.isSuccess,
+      errorViewModel: getUserPostsResponse.errorViewModel,
+    );
+  }
+
+  static Future<ResponseViewModel<List<UserViewModel>>> loadStudyFieldUsers() async{
+
+    UserViewModel user = await getUser();
+    Map<String,dynamic> postMap = {
+      'PageNumber': 1,
+      'PageSize' : 100,
+      'UserType' : -1,
+      'FieldOfStudyID': user.userFieldOfStudy.studyFieldId,
+    };
+    String userToken = (await Repository.getUser()).userToken;
+
+    var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.POST_PEOPLE_WITH_STUDY_FIELD),parserFunction: (usersJson){
+      print("usersJson => ${ usersJson[ApiParseKeys.POSTS_DATA]}");
+      return UserViewModel.fromListJson(usersJson[ApiParseKeys.POSTS_DATA]);
+    });
+    return ResponseViewModel<List<UserViewModel>>(
+      responseData: getUserPostsResponse.responseData,
+      isSuccess: getUserPostsResponse.isSuccess,
+      errorViewModel: getUserPostsResponse.errorViewModel,
+    );
+  }
+
+  static Future<ResponseViewModel<List<UserViewModel>>> loadStudyFieldTeachers() async{
+    UserViewModel user = await getUser();
+    Map<String,dynamic> postMap = {
+      'PageNumber': 1,
+      'PageSize' : 100,
+      'UserType' : 1,
+      'FieldOfStudyID': user.userFieldOfStudy.studyFieldId,
+    };
+    String userToken = (await Repository.getUser()).userToken;
+    var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.POST_PEOPLE_WITH_STUDY_FIELD),parserFunction: (teachersJson){
+      print("teachersJson => ${teachersJson[ApiParseKeys.POSTS_DATA]}");
+      return UserViewModel.fromListJson(teachersJson[ApiParseKeys.POSTS_DATA]);
+    });
+    return ResponseViewModel<List<UserViewModel>>(
+      responseData: getUserPostsResponse.responseData,
+      isSuccess: getUserPostsResponse.isSuccess,
+      errorViewModel: getUserPostsResponse.errorViewModel,
+    );
+  }
+
+
+  static Future<ResponseViewModel<List<PostViewModel>>> loadStudyFieldPosts() async{
+    await Future.delayed(Duration(seconds: 2),(){});
+    return ResponseViewModel<List<PostViewModel>>(
+      responseData: null,
+      isSuccess: false,
+      errorViewModel: ErrorViewModel(
+        errorMessage: '',
+        errorCode: 99,
+      ),
+    );
+
+  }
+
+  static Future<ResponseViewModel<List<GradeViewModel>>> loadSystemGrades() async{
+
+
+    var getgGradesResponse = await NetworkUtilities.handleGetRequest(requestHeaders: NetworkUtilities.getHeaders(), methodURL: NetworkUtilities.getFullURL(method: URL.GET_RETRIEVE_SYSTEM_GRADES), parserFunction: GradeViewModel.fromListJson);
+    return ResponseViewModel<List<GradeViewModel>>(
+      responseData: getgGradesResponse.responseData,
+      isSuccess: getgGradesResponse.isSuccess,
+      errorViewModel: getgGradesResponse.errorViewModel,
+    );
+
+
+  }
+
+
 }

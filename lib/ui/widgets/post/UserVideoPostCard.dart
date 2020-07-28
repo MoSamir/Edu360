@@ -4,6 +4,7 @@ import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:video_player/video_player.dart';
 
 class UserVideoPostCard extends StatefulWidget {
@@ -40,14 +41,15 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.only(top: 4 , right: 0 , left: 4 , bottom: 4),
+
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
         elevation: widget.elevation ?? 5.0,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomRight: Radius.circular(25) , bottomLeft: Radius.circular(8) , topRight: Radius.circular(8)),
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.only(top: 4 , right: 0 , left: 4 , bottom: 4),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -110,9 +112,9 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                 width: 25,
                                 child: InkWell(
                                     onTap: widget.onLike ?? () {},
-                                    child: Image(
-                                        image: AssetImage(
-                                            Resources.Clap_IMAGE)))),
+                                    child: SvgPicture.asset(
+
+                                        Resources.CLAP_IMAGE))),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -147,10 +149,8 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                     widget.onComment("Comment");
                                     return;
                                   },
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.COMMENT_CON_IMAGE)) ??
-                                          () {},
+                                  child: SvgPicture.asset(
+                                          Resources.COMMENT_IMAGE) ,
                                 )),
                             Visibility(
                               replacement: Container(
@@ -187,10 +187,8 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                     widget.onObjection("objection");
                                     return;
                                   },
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.COMMENT_ERROR_IMAGE)) ??
-                                          () {},
+                                  child: SvgPicture.asset(
+                                          Resources.COMMENT_ERROR_IMAGE),
                                 )),
                             Visibility(
                               replacement: Container(
@@ -224,19 +222,10 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                         SizedBox(
                           width: 30,
                           height: 30,
-                          child: Column(
-                            children: <Widget>[
-                              InkWell(
-                                onTap: () {
-                                  widget.onShare("share");
-                                  return;
-                                },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.SHARE_IMAGE)) ??
-                                        () {},
-                              ),
-                            ],
+                          child: InkWell(
+                            onTap: widget.onShare ?? () {},
+                            child: SvgPicture.asset(
+                                Resources.SHARE_IMAGE) ,
                           ),
                         ),
                         Visibility(

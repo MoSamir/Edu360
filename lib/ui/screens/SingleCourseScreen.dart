@@ -146,7 +146,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                 ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: _singleCourseBloc.courseViewModel.courseOutcomes.length ?? 0,
+                                    itemCount: _singleCourseBloc.courseViewModel != null && _singleCourseBloc.courseViewModel.courseOutcomes != null ? _singleCourseBloc.courseViewModel.courseOutcomes.length ?? 0 : 0,
                                     itemBuilder: (context, index) {
                                       return learningOutcomes(_singleCourseBloc.courseViewModel.courseOutcomes[index]);
                                     }),

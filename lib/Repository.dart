@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'package:edu360/data/apis/CoursesDataProvider.dart';
 import 'package:edu360/data/apis/PostDataProvider.dart';
 import 'package:edu360/data/models/CategoryPostViewModel.dart';
+import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
+import 'package:edu360/data/models/GradeViewModel.dart';
 import 'package:edu360/data/models/NotificationViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
@@ -223,11 +226,16 @@ class Repository {
         ),
       );
     }
-
-
-
-
-
   }
+
+
+  static Future<ResponseViewModel<List<UserViewModel>>>loadStudyFieldTeachers() async => await UserDataProvider.loadStudyFieldTeachers();
+  static Future<ResponseViewModel<List<UserViewModel>>>loadStudyFieldUsers() async => await UserDataProvider.loadStudyFieldUsers();
+
+  static Future<ResponseViewModel<List<PostViewModel>>>loadStudyFieldPosts() async => await UserDataProvider.loadStudyFieldPosts();
+  static Future<ResponseViewModel<List<CourseViewModel>>>loadStudyFieldCourses() async => await UserDataProvider.loadStudyFieldCourses();
+  static Future<ResponseViewModel<List<GradeViewModel>>> getSystemGradesList() async  => await UserDataProvider.loadSystemGrades();
+
+  static Future<ResponseViewModel<CourseViewModel>> getCourseInformation({int courseId}) async  => await CoursesDataProvider.loadStudyFieldCourses(courseId);
 
 }

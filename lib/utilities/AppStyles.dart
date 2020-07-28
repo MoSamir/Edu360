@@ -9,8 +9,9 @@ class AppColors{
   static const Color registrationTextPlaceholderColor = Color(0xff236274);
   static const Color canaryColor = Color(0xffE9B201);
   static const Color backgroundColor = Color(0xffE4E4E4);
-  static const Color redBackgroundColor = Color(0xffFF7B7B);
 
+  static const Color wordBackgroundColor = Color(0xff06AED5);
+  static const Color redBackgroundColor = Color(0xffFF7B7B);
 }
 
 

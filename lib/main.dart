@@ -1,5 +1,6 @@
 import 'package:edu360/blocs/BlocDelegate.dart';
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
+import 'package:edu360/blocs/events/AppDataEvents.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +26,7 @@ void main() {
         startLocale: Locale('en'),
         fallbackLocale: Locale('en'),
         child: BlocProvider.value(
-          value: AppDataBloc(),
+          value: AppDataBloc()..add(LoadApplicationConstantData()),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             home: SplashScreen(),
