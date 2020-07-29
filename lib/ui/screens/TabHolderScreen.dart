@@ -1,3 +1,4 @@
+import 'package:edu360/ui/screens/AllCourses.dart';
 import 'package:edu360/ui/screens/CategoriesScreen.dart';
 import 'package:edu360/ui/screens/ExploreScreen.dart';
 import 'package:edu360/ui/screens/FeedsScreen.dart';
@@ -58,7 +59,7 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
       FeedsScreen(_onPostCreated , _moveToScreen),
       NotificationsScreen(_moveToScreen),
       ProfileScreen(_moveToScreen),
-      CourseName(),
+      AllCourses(),
     ];
 
     barTabs = [
