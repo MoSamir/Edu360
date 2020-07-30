@@ -1,3 +1,4 @@
+import 'package:edu360/ui/screens/AllCourses.dart';
 import 'package:edu360/ui/screens/CategoriesScreen.dart';
 import 'package:edu360/ui/screens/ExploreScreen.dart';
 import 'package:edu360/ui/screens/FeedsScreen.dart';
@@ -8,10 +9,9 @@ import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 
-import 'SingleCourseScreen.dart';
+import 'CourseName.dart';
 import 'CreatePostScreen.dart';
 import 'NotificationsScreen.dart';
-import 'UserRegisteredCoursesScreen.dart';
 
 class TabsHolderScreen extends StatefulWidget {
   @override
@@ -59,7 +59,7 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
       FeedsScreen(_onPostCreated , _moveToScreen),
       NotificationsScreen(_moveToScreen),
       ProfileScreen(_moveToScreen),
-      UserRegisteredCoursesScreen(),
+      AllCourses(),
     ];
 
     barTabs = [
@@ -114,15 +114,12 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
+            icon: IconData(0xE800,fontFamily:'AppIcon',),
             actions: <Widget>[
               Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
             ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,
-            icon: EduIconImage(icon: AssetImage(Resources.WHITE_LOGO_IMAGE),),
-            onIconPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ExploreScreen()));
-            },
           ),
         ],
       ),

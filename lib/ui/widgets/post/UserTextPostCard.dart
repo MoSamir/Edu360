@@ -23,6 +23,8 @@ class UserTextPostCard extends StatefulWidget {
 }
 
 class _UserTextPostCardState extends State<UserTextPostCard> {
+
+
   @override
   void initState() {
     super.initState();
@@ -31,16 +33,16 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
   @override
   Widget build(BuildContext context) {
     print(widget.postModel.toString());
-
+    int likes = 0, comment = 1000 , error = 1000;
     return Padding(
-      padding: const EdgeInsets.only(top: 4 , right: 0 , left: 4 , bottom: 4),
+      padding: const EdgeInsets.all(4.0),
       child: Material(
         type: MaterialType.card,
         color: Colors.white,
         elevation: widget.elevation ?? 5.0,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomRight: Radius.circular(25) , bottomLeft: Radius.circular(8) , topRight: Radius.circular(8)),
+        borderRadius: BorderRadius.circular(8),
         child: Padding(
-          padding: const EdgeInsets.only(top: 4 , right: 0 , left: 4 , bottom: 0),
+          padding: const EdgeInsets.all(4.0),
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -84,17 +86,26 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(right: 5,left: 5),
-                  child: Text(
-                    widget.postModel.postBody ?? 'Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton Post descripton ',
-                    textAlign: TextAlign.start,
-                    textScaleFactor: 1,
-                    maxLines: 10,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppColors.mainThemeColor
+                  padding: const EdgeInsets.only(right: 5,left: 5,bottom: 5),
+                  child: Container(
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: AppColors.mainThemeColor,
+                      borderRadius: BorderRadius.circular(20)
                     ),
-                  ),
+                    child: Text('Docs Name Category',style: Styles.studyTextStyle.copyWith(fontWeight: FontWeight.bold),),
+                  )
+                ),
+                Padding(
+                    padding: const EdgeInsets.only(right: 5,left: 5,bottom: 5),
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: AppColors.redBackgroundColor,
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: Text('Docs Name Category',style: Styles.studyTextStyle.copyWith(fontWeight: FontWeight.bold),),
+                    )
                 ),
                 SizedBox(
                   height: 10,
@@ -118,12 +129,18 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                           children: <Widget>[
                             SizedBox(
                                 height: 25,
-                                width: 25,
                                 child: InkWell(
                                     onTap: widget.onLike ?? () {},
-                                    child: SvgPicture.asset(
-
-                                        Resources.CLAP_IMAGE))),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Image(
+                                            image: AssetImage(
+                                                Resources.Clap_IMAGE)),
+                                       likes < 1 ? Container() :
+                                        Text('$likes',style: TextStyle(color: AppColors.mainThemeColor),),
+                                      ],
+                                    )
+                                )),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -152,76 +169,45 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                           children: <Widget>[
                             SizedBox(
                                 height: 25,
-                                width: 25,
                                 child: InkWell(
                                   onTap: () {
                                     widget.onComment("Comment");
                                     return;
                                   },
-                                  child: SvgPicture.asset(
-                                      Resources.COMMENT_IMAGE) ,
+                                  child: Row(
+                                    children: <Widget>[
+                                      Image(
+                                          image: AssetImage(
+                                              Resources.COMMENT_CON_IMAGE)),
+                                      comment < 1 ? Container() :
+                                      Text('$comment',style: TextStyle(color: AppColors.mainThemeColor),),
+                                    ],
+                                  )??
+                                      () {},
                                 )),
-                            Visibility(
-                              replacement: Container(
-                                width: 0,
-                                height: 0,
-                              ),
-                              visible: widget.postModel.numberOfComments != null
-                                  ? widget.postModel.numberOfComments > 0
-                                  : false,
-                              child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.mainThemeColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                      child: Text(
-                                    widget.postModel.numberOfComments
-                                        .toString(),
-                                    style: Styles.baseTextStyle,
-                                  ))),
-                            ),
                           ],
                         ),
                         SizedBox(width: 6,),
                         Column(
                           children: <Widget>[
                             SizedBox(
-                                width: 25,
                                 height: 25,
                                 child: InkWell(
                                   onTap: () {
                                     widget.onObjection("objection");
                                     return;
                                   },
-                                  child: SvgPicture.asset(
-                                      Resources.COMMENT_ERROR_IMAGE),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Image(
+                                          image: AssetImage(
+                                              Resources.COMMENT_ERROR_IMAGE)),
+                                      error < 1 ? Container() :
+                                      Text('$error',style: TextStyle(color: AppColors.redBackgroundColor),),
+                                    ],
+                                  ) ??
+                                      () {},
                                 )),
-                            Visibility(
-                              replacement: Container(
-                                width: 0,
-                                height: 0,
-                              ),
-                              visible:
-                                  widget.postModel.numberOfObjections != null
-                                      ? widget.postModel.numberOfObjections > 0
-                                      : false,
-                              child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.mainThemeColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                      child: Text(
-                                    widget.postModel.numberOfObjections
-                                        .toString(),
-                                    style: Styles.baseTextStyle,
-                                  ))),
-                            ),
                           ],
                         ),
                       ],
@@ -231,10 +217,19 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                         SizedBox(
                           width: 30,
                           height: 30,
-                          child: InkWell(
-                            onTap: () {},
-                            child: SvgPicture.asset(
-                                Resources.SHARE_IMAGE) ,
+                          child: Column(
+                            children: <Widget>[
+                              InkWell(
+                                onTap: () {
+                                  widget.onShare("share");
+                                  return;
+                                },
+                                child: Image(
+                                    image: AssetImage(
+                                        Resources.SHARE_IMAGE)) ??
+                                        () {},
+                              ),
+                            ],
                           ),
                         ),
                         Visibility(
