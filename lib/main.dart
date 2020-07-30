@@ -2,6 +2,7 @@ import 'package:edu360/blocs/BlocDelegate.dart';
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/events/AppDataEvents.dart';
 import 'package:edu360/utilities/Resources.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
+    statusBarBrightness: Brightness.dark,
   ));
 
   runApp(

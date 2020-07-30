@@ -1,6 +1,6 @@
 class URL{
-//  static const String BASE_URL = "http://www.ref360.net:2000"; // server
-  static const String BASE_URL = "http://f91b9c4a4be7.ngrok.io"; // local
+  static const String BASE_URL = "http://www.ref360.net:2000"; // server
+//  static const String BASE_URL = "http://f91b9c4a4be7.ngrok.io"; // local
   static const String API_URL = "$BASE_URL/api/";
   //ar-EG/
 

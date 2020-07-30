@@ -5,6 +5,7 @@ import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'CourseQuestion.dart';
 class CoursePayNow extends StatefulWidget {
@@ -201,7 +202,7 @@ class _CoursePayNowState extends State<CoursePayNow> {
 
             actions: <Widget>[
 
-              Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
+              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE  , color: AppColors.white,),
             ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,

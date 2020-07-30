@@ -23,6 +23,12 @@ dependencies:
   fluttertoast: 4.0.0
   shared_preferences: 0.5.7+1
   flutter_svg:
+  flutter_launcher_icons: 0.7.5
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
 
 
 dev_dependencies:

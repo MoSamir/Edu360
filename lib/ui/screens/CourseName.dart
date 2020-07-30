@@ -6,6 +6,7 @@ import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CourseName extends StatefulWidget {
   @override
@@ -124,8 +125,8 @@ class _CourseNameState extends State<CourseName> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: AppColors.white,
-                          ),
+                        color: AppColors.white,
+                      ),
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +147,7 @@ class _CourseNameState extends State<CourseName> {
                         ],
                       ),
                     ),
-                    ],
+                  ],
                 ),
               ),
               EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
@@ -155,15 +156,9 @@ class _CourseNameState extends State<CourseName> {
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
-            icon: IconData(
-              0xE800,
-              fontFamily: 'AppIcon',
-            ),
+            icon: SvgPicture.asset(Resources.APPBAR_SVG_IMAGE),
             actions: <Widget>[
-              Image(
-                image: AssetImage(Resources.COMMENT_IMAGE),
-                color: Colors.white,
-              ),
+              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE ),
             ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,
@@ -207,8 +202,8 @@ class _CourseNameState extends State<CourseName> {
     );
   }
   void _navigateToDetailsCourseName() {
-   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName())
-   );
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName())
+    );
   }
 }
 

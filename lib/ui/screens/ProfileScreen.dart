@@ -12,6 +12,7 @@ import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:easy_localization/easy_localization.dart';
 class ProfileScreen extends StatefulWidget {
@@ -296,9 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               width: 25,
                               child: InkWell(
                                   onTap:() {},
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.Clap_IMAGE)))),
+                                  child: SvgPicture.asset(Resources.Clap_SVG_IMAGE , width: 25, height: 25,))),
                         ],
                       ),
                       SizedBox(width: 6,),
@@ -311,9 +310,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 onTap: () {
 
                                 },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.COMMENT_CON_IMAGE)) ??
+                                child: SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE ,width: 25, height: 25,)??
                                         () {},
                               )),
                         ],
@@ -328,9 +325,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 onTap: () {
 
                                 },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.COMMENT_ERROR_IMAGE)) ??
+                                child: SvgPicture.asset(
+                                        Resources.COMMENT_ERROR_SVG_IMAGE , height: 25, width: 25,) ??
                                         () {},
                               )),
 
@@ -347,12 +343,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         child: Column(
                           children: <Widget>[
                             InkWell(
-                              onTap: () {
-
-                              },
-                              child: Image(
-                                  image: AssetImage(
-                                      Resources.SHARE_IMAGE)) ??
+                              onTap: () {},
+                              child: SvgPicture.asset(Resources.SHARE_SVG_IMAGE , width: 30 , height: 30,) ??
                                       () {},
                             ),
                           ],
@@ -493,12 +485,9 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               height: 25,
                               width: 25,
                               child: InkWell(
-                                onTap: () {
-
-                                },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.COMMENT_CON_IMAGE)) ??
+                                onTap: () {},
+                                child: SvgPicture.asset(
+                                        Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,) ??
                                         () {},
                               )),
                         ],
@@ -513,9 +502,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 onTap: () {
 
                                 },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.COMMENT_ERROR_IMAGE)) ??
+                                child: SvgPicture.asset(
+                                    Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,) ??
                                         () {},
                               )),
 
@@ -533,9 +521,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                   onTap: () {
 
                                   },
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.SHARE_IMAGE)) ??
+                                  child: SvgPicture.asset(Resources.SHARE_SVG_IMAGE, width: 30, height: 30,) ??
                                           () {},
                                 ),
                               ],

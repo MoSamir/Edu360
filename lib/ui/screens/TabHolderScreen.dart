@@ -8,6 +8,7 @@ import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'CourseName.dart';
 import 'CreatePostScreen.dart';
@@ -114,9 +115,9 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
-            icon: IconData(0xE800,fontFamily:'AppIcon',),
+            icon: SvgPicture.asset(Resources.APPBAR_SVG_IMAGE),
             actions: <Widget>[
-              Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
+              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , color:AppColors.white),
             ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,

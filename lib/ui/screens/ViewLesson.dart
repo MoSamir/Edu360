@@ -6,6 +6,7 @@ import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:video_player/video_player.dart';
 
 import 'CoursePayNow.dart';
@@ -141,7 +142,7 @@ class _ViewLessonState extends State<ViewLesson> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment:CrossAxisAlignment.center,
                         children: <Widget>[
-                          InkWell(child:Image.asset(Resources.COMMENT_IMAGE ), onTap: () {
+                          InkWell(child:              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
                           setState(() {
                             showComment2 = !showComment2;
                           });
@@ -199,7 +200,7 @@ class _ViewLessonState extends State<ViewLesson> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment:CrossAxisAlignment.center,
                         children: <Widget>[
-                          InkWell(child:Image.asset(Resources.COMMENT_IMAGE ), onTap: () {
+                          InkWell(child:              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
                             setState(() {
                               showComment1 = !showComment1;
                             });

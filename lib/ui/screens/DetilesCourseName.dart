@@ -3,6 +3,7 @@ import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'ViewLesson.dart';
 
@@ -26,9 +27,9 @@ class _DetailsCourseNameState extends State<DetailsCourseName> {
       backgroundColor: AppColors.backgroundColor,
       appBar:  EduAppBar(
         backgroundColor: AppColors.mainThemeColor,
-        icon: EduIconImage(icon: AssetImage(Resources.WHITE_LOGO_IMAGE),),
+        icon: SvgPicture.asset(Resources.APPBAR_SVG_IMAGE),
 
-        actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
+        actions: <Widget>[               SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , color: AppColors.white, ),],
         logoWidth: MediaQuery.of(context).size.width / 3,
         logoHeight: 20,
       ),

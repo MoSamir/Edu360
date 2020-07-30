@@ -7,8 +7,7 @@ import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/widgets/post/UserDocumentsPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserTextPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserVideoPostCard.dart';
-import 'package:edu360/ui/widgets/profile_posts/ProfilTextCard.dart';
-import 'package:edu360/ui/widgets/profile_posts/profileDocumentCard.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -89,58 +88,58 @@ class UIHelper {
   }
 
 
-  static Widget getProfilePostView(PostViewModel post , BuildContext context , {Function postAction}){
-    PostBloc postBloc = PostBloc(profileBloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc
-        , homePostsBloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc);
-    UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
-
-    if(post.postFilesPath == null || post.postFilesPath.length == 0) {
-      return ProfileTextCard(post: post,
-        onComment: (String comment) {
-          postBloc.add(AddComment(
-              postModel: post, commentViewModel: createComment(comment, user)));
-          if (postAction != null)
-            postAction();
-        },
-        onLike: () {
-          postBloc.add(LikePost(postViewModel: post));
-          if (postAction != null)
-            postAction();
-        },
-        onShare: (String shareDescription) {
-          postBloc.add(SharePost(
-              postViewModel: post, shareDescription: shareDescription));
-          if (postAction != null)
-            postAction();
-        },
-        onObjection: (String objection) {
-          postBloc.add(AddObjection(postModel: post,
-              commentViewModel: createComment(objection, user)));
-          if (postAction != null)
-            postAction();
-        },);
-    }
-    else if(post.postFilesPath[0].endsWith('.mov') || post.postFilesPath[0].endsWith('.mp4'))
-      return Container();
-    else
-      return ProfileDocumentCard(post: post, onComment: (String comment){
-        postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
-        if(postAction != null)
-          postAction();
-      }, onLike: (){
-        postBloc.add(LikePost(postViewModel:  post));
-        if(postAction != null)
-          postAction();
-      }, onShare: (String shareDescription){
-        postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
-        if(postAction != null)
-          postAction();
-      }, onObjection: (String objection){
-        postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
-        if(postAction != null)
-          postAction();
-      },);
-  }
+//  static Widget getProfilePostView(PostViewModel post , BuildContext context , {Function postAction}){
+//    PostBloc postBloc = PostBloc(profileBloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc
+//        , homePostsBloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc);
+//    UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
+//
+//    if(post.postFilesPath == null || post.postFilesPath.length == 0) {
+//      return ProfileTextCard(post: post,
+//        onComment: (String comment) {
+//          postBloc.add(AddComment(
+//              postModel: post, commentViewModel: createComment(comment, user)));
+//          if (postAction != null)
+//            postAction();
+//        },
+//        onLike: () {
+//          postBloc.add(LikePost(postViewModel: post));
+//          if (postAction != null)
+//            postAction();
+//        },
+//        onShare: (String shareDescription) {
+//          postBloc.add(SharePost(
+//              postViewModel: post, shareDescription: shareDescription));
+//          if (postAction != null)
+//            postAction();
+//        },
+//        onObjection: (String objection) {
+//          postBloc.add(AddObjection(postModel: post,
+//              commentViewModel: createComment(objection, user)));
+//          if (postAction != null)
+//            postAction();
+//        },);
+//    }
+//    else if(post.postFilesPath[0].endsWith('.mov') || post.postFilesPath[0].endsWith('.mp4'))
+//      return Container();
+//    else
+//      return ProfileDocumentCard(post: post, onComment: (String comment){
+//        postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
+//        if(postAction != null)
+//          postAction();
+//      }, onLike: (){
+//        postBloc.add(LikePost(postViewModel:  post));
+//        if(postAction != null)
+//          postAction();
+//      }, onShare: (String shareDescription){
+//        postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
+//        if(postAction != null)
+//          postAction();
+//      }, onObjection: (String objection){
+//        postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
+//        if(postAction != null)
+//          postAction();
+//      },);
+//  }
 
 
 

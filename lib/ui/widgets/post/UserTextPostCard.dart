@@ -133,9 +133,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                     onTap: widget.onLike ?? () {},
                                     child: Row(
                                       children: <Widget>[
-                                        Image(
-                                            image: AssetImage(
-                                                Resources.Clap_IMAGE)),
+                                        SvgPicture.asset(Resources.Clap_SVG_IMAGE , width: 25, height: 25,),
                                        likes < 1 ? Container() :
                                         Text('$likes',style: TextStyle(color: AppColors.mainThemeColor),),
                                       ],
@@ -176,9 +174,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   },
                                   child: Row(
                                     children: <Widget>[
-                                      Image(
-                                          image: AssetImage(
-                                              Resources.COMMENT_CON_IMAGE)),
+                                      SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,),
                                       comment < 1 ? Container() :
                                       Text('$comment',style: TextStyle(color: AppColors.mainThemeColor),),
                                     ],
@@ -199,9 +195,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   },
                                   child: Row(
                                     children: <Widget>[
-                                      Image(
-                                          image: AssetImage(
-                                              Resources.COMMENT_ERROR_IMAGE)),
+                                      SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
                                       error < 1 ? Container() :
                                       Text('$error',style: TextStyle(color: AppColors.redBackgroundColor),),
                                     ],
@@ -224,9 +218,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   widget.onShare("share");
                                   return;
                                 },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.SHARE_IMAGE)) ??
+                                child: SvgPicture.asset(Resources.SHARE_SVG_IMAGE , width: 30, height: 30,) ??
                                         () {},
                               ),
                             ],

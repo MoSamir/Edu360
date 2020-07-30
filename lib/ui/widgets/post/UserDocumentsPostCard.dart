@@ -104,8 +104,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                 child: InkWell(
                                     onTap: widget.onLike ?? () {},
                                     child: SvgPicture.asset(
-
-                                            Resources.CLAP_IMAGE))),
+                                            Resources.Clap_SVG_IMAGE , width: 25, height: 25,))),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -141,7 +140,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                     return;
                                   },
                                   child: SvgPicture.asset(
-                                      Resources.COMMENT_IMAGE) ,
+                                      Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,) ,
                                 )),
                             Visibility(
                               replacement: Container(
@@ -179,7 +178,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                     return;
                                   },
                                   child: SvgPicture.asset(
-                                      Resources.COMMENT_ERROR_IMAGE),
+                                      Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
                                 )),
                             Visibility(
                               replacement: Container(
@@ -218,9 +217,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                               widget.onShare("share");
                               return;
                             },
-                            child: Image(
-                                image: AssetImage(
-                                    Resources.SHARE_IMAGE)) ??
+                            child: SvgPicture.asset(Resources.SHARE_SVG_IMAGE , width: 30, height: 30,) ??
                                     () {},
                           ),
                         ),

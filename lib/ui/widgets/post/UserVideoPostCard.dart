@@ -114,7 +114,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                     onTap: widget.onLike ?? () {},
                                     child: SvgPicture.asset(
 
-                                        Resources.CLAP_IMAGE))),
+                                        Resources.Clap_SVG_IMAGE , width: 25, height: 25,))),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -150,7 +150,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                     return;
                                   },
                                   child: SvgPicture.asset(
-                                          Resources.COMMENT_IMAGE) ,
+                                          Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,) ,
                                 )),
                             Visibility(
                               replacement: Container(
@@ -188,7 +188,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                     return;
                                   },
                                   child: SvgPicture.asset(
-                                          Resources.COMMENT_ERROR_IMAGE),
+                                          Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
                                 )),
                             Visibility(
                               replacement: Container(
@@ -225,7 +225,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                           child: InkWell(
                             onTap: widget.onShare ?? () {},
                             child: SvgPicture.asset(
-                                Resources.SHARE_IMAGE) ,
+                                Resources.SHARE_SVG_IMAGE, width: 30, height: 30,) ,
                           ),
                         ),
                         Visibility(

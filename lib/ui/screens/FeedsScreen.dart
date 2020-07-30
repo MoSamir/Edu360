@@ -52,7 +52,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
         ),
         child: Row(
           children: <Widget>[
-            Image(image: AssetImage(Resources.COMPONENT_IMAGE)),
+//            Image(image: AssetImage(Resources.COMPONENT_IMAGE)),
             SizedBox(width: 10,),
             Text( LocalKeys.SHARE_YOUR_THOUGHTS , textAlign: TextAlign.start , style: Styles.baseTextStyle.copyWith(color: AppColors.mainThemeColor, fontSize: 20),).tr(),
           ],
