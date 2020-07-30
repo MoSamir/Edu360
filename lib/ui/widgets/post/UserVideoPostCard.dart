@@ -90,7 +90,9 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                       color: AppColors.mainThemeColor
                   ), textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                 ),  SizedBox(height: 5,),
-                Container(height: 120, child: Chewie(
+                Container(
+                  height: 120,
+                  child: Chewie(
                   controller: chewieController,
                 ),),
                 SizedBox(height: 10,),

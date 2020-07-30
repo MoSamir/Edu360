@@ -1,3 +1,4 @@
+import 'package:edu360/ui/screens/HomePages/HomePage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
@@ -45,11 +46,17 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               top: kToolbarHeight,
               left: (MediaQuery.of(context).size.width * .5) - 25,
               child: GestureDetector(
-                onTap: onIconPressed ?? (){},
+                onTap: onIconPressed ?? (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                },
                 child: Material(
                   shadowColor: AppColors.backgroundColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
-                  child: Container(child: Icon(icon , color: AppColors.mainThemeColor, size: 50,), decoration: BoxDecoration(
+                  child: Container(
+                    child: Icon(
+
+                      icon ,color: AppColors.mainThemeColor, size: 50,),
+                    decoration: BoxDecoration(
                     color: AppColors.white,
                     shape: BoxShape.circle,
                   ), ),

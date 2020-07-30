@@ -16,6 +16,7 @@ class Resources{
   static const String COMMENT_IMAGE = "assets/images/comment.png";
   static const String COMPONENT_IMAGE = "assets/images/Component.png";
   static const String Clap_IMAGE = "assets/images/clap.png";
+  static const String ICON_1_IMAGE = "assets/images/icon_1.png";
   static const String COMMENT_CON_IMAGE = "assets/images/comment_con.png";
   static const String COMMENT_CON_SVG_IMAGE = "assets/images/comment.png";
   static const String COMMENT_ERROR_IMAGE = "assets/images/comment_error.png";
