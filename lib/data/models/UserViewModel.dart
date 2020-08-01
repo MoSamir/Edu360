@@ -5,7 +5,7 @@ class UserViewModel {
   String userFullName  ,userEmail , userMobileNumber , userEducation  , userPassword ,  userToken , profileImagePath ;
   int userAge, userId;
   DateTime userBirthDay;
-  bool contentCreator ;
+  bool contentCreator , isFollowingLoggedInUser;
   StudyFieldViewModel userFieldOfStudy ;
 
   static List<UserViewModel> fromListJson(List<dynamic> usersJson){
@@ -24,6 +24,7 @@ class UserViewModel {
       this.contentCreator,
       this.profileImagePath,
       this.userMobileNumber,
+      this.isFollowingLoggedInUser,
       this.userEducation,
       this.userPassword,
       this.userAge,

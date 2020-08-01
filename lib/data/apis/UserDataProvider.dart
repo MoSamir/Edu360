@@ -236,6 +236,9 @@ class UserDataProvider {
     };
     String userToken = (await Repository.getUser()).userToken;
     var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.POST_RETRIEVE_COURSES),parserFunction: (jsonResponse){
+
+      print(jsonResponse[ApiParseKeys.POSTS_DATA]);
+
       return CourseViewModel.fromListJson(jsonResponse[ApiParseKeys.POSTS_DATA]);
     });
 
@@ -312,9 +315,50 @@ class UserDataProvider {
       isSuccess: getgGradesResponse.isSuccess,
       errorViewModel: getgGradesResponse.errorViewModel,
     );
-
-
   }
 
+  static unfollowUser(int userId) async{
+
+    Map<String,dynamic> requestBody = {
+      'UserID' : userId,
+    };
+
+    String userToken = (await Repository.getUser()).userToken;
+    ResponseViewModel unFollowResponse = await NetworkUtilities.handlePostRequest(
+      parserFunction: (json){},
+      methodURL: NetworkUtilities.getFullURL(method: URL.POST_UNFOLLOW_USER),
+      requestHeaders: NetworkUtilities.getHeaders(
+          customHeaders: {'Authorization': 'Bearer $userToken'}),
+      requestBody:requestBody,
+    );
+
+    return ResponseViewModel<void>(
+      responseData: null,
+      isSuccess: unFollowResponse.isSuccess,
+      errorViewModel: unFollowResponse.errorViewModel,
+    );
+  }
+
+  static followUser(int userId) async{
+
+    Map<String,dynamic> requestBody = {
+      'UserID' : userId,
+    };
+
+    String userToken = (await Repository.getUser()).userToken;
+    ResponseViewModel followResponse = await NetworkUtilities.handlePostRequest(
+      parserFunction: (json){},
+      methodURL: NetworkUtilities.getFullURL(method: URL.POST_FOLLOW_USER),
+      requestHeaders: NetworkUtilities.getHeaders(
+          customHeaders: {'Authorization': 'Bearer $userToken'}),
+      requestBody:requestBody,
+    );
+
+    return ResponseViewModel<void>(
+      responseData: null,
+      isSuccess: followResponse.isSuccess,
+      errorViewModel: followResponse.errorViewModel,
+    );
+  }
 
 }

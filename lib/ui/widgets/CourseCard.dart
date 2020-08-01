@@ -21,7 +21,7 @@ class CourseCard extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              course.courseImage,
+              course.courseImage ?? '',
             ),
             fit: BoxFit.cover,
           ),
@@ -46,8 +46,8 @@ class CourseCard extends StatelessWidget {
             ),
           ],
         ),
-
-      )),
+      ),
+     ),
     );
   }
 }

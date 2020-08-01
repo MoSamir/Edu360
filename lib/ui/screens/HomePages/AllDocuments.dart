@@ -1,7 +1,12 @@
+import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/ui/widgets/ContainarBody.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
 class AllDocuments extends StatefulWidget {
+
+  List<PostViewModel> posts ;
+  AllDocuments(this.posts);
+
   @override
   _AllDocumentsState createState() => _AllDocumentsState();
 }

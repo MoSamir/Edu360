@@ -1,4 +1,4 @@
-import 'package:edu360/ui/screens/AllCourses.dart';
+import 'package:edu360/ui/screens/CoursesScreen.dart';
 import 'package:edu360/ui/screens/CategoriesScreen.dart';
 import 'package:edu360/ui/screens/ExploreScreen.dart';
 import 'package:edu360/ui/screens/FeedsScreen.dart';
@@ -10,11 +10,15 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'CourseName.dart';
+import 'CourseOverviewScreen.dart';
 import 'CreatePostScreen.dart';
 import 'NotificationsScreen.dart';
 
 class TabsHolderScreen extends StatefulWidget {
+
+  int index = 0;
+  TabsHolderScreen({this.index});
+
   @override
   _TabsHolderScreenState createState() => _TabsHolderScreenState();
 }
@@ -26,7 +30,7 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
     setState(() {});
   }
 
-  void _moveToScreen(SCREEN screen){
+  void moveToScreen(SCREEN screen){
      switch (screen){
        case SCREEN.WALL_SCREEN :
          currentVisiblePageIndex = 0 ;
@@ -50,17 +54,19 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
   List<Widget> screens = [];
   List<BottomNavigationBarItem> barTabs = [];
-  static int currentVisiblePageIndex  = 0 ;
+  static int currentVisiblePageIndex  ;
 
 
   @override
   void initState() {
+    currentVisiblePageIndex = widget.index ?? 0 ;
+
     super.initState();
     screens = [
-      FeedsScreen(_onPostCreated , _moveToScreen),
-      NotificationsScreen(_moveToScreen),
-      ProfileScreen(_moveToScreen),
-      AllCourses(),
+      FeedsScreen(_onPostCreated , moveToScreen),
+      NotificationsScreen(moveToScreen),
+      ProfileScreen(moveToScreen),
+      CoursesScreen(),
     ];
 
     barTabs = [
@@ -115,12 +121,16 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
           ),
           EduAppBar(
             backgroundColor: AppColors.mainThemeColor,
-            icon: SvgPicture.asset(Resources.APPBAR_SVG_IMAGE),
+            icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
             actions: <Widget>[
-              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , color:AppColors.white),
+              Image(
+                image: AssetImage(Resources.COMMENT_IMAGE),
+                color: Colors.white,
+              ),
             ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,
+            autoImplyLeading: false,
           ),
         ],
       ),

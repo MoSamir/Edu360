@@ -16,8 +16,6 @@ class ProfileScreenHeader extends StatelessWidget {
   );
 
   ProfileScreenHeader({this.user , this.isMe , this.isMyFriend , this.onFollowClicked});
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -89,7 +87,6 @@ class ProfileScreenHeader extends StatelessWidget {
       ),
     );
   }
-
   String getChipText() {
     return isMyFriend ? LocalKeys.UN_FOLLOW : LocalKeys.FOLLOW;
   }

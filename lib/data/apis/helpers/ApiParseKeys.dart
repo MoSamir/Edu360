@@ -64,11 +64,33 @@ class ApiParseKeys {
   static const String COURSE_GRADE = "grade";
   static const String COURSE_SUBSCRIPTION_PRICE = "price";
   static const String COURSE_IMAGE_PATH = "courseImagePath";
+  static const String COURSE_INAGE_PATH = "courseInagePath";
+
+  static const String COURSE_OUTCOMES_EN = "learningOutcomesEn";
+  static const String COURSE_OUTCOMES_AR = "learningOutcomesAr";
+  static const String COURSE_END_DATE = "endDate";
+  static const String COURSE_START_DATE = "startDate";
+  static const String COURSE_LESSONS = "lessons";
+  static const String COURSE_ALREADY_SUBSCRIBED = "isSubscibedBy";
+
+
 
 
   //----------------- GET SYSTEM GRADES --------------------------------------------
 
   static const String GRADE_NAME_AR = "gradeNameAr";
   static const String GRADE_NAME_EN = "gradeNameEn";
+
+
+  //----------------- LESSON KEYS ------------------------------------------------
+  static const String LESSON_ID = "lessonID";
+  static const String LESSON_NAME_AR = "lessonNameAr";
+  static const String LESSON_NAME_EN = "lessonNameEn";
+  static const String LESSON_DOC = "attachment";
+  static const String LESSON_LEARNING = "learning";
+  static const String LESSON_FLASH_CARD = "flashcard";
+  static const String QUIZ_MARK = "mark";
+  static const String LESSON_VIDEO_URL = "video";
+
 
 }

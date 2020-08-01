@@ -1,6 +1,12 @@
+import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
 class AllPeople extends StatefulWidget {
+
+
+  List<UserViewModel> users ;
+  AllPeople(this.users);
+
   @override
   _AllPeopleState createState() => _AllPeopleState();
 }
@@ -16,10 +22,10 @@ class _AllPeopleState extends State<AllPeople> {
             padding: const EdgeInsets.symmetric(horizontal: 0),
             child:ListView.builder(
                 shrinkWrap: true,
-                itemCount: 10,
+                itemCount: widget.users.length,
                 scrollDirection: Axis.vertical,
                 itemBuilder: (context, index) {
-                  return story(index);
+                  return story(widget.users[index] , index);
                 }),
           ),
 
@@ -27,7 +33,7 @@ class _AllPeopleState extends State<AllPeople> {
       ),
     );
   }
-  Widget story(int index) {
+  Widget story(UserViewModel user ,  int index) {
     return Container(
       padding: EdgeInsets.all(5),
       color: Colors.white,
@@ -36,6 +42,7 @@ class _AllPeopleState extends State<AllPeople> {
         children: <Widget>[
           CircleAvatar(
             backgroundColor: AppColors.mainThemeColor,
+            backgroundImage: NetworkImage(user.profileImagePath ?? ''),
             radius: 30,
           ),
         SizedBox(width: 20,),
@@ -43,11 +50,11 @@ class _AllPeopleState extends State<AllPeople> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text('Yousef Elshazly',style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold),),
+              Text(user.userFullName ,style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold),),
               SizedBox(
                 height: 5,
               ),
-              Text('Entrepreneurship',style: TextStyle(color: AppColors.mainThemeColor,)),
+              Text(user.userEmail ,style: TextStyle(color: AppColors.mainThemeColor,)),
             ],
           )
         ],

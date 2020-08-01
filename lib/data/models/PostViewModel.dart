@@ -21,11 +21,6 @@ class PostViewModel{
   
 
   static PostViewModel fromJson(Map<String,dynamic> postMap){
-
-    print("postMap");
-    print(postMap);
-    print('-------------------------------');
-
     return PostViewModel(
       postId: postMap[ApiParseKeys.POST_ID],
       postOwnerId: postMap[ApiParseKeys.POST_OWNER_ID],

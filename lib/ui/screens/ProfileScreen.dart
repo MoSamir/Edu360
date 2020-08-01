@@ -92,7 +92,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             ),
           ),
         );
-
       },
     );
   }
@@ -349,7 +348,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-
                               },
                               child: Image(
                                   image: AssetImage(
@@ -372,5 +370,4 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       ),
     );
   }
-
 }

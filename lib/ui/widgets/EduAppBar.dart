@@ -7,11 +7,11 @@ import 'package:flutter/services.dart';
 class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   final String title ;
-  final bool centerTitle , autoImplyLeading;
+  final bool centerTitle , autoImplyLeading ;
   final List<Widget> actions;
   final Color backgroundColor ;
   final Function onIconPressed ;
-  final IconData icon;
+  final Widget icon;
   final double logoWidth;
   final double logoHeight;
 
@@ -36,9 +36,8 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               centerTitle: centerTitle ?? false,
               elevation: 2,
               actions: actions ?? [],
-              automaticallyImplyLeading: autoImplyLeading ?? true,
+              automaticallyImplyLeading: autoImplyLeading ?? false,
               backgroundColor: backgroundColor ?? Colors.white,
-
             ),),
             icon != null ? Positioned(
               height: 50,
@@ -53,9 +52,9 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
                   shadowColor: AppColors.backgroundColor,
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                   child: Container(
-                    child: Icon(
-
-                      icon ,color: AppColors.mainThemeColor, size: 50,),
+                    child: icon,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
                     color: AppColors.white,
                     shape: BoxShape.circle,
@@ -64,8 +63,8 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
               ),
             ) : Container(),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,),
-              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width / 2, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
+              padding: EdgeInsets.symmetric(horizontal: autoImplyLeading?? false ? 50: 15,),
+              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width * .25, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
             )
           ],
         ),

@@ -238,4 +238,9 @@ class Repository {
 
   static Future<ResponseViewModel<CourseViewModel>> getCourseInformation({int courseId}) async  => await CoursesDataProvider.loadStudyFieldCourses(courseId);
 
+  static Future<ResponseViewModel<void>> subscribeInCourse({CourseViewModel course})  async  => await CoursesDataProvider.subscribeInCourse(course);
+
+  static Future<ResponseViewModel<void>>followUser({int userId}) async => await UserDataProvider.followUser(userId);
+  static Future<ResponseViewModel<void>> unfollowUser({int userId}) async => await UserDataProvider.unfollowUser(userId);
+
 }

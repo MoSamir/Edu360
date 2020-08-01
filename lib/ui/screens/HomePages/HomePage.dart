@@ -1,10 +1,16 @@
-import 'package:edu360/ui/screens/HomePages/AllCouses.dart';
+import 'package:edu360/blocs/bloc/ExploreBloc.dart';
+import 'package:edu360/blocs/events/ExploreEevnts.dart';
+import 'package:edu360/blocs/states/ExploreStates.dart';
+import 'package:edu360/ui/screens/HomePages/AllCourses.dart';
 import 'package:edu360/ui/screens/HomePages/AllDocuments.dart';
+import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:edu360/ui/screens/HomePages/AllContent.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'AllPeople.dart';
 
@@ -14,32 +20,54 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  ExploreBloc _exploreBloc = ExploreBloc();
+
+
+  @override
+  void initState() {
+    super.initState();
+    _exploreBloc.add(LoadExploreInformation());
+  }
+
+  @override
+  void dispose() {
+    _exploreBloc.close();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: DefaultTabController(
-          length: 5,
+    return DefaultTabController(
+          length: 4,
+          initialIndex: 0,
           child: Scaffold(
             backgroundColor: AppColors.backgroundColor,
-            appBar:
-            AppBar(
+            appBar: EduAppBar(
               backgroundColor: AppColors.mainThemeColor,
-              title: Image(image: AssetImage(Resources.REF360_IMAGE )),
               actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
             ),
-              body: Stack(
-                children: <Widget>[
-                  customAppBar(),
-                ],
-              ),),
-        ));
+              body: BlocConsumer(
+                builder: (context, state){
+                  return ModalProgressHUD(
+                    inAsyncCall: state is ExploreScreenLoading,
+                    child: customAppBar()
+                  );
+                },
+                bloc: _exploreBloc,
+                listener: (context , state){},
+              ),
+
+        ),
+    );
   }
 
   Widget customAppBar() {
     return Column(
       children: <Widget>[
         Container(
+          width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.all(10),
           child: customTextFormSearch(),
           decoration: BoxDecoration(
@@ -94,6 +122,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget tabBarWidget() {
     return   Container(
+      width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -107,29 +136,28 @@ class _HomePageState extends State<HomePage> {
       ),
       child: PreferredSize(
         preferredSize: Size.fromHeight(50.0),
-        child: TabBar(
-          indicatorSize: TabBarIndicatorSize.tab,
-          isScrollable: true,
-          labelColor: AppColors.mainThemeColor,
-          indicatorColor: AppColors.mainThemeColor,
-          unselectedLabelColor: AppColors.mainThemeColor.withOpacity(0.7),
-          tabs: [
-            Tab(
-              text: 'All',
-            ),
-            Tab(
-              text: 'People',
-            ),
-            Tab(
-              text: 'Teachers',
-            ),
-            Tab(
-              text: 'Documents',
-            ),
-            Tab(
-              text: 'Courses',
-            ),
-          ], // list of tabs
+        child: Center(
+          child: TabBar(
+            indicatorSize: TabBarIndicatorSize.tab,
+            isScrollable: true,
+            labelColor: AppColors.mainThemeColor,
+            indicatorColor: AppColors.mainThemeColor,
+            unselectedLabelColor: AppColors.mainThemeColor.withOpacity(0.7),
+            tabs: [
+              Tab(
+                text: 'Documents',
+              ),
+              Tab(
+                text: 'People',
+              ),
+              Tab(
+                text: 'Teachers',
+              ),
+              Tab(
+                text: 'Courses',
+              ),
+            ], // list of tabs
+          ),
         ),
       ),
     );
@@ -140,11 +168,22 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: TabBarView(
         children: [
-          AllContent(),
-          AllPeople(),
-          AllPeople(),
-          AllDocuments(),
-          AllCouses(),
+          BlocProvider.value(
+            value: _exploreBloc,
+            child: AllDocuments(_exploreBloc.posts),
+          ),
+          BlocProvider.value(
+            value: _exploreBloc,
+            child: AllPeople(_exploreBloc.users),
+          ),
+          BlocProvider.value(
+            value: _exploreBloc,
+            child: AllPeople(_exploreBloc.teachers),
+          ),
+          BlocProvider.value(
+            value: _exploreBloc,
+            child: AllCourses(_exploreBloc.courses),
+          ),
         ],
       ),
     );

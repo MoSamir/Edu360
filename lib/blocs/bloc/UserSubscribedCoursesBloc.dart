@@ -37,7 +37,7 @@ class UserSubscribedCoursesBloc extends Bloc<CoursesEvents , CourseStates>{
       courseField: StudyFieldViewModel(imagePath: '', studyFieldNameEn: 'Computer science' , studyFieldDescAr: 'علوم حاسب' , studyFieldId: 1 ,  studyFieldDescEn: 'Computer science' , studyFieldNameAr: 'Computer science'),
       courseId: 1,
       courseImage: '',
-      courseOutcomes: ['Introduction to CS' , 'Introduction to Algorithms' , 'Introduction to Data structures'],
+      courseOutcomesEn: ['Introduction to CS' , 'Introduction to Algorithms' , 'Introduction to Data structures'],
       courseStartTime: DateTime.now(),
       courseTitle: 'Computer Science',
       feesPerMonth: 100.0,

@@ -13,3 +13,18 @@ class CourseInformationLoaded extends SingleCourseStates{
   final CourseViewModel course;
   CourseInformationLoaded({this.course});
 }
+class SubscriptionSuccess extends SingleCourseStates{}
+class SubscriptionFailed extends SingleCourseStates{
+
+  final ErrorViewModel error;
+  final SingleCourseEvents failureEvent ;
+  SubscriptionFailed({this.error , this.failureEvent});
+}
+
+class LessonCompleted extends SingleCourseStates{}
+class LessonCompletionFailed extends SingleCourseStates{
+
+  final ErrorViewModel error;
+  final SingleCourseEvents failureEvent ;
+  LessonCompletionFailed({this.error , this.failureEvent});
+}

@@ -5,7 +5,9 @@ abstract class SingleCourseEvents {}
 
 class CompleteLesson extends SingleCourseEvents{
   final LessonViewModel lesson;
-  CompleteLesson({this.lesson});
+  final bool flashCard ;
+  final double quizGrade;
+  CompleteLesson({this.lesson, this.flashCard , this.quizGrade});
 }
 class SubscribeCourse extends SingleCourseEvents{
   final CourseViewModel course ;

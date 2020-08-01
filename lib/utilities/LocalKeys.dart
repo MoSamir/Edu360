@@ -107,7 +107,6 @@ class LocalKeys{
 
 //------------------------------- COURSE CARD----------------------------------
   static const String EGP_PER_MONTH = "EGP_PER_MONTH";
-
   static const String COURSE_LEARNING_OUTCOMES = "COURSE_LEARNING_OUTCOMES";
 
 

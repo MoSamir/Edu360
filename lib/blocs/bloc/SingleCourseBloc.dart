@@ -25,12 +25,19 @@ class SingleCourseBloc extends Bloc<SingleCourseEvents , SingleCourseStates>{
       );
       return ;
     }
-
-
+    
     if(event is FetchCourseInformation){
       yield* _handleCourseInformationFetching(event);
       return ;
     }
+    else if(event is SubscribeCourse){
+      yield* _handleCourseSubscription(event);
+      return ;
+    } else if(event is CompleteLesson){
+      yield* _handleLessonCompletion(event);
+      return ;
+    }
+    
   }
 
   Stream<SingleCourseStates> _handleCourseInformationFetching(FetchCourseInformation event) async*{
@@ -45,6 +52,22 @@ class SingleCourseBloc extends Bloc<SingleCourseEvents , SingleCourseStates>{
       yield LoadingCourseFailed(error: fetchCourseInformation.errorViewModel , failureEvent: event);
           return ;
     }
+
+  }
+
+  Stream<SingleCourseStates> _handleCourseSubscription(SubscribeCourse event) async*{
+    ResponseViewModel subscriptionResponse = await Repository.subscribeInCourse(course: event.course);
+    if(subscriptionResponse.isSuccess){
+      yield SubscriptionSuccess();
+          return ;
+    } else {
+      yield SubscriptionFailed(failureEvent: event , error: subscriptionResponse.errorViewModel);
+      return ;
+    }
+
+  }
+
+  Stream<SingleCourseStates> _handleLessonCompletion(CompleteLesson event) async*{
 
   }
 }

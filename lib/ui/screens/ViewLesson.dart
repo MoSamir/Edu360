@@ -1,4 +1,8 @@
 import 'package:chewie/chewie.dart';
+import 'package:edu360/blocs/bloc/SingleCourseBloc.dart';
+import 'package:edu360/blocs/events/SingleCourseEvents.dart';
+import 'package:edu360/blocs/states/SingleCourseStates.dart';
+import 'package:edu360/data/models/LessonViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
@@ -6,15 +10,16 @@ import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:video_player/video_player.dart';
 
 import 'CoursePayNow.dart';
 
 class ViewLesson extends StatefulWidget {
-  final PostViewModel postModel;
-  final double elevation;
-  ViewLesson({this.postModel, this.elevation});
+  final LessonViewModel lesson ;
+  final Function onDonePressed ;
+  ViewLesson({this.lesson, this.onDonePressed});
   @override
   _ViewLessonState createState() => _ViewLessonState();
 }
@@ -22,13 +27,9 @@ class ViewLesson extends StatefulWidget {
 class _ViewLessonState extends State<ViewLesson> {
   bool showComment1 = false;
   bool showComment2 = false;
-  bool enable = false;
+  bool flashCardEnabled = false;
 
   final videoPlayerController = VideoPlayerController.network('http://ref360.net/assets/video/ref360_video_intro.mp4');
-//  final videoPlayerController = VideoPlayerController.network('https://flutter.github.io/assets-for-api-docs/videos/butterfly.mp4');
-
-
-
 
   ChewieController chewieController;
   @override
@@ -49,63 +50,74 @@ class _ViewLessonState extends State<ViewLesson> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
 
-      body: Stack(
-        children: <Widget>[
-          Column(
+      body: BlocConsumer(
+        bloc: BlocProvider.of<SingleCourseBloc>(context),
+        listener: (context, state){
+          if(state is LessonCompleted){
+            widget.onDonePressed();
+            Navigator.of(context).pop();
+          }
+        },
+        builder: (context , state){
+          return Stack(
             children: <Widget>[
-              Expanded(
-                  child: ListView(
+              Column(
                 children: <Widget>[
-                  SizedBox(height: 65,),
-                  Container(
-                    height: 180,
-                    color: AppColors.white,
-                    child: Stack(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(top: 25),
-                          child: Container(
-                            height: 120,
-                            child: Chewie(
-                              controller: chewieController,
+                  Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          SizedBox(height: 65,),
+                          Container(
+                            height: 180,
+                            color: AppColors.white,
+                            child: Stack(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 25),
+                                  child: Container(
+                                    height: 120,
+                                    child: Chewie(
+                                      controller: chewieController,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Container(
+                                  color: Colors.black12,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: .25,
+                                ),
+                                commentCont(),
+                              ],
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          color: Colors.black12,
-                          width: MediaQuery.of(context).size.width,
-                          height: .25,
-                        ),
-                        commentCont(),
-                      ],
-                    ),
-                  ),
-                 Padding(
-                   padding: const EdgeInsets.all(10.0),
-                   child: Column(
-                     children: <Widget>[
-                       text(),
-                       SizedBox(height: 10,),
-                       flashCards(),
-                       SizedBox(height: 10,),
-                       quiz(),
-                     ],
-                   ),
-                 ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: <Widget>[
+                                text(),
+                                SizedBox(height: 10,),
+                                flashCards(),
+                                SizedBox(height: 10,),
+                                quiz(),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )),
+                  EduButton( title: LocalKeys.MarkDone , onPressed: _completeLesson,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
                 ],
-              )),
-              EduButton( title: LocalKeys.MarkDone , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+              ),
+              EduAppBar(
+                backgroundColor: AppColors.mainThemeColor,
+                logoWidth: MediaQuery.of(context).size.width / 3,
+                logoHeight: 20,
+              ),
             ],
-          ),
-          EduAppBar(
-            backgroundColor: AppColors.mainThemeColor,
-             logoWidth: MediaQuery.of(context).size.width / 3,
-            logoHeight: 20,
-          ),
-        ],
+          );
+        },
       ),
     );
   }
@@ -200,7 +212,7 @@ class _ViewLessonState extends State<ViewLesson> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment:CrossAxisAlignment.center,
                         children: <Widget>[
-                          InkWell(child:              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
+                          InkWell(child: SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
                             setState(() {
                               showComment1 = !showComment1;
                             });
@@ -280,10 +292,10 @@ class _ViewLessonState extends State<ViewLesson> {
         InkWell(
             onTap: (){
               setState(() {
-                enable =! enable;
+                flashCardEnabled =! flashCardEnabled;
               });
             },
-            child: Icon(enable ?Icons.check_circle: Icons.check_circle_outline,color: AppColors.mainThemeColor,))
+            child: Icon(flashCardEnabled ?Icons.check_circle: Icons.check_circle_outline,color: AppColors.mainThemeColor,))
         ],
       ),
     );
@@ -307,9 +319,8 @@ class _ViewLessonState extends State<ViewLesson> {
       ),
     );
   }
-  void _navigateToDetailsCourseName() {
-
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CoursePayNow()));
+  void _completeLesson() {
+    BlocProvider.of<SingleCourseBloc>(context).add(CompleteLesson(lesson: widget.lesson , flashCard: flashCardEnabled , quizGrade : 100));
   }
 
 }

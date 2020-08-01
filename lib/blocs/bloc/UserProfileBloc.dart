@@ -33,6 +33,16 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
       yield* _loadUserProfile(event);
       return;
     }
+    else if(event is FollowUser){
+      yield* _handleFollowUser(event);
+     return ;
+    }  else if(event is UnfollowUser){
+        yield* _handleUnFollowUser(event);
+        return ;
+    }
+
+
+
   }
 
   Stream<UserProfileStates> _loadUserProfile(LoadUserProfile event) async*{
@@ -48,4 +58,29 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
       return ;
     }
   }
+
+  Stream<UserProfileStates> _handleUnFollowUser(UnfollowUser event) async*{
+    yield UserProfileLoading();
+    ResponseViewModel<void> followUser = await Repository.unfollowUser(userId: event.userId);
+    if(followUser.isSuccess){
+      add(LoadUserProfile(userId: event.userId));
+      return;
+    } else {
+      yield UserProfileLoadingFailed(error: followUser.errorViewModel , failureEvent: event );
+      return;
+    }
+  }
+
+  Stream<UserProfileStates> _handleFollowUser(FollowUser event) async*{
+    yield UserProfileLoading();
+    ResponseViewModel<void> followUser = await Repository.followUser(userId: event.userId);
+    if(followUser.isSuccess){
+      add(LoadUserProfile(userId: event.userId));
+      return;
+    } else {
+      yield UserProfileLoadingFailed(error: followUser.errorViewModel , failureEvent: event );
+      return;
+    }
+  }
+
 }

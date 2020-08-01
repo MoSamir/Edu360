@@ -1,8 +1,11 @@
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/SingleCourseBloc.dart';
+import 'package:edu360/blocs/events/CoursesEvents.dart';
 import 'package:edu360/blocs/events/SingleCourseEvents.dart';
 import 'package:edu360/blocs/states/SingleCourseStates.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
-import 'package:edu360/ui/screens/DetilesCourseName.dart';
+import 'package:edu360/ui/screens/CourseLessonsScreen.dart';
+import 'package:edu360/ui/screens/TabHolderScreen.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduIconImage.dart';
@@ -41,7 +44,12 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: BlocConsumer(
-        listener: (context, state){},
+        listener: (context, state){
+          if(state is SubscriptionSuccess){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.add(LoadUserCourses());
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> TabsHolderScreen(index: 3,)));
+          }
+        },
         builder: (context , state){
           return ModalProgressHUD(
             inAsyncCall: state is CourseLoadingStates,
@@ -63,7 +71,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                   decoration: BoxDecoration(
                                     color: AppColors.mainThemeColor.withOpacity(.8),
                                     image: DecorationImage(
-                                      image: AssetImage(Resources.USER_PROFILE_IMAGE),
+                                      image: widget.courseModel.courseImage != null && widget.courseModel.courseImage.length > 0 ? NetworkImage(widget.courseModel.courseImage)  : AssetImage(Resources.USER_PROFILE_IMAGE),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -146,9 +154,9 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                 ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: _singleCourseBloc.courseViewModel != null && _singleCourseBloc.courseViewModel.courseOutcomes != null ? _singleCourseBloc.courseViewModel.courseOutcomes.length ?? 0 : 0,
+                                    itemCount: _singleCourseBloc.courseViewModel != null && _singleCourseBloc.courseViewModel.courseOutcomesEn != null ? _singleCourseBloc.courseViewModel.courseOutcomesEn.length ?? 0 : 0,
                                     itemBuilder: (context, index) {
-                                      return learningOutcomes(_singleCourseBloc.courseViewModel.courseOutcomes[index]);
+                                      return learningOutcomes(_singleCourseBloc.courseViewModel.courseOutcomesEn[index]);
                                     }),
                               ],
                             ),
@@ -202,8 +210,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
     );
   }
   void _navigateToDetailsCourseName() {
-   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> DetailsCourseName())
-   );
+    _singleCourseBloc.add(SubscribeCourse(course: widget.courseModel));
   }
 }
 

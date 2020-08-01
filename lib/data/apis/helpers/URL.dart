@@ -1,6 +1,6 @@
 class URL{
   static const String BASE_URL = "http://www.ref360.net:2000"; // server
-//  static const String BASE_URL = "http://f91b9c4a4be7.ngrok.io"; // local
+//  static const String BASE_URL = "http://8ed0fd109de2.ngrok.io"; // local
   static const String API_URL = "$BASE_URL/api/";
   //ar-EG/
 
@@ -25,6 +25,9 @@ class URL{
   static const String POST_RETRIEVE_COURSES = "Course/GetAllCourseWithStudyField";
   static const String GET_RETRIEVE_SYSTEM_GRADES = "Grade/GetAll";
   static const String GET_FETCH_COURSE_INFORMATION = "Course/GetCourseInformation?courseId=";
+  static const String POST_SUBSCRIBE_COURSE = "Subscription/SubscribeCourse";
+  static const String POST_FOLLOW_USER = "Follower/Follow";
+  static const String POST_UNFOLLOW_USER = "Follower/UnFollow";
 
 
 
