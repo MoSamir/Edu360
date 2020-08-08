@@ -1,5 +1,6 @@
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:edu360/utilities/ParserHelpers.dart';
 import 'StudyFieldViewModel.dart';
 class UserViewModel {
   String userFullName  ,userEmail , userMobileNumber , userEducation  , userPassword ,  userToken , profileImagePath ;
@@ -55,7 +56,7 @@ class UserViewModel {
       userMobileNumber: userInformation[ApiParseKeys.USER_MOBILE],
       contentCreator : userInformation[ApiParseKeys.USER_TYPE] != 0,
       userFullName: userInformation[ApiParseKeys.USER_FULL_NAME],
-      profileImagePath: (userInformation[ApiParseKeys.USER_PROFILE_IMAGE]!=null) ? userInformation[ApiParseKeys.USER_PROFILE_IMAGE].toString().contains(URL.BASE_URL)? userInformation[ApiParseKeys.USER_PROFILE_IMAGE] : (URL.BASE_URL+"/"+ userInformation[ApiParseKeys.USER_PROFILE_IMAGE]) : null,
+      profileImagePath: ParserHelper.parseURL(userInformation[ApiParseKeys.USER_PROFILE_IMAGE].toString()) ?? '',
       userAge: userInformation[ApiParseKeys.USER_AGE] ?? 0,
       userBirthDay: userInformation[ApiParseKeys.USER_BIRTHDAY] != null ? DateTime.parse(userInformation[ApiParseKeys.USER_BIRTHDAY]) : DateTime.now(),
       userId: userInformation[ApiParseKeys.ID],
@@ -64,6 +65,7 @@ class UserViewModel {
         studyFieldId: userInformation[ApiParseKeys.USER_FIELD_OF_STUDY_ID],
       ),
       userToken: userJson[ApiParseKeys.USER_TOKEN],
+      isFollowingLoggedInUser: userJson[ApiParseKeys.IS_FOLLOWER] ?? false,
     );
   }
   Map<String,dynamic> toJson(){

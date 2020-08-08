@@ -3,6 +3,7 @@ import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileScreenHeader extends StatelessWidget {
 
@@ -29,7 +30,7 @@ class ProfileScreenHeader extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
                     width: 80,
@@ -40,7 +41,7 @@ class ProfileScreenHeader extends StatelessWidget {
                         image: user != null && user.profileImagePath != null && user.profileImagePath.length > 0 ?
                         NetworkImage(user.profileImagePath) :
                         AssetImage(Resources.USER_PROFILE2_IMAGE),
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -67,7 +68,7 @@ class ProfileScreenHeader extends StatelessWidget {
                       child: Chip(
                         label: Text(getChipText() , softWrap: true,  style: _headerTextStyle.copyWith(
                           color: AppColors.mainThemeColor,
-                        )),
+                        )).tr(),
                         backgroundColor: AppColors.white,
                         elevation: 2,
                         shape: RoundedRectangleBorder(

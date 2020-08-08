@@ -1,6 +1,7 @@
 class URL{
-  static const String BASE_URL = "http://www.ref360.net:2000"; // server
-//  static const String BASE_URL = "http://8ed0fd109de2.ngrok.io"; // local
+//  static const String BASE_URL = "http://www.ref360.net:2000"; // server
+  static const String BASE_URL = "http://e96f965fca73.ngrok.io"; // local
+//  static const String BASE_URL = "http://161.97.87.130:2001"; // testing
   static const String API_URL = "$BASE_URL/api/";
   //ar-EG/
 
@@ -15,7 +16,8 @@ class URL{
   static const String GET_RETRIEVE_FIELDS_OF_STUDY = "FieldOfStudy/GetAll";
   static const String POST_CREATE_POST = "Post/CreatePost";
   static const String POST_UPLOAD_POST_FILES = "Post/UploadAttachedFiles";
-  static const String GET_GET_USER_POSTS = "Post/GetMyPosts";
+  static const String GET_GET_USER_POSTS = "Post/GetMyPosts"; // profile
+  static const String POST_GET_SUBSCRIBED_COURSES = "Course/GetMySubscribedCourses";
   static const String POST_LIKE_POST = "Post/LikePost";
   static const String POST_LIKE_POST_COMMENT = "Post/LikePostComment";
   static const String POST_UNLIKE_POST = "Post/UnLikePost";
@@ -25,9 +27,14 @@ class URL{
   static const String POST_RETRIEVE_COURSES = "Course/GetAllCourseWithStudyField";
   static const String GET_RETRIEVE_SYSTEM_GRADES = "Grade/GetAll";
   static const String GET_FETCH_COURSE_INFORMATION = "Course/GetCourseInformation?courseId=";
+  static const String GET_FETCH_LESSON_INFORMATION = "Lesson/GetLessonDetails?lessonId=";
   static const String POST_SUBSCRIBE_COURSE = "Subscription/SubscribeCourse";
   static const String POST_FOLLOW_USER = "Follower/Follow";
   static const String POST_UNFOLLOW_USER = "Follower/UnFollow";
+  static const String GET_LOAD_USER_PROFILE = "User/LoadUserProfile";
+  static const String POST_GET_USER_POSTS = "Post/GetUserPosts"; // public profile posts
+  static const String POST_LOAD_POSTS = "Post/GetAllPostsWithPagination"; // home
+  static const String POST_COMPLETE_LESSON = "Lesson/CompleteLesson";
 
 
 

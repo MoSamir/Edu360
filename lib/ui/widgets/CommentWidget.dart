@@ -12,19 +12,18 @@ class CommentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
-      shadowColor: AppColors.redBackgroundColor,
+      shadowColor: AppColors.backgroundColor,
       child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Container(
-              height: 50,
+              height: 70,
               child: Row(
                 children: <Widget>[
-
                   Container(
-                    width: 70,
-                    height: 70,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
@@ -34,10 +33,14 @@ class CommentWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+                  SizedBox(width: 5,),
+                  Text(comment.ownerName),
                 ],
               ),
             ),
-
+            SizedBox(height: 5,),
+            Text(comment.commentText),
+            SizedBox(height: 5,),
           ],
         ),
       ),

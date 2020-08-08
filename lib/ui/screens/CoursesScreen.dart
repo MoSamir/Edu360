@@ -35,7 +35,7 @@ class _CoursesScreenState extends State<CoursesScreen> {
                     crossAxisCount: 2,
                     primary: false,
                     children: List.generate(
-                      BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.length,
+                      BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses!= null ? BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.length : 0,
                           (index) {
                         return CourseCard(course: BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses[index], onCourseCardPressed: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider.value(value: SingleCourseBloc() , child: CourseLessonsScreen(course: BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses[index]),)));

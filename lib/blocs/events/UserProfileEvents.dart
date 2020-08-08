@@ -14,3 +14,9 @@ class FollowUser extends UserProfileEvents{
   final int userId ;
   FollowUser({this.userId});
 }
+
+
+class LoadOtherUsersProfile extends UserProfileEvents{
+  final int userId ;
+  LoadOtherUsersProfile({this.userId});
+}

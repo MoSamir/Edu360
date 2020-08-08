@@ -121,9 +121,12 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
 
   Widget singleLessonView(LessonViewModel lesson) {
     return InkWell(
-      onTap: ()=>  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> BlocProvider.value(
-          value: courseBloc,
-          child: ViewLesson(lesson: lesson , onDonePressed: onLessonDone)))),
+      onTap: ()async{
+        await Navigator.of(context).push(MaterialPageRoute(builder: (context)=> BlocProvider.value(
+            value: courseBloc,
+            child: ViewLesson(lesson: lesson , onDonePressed: onLessonDone))));
+        setState(() {});
+      },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10),
         child: Container(
@@ -142,7 +145,7 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                "video : ${lesson.quizMark > 0 ? 'done' : 'not done'}",
+                "video : ${lesson.isCompleted  ? 'done' : 'not done'}",
                 style: TextStyle(
                     color: AppColors.mainThemeColor,
                     fontSize: 14,
@@ -177,7 +180,8 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
   }
 
   onLessonDone() {
-    courseBloc.add(FetchCourseInformation());
+
+    courseBloc.add(FetchCourseInformation(course: widget.course ?? courseBloc.courseViewModel));
     BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.add(LoadUserCourses());
   }
 }

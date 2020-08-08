@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 import 'CourseReview.dart';
 
-class CourseQuestion extends StatefulWidget {
+class LessonQuizScreen extends StatefulWidget {
   @override
-  _CourseQuestionState createState() => _CourseQuestionState();
+  _LessonQuizScreenState createState() => _LessonQuizScreenState();
 }
 
-class _CourseQuestionState extends State<CourseQuestion> {
+class _LessonQuizScreenState extends State<LessonQuizScreen> {
   bool enable = false;
   int answerId;
   @override

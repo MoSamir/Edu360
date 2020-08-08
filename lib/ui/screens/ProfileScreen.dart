@@ -1,11 +1,14 @@
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
+import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/blocs/states/UserProfileStates.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/UIHelper.dart';
-import 'package:edu360/ui/widgets/ContainarBody.dart';
+import 'package:edu360/ui/screens/SinglePostScreen.dart';
+
 import 'package:edu360/ui/widgets/PlaceHolderWidget.dart';
 import 'package:edu360/ui/widgets/ProfileScreenHeader.dart';
 import 'package:edu360/utilities/AppStyles.dart';
@@ -87,7 +90,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                     ),
                   ),
                 ),
-                getPostsView(currentTabIndex),
+                SizedBox(height: 5,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
+                  child: getPostsView(currentTabIndex),
+                ),
               ],
             ),
           ),
@@ -114,18 +121,28 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     if(currentTabIndex == 0){
       return bloc.userPosts.length > 0 ?
       GridView.count(
+          padding: EdgeInsets.all(0),
           shrinkWrap: true,
-          padding: EdgeInsets.symmetric(
-              horizontal: 10.0, vertical: 20.0),
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 17.0,
-          childAspectRatio: 0.545,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
+          childAspectRatio: .8,
           crossAxisCount: 2,
           primary: false,
           children: List.generate(
-            4,
+            bloc.userPosts!= null ? bloc.userPosts.length : 0,
                 (index) {
-              return getDataProfile();
+                  bloc.userPosts[index].ownerName = user.userFullName;
+                  bloc.userPosts[index].ownerImagePath = user.profileImagePath;
+                  bloc.userPosts[index].postOwnerId = user.userId;
+              return UIHelper.getProfilePostView(bloc.userPosts[index], context,postAction: (){
+                setState(() {});
+              }, onPostClick: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+                  bloc.add(LoadUserProfile());
+                  BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+                } ,post: bloc.userPosts[index],)));
+              },
+              );
             },
           ))  : Container(
           color: AppColors.white,
@@ -136,18 +153,28 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     else if(currentTabIndex == 1){
       return bloc.userTextPosts.length > 0 ?
       GridView.count(
+
+        padding: EdgeInsets.all(0),
           shrinkWrap: true,
-          padding: EdgeInsets.symmetric(
-              horizontal: 10.0, vertical: 20.0),
-          crossAxisSpacing: 10.0,
-          mainAxisSpacing: 17.0,
-          childAspectRatio: 0.545,
+          crossAxisSpacing: 5,
+          mainAxisSpacing: 5,
+          childAspectRatio: .8,
           crossAxisCount: 2,
+
           primary: false,
           children: List.generate(
-            4,
-                (index) {
-              return DocsContainer();
+            bloc.userTextPosts != null ? bloc.userTextPosts.length : 0, (index) {
+            bloc.userTextPosts[index].ownerName = user.userFullName;
+            bloc.userTextPosts[index].ownerImagePath = user.profileImagePath;
+            bloc.userTextPosts[index].postOwnerId = user.userId;
+              return UIHelper.getProfilePostView(bloc.userTextPosts[index], context , postAction: (){
+                setState(() {});
+              }, onPostClick: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+                  bloc.add(LoadUserProfile());
+                  BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+                },post: bloc.userPosts[index],)));
+              },);
             },
           ))  : Container(
     color: AppColors.white,
@@ -160,15 +187,21 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         padding: EdgeInsets.all(0),
-        childAspectRatio: 1.2,
-        crossAxisSpacing: 0,
+        childAspectRatio: .8,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
         children: List.generate(bloc.userFilePosts.length , (index) {
           bloc.userFilePosts[index].ownerName = user.userFullName;
           bloc.userFilePosts[index].ownerImagePath = user.profileImagePath;
           bloc.userFilePosts[index].postOwnerId = user.userId;
-          return UIHelper.getPostView(bloc.userFilePosts[index], context , postAction: (){
+          return UIHelper.getProfilePostView(bloc.userFilePosts[index], context , postAction: (){
             setState(() {});
-          });
+          }, onPostClick: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+              bloc.add(LoadUserProfile());
+              BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            },post: bloc.userPosts[index],)));
+          },);
         })
       ) : Container(
         color: AppColors.white,
@@ -184,190 +217,5 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
          child: PlaceHolderWidget(placeHolder: Text('Edit Profile coming soon')));
     }
   }
-  Widget getDataProfile(){
-    return Container(
-      
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(20)
-      ),
-      child:  Column(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Material(
-                type: MaterialType.card,
-                color: Colors.white,
 
-                borderRadius: BorderRadius.circular(8),
-                child: Padding(
-                  padding: const EdgeInsets.all(4.0),
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Container(
-                              height: 40,
-                              width: 40,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.mainThemeColor,
-                              ),
-                              //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
-                            ),
-                            SizedBox(
-                              width: 15,
-                            ),
-                            Expanded(
-                              child: Text(
-                               'Name',
-                                textScaleFactor: 1,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 5,left: 5),
-                          child: SizedBox(
-                            height: 170,
-                            child: ListView(
-                              shrinkWrap: true,
-                              /*physics: NeverScrollableScrollPhysics(),*/
-                              children: <Widget>[
-                                Text(
-                                 'descripton Post descripton Post descripton descripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descriptondescripton Post descripton Post descripton descripton Post descripton Post descripton',
-                                  textAlign: TextAlign.start,
-                                  textScaleFactor: 1,
-                                  maxLines: 10,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: AppColors.mainThemeColor
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Column(
-            children: <Widget>[
-              SizedBox(
-                height: 10,
-              ),
-              Container(
-                color: Colors.black12,
-                width: MediaQuery.of(context).size.width,
-                height: .65,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: InkWell(
-                                  onTap:() {},
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.Clap_IMAGE)))),
-                        ],
-                      ),
-                      SizedBox(width: 6,),
-                      Column(
-                        children: <Widget>[
-                          SizedBox(
-                              height: 25,
-                              width: 25,
-                              child: InkWell(
-                                onTap: () {
-
-                                },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.COMMENT_CON_IMAGE)) ??
-                                        () {},
-                              )),
-                        ],
-                      ),
-                      SizedBox(width: 6,),
-                      Column(
-                        children: <Widget>[
-                          SizedBox(
-                              width: 25,
-                              height: 25,
-                              child: InkWell(
-                                onTap: () {
-
-                                },
-                                child: Image(
-                                    image: AssetImage(
-                                        Resources.COMMENT_ERROR_IMAGE)) ??
-                                        () {},
-                              )),
-
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 10,),
-                  Column(
-                    children: <Widget>[
-                      SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Column(
-                          children: <Widget>[
-                            InkWell(
-                              onTap: () {
-                              },
-                              child: Image(
-                                  image: AssetImage(
-                                      Resources.SHARE_IMAGE)) ??
-                                      () {},
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
 }

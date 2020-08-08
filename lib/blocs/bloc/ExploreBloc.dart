@@ -41,8 +41,8 @@ class ExploreBloc extends Bloc<ExploreEvents,ExploreStates>{
      List<ResponseViewModel> responses = await Future.wait([
        Repository.loadStudyFieldTeachers() ,
        Repository.loadStudyFieldUsers() ,
-       Repository.loadStudyFieldPosts() ,
        Repository.loadStudyFieldCourses(),
+       //Repository.loadStudyFieldPosts() ,
      ]);
 
      if(responses[0].isSuccess){
@@ -58,20 +58,22 @@ class ExploreBloc extends Bloc<ExploreEvents,ExploreStates>{
        users = null;
      }
 
-     if(responses[2].isSuccess){
-       posts = responses[2].responseData;
-     }
-     else {
-       posts = null;
-     }
 
-     if(responses[3].isSuccess){
-       courses = responses[3].responseData;
+     if(responses[2].isSuccess){
+       courses = responses[2].responseData;
      }
      else {
        courses = null;
      }
 
-     yield ExploreScreenLoaded();
+     //     if(responses[2].isSuccess){
+//       posts = responses[2].responseData;
+//     }
+//     else {
+//       posts = null;
+//     }
+
+
+    yield ExploreScreenLoaded();
   }
 }

@@ -140,9 +140,9 @@ class PostDataProvider{
 
     Map<String,dynamic> postData = {
       "Comment" : comment.commentText,
-      "PosID": postId,
+      "PostID": postId,
       "InteractionCommentTypeID": 0,
-      "ParentPostCommentID" : 0,
+      "ParentPostCommentID" : null,
     };
 
     ResponseViewModel newPostResponse = await NetworkUtilities.handlePostRequest(methodURL: NetworkUtilities.getFullURL(method: URL.POST_ADD_COMMENT),acceptJson: true ,requestBody: postData ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (responseJson){});
@@ -156,15 +156,11 @@ class PostDataProvider{
     UserViewModel userVm = await Repository.getUser();
     String userToken = userVm.userToken;
 
-
-
     Map<String,dynamic> postData = {
       "Comment" : comment.commentText,
-      "PosID": postId,
+      "PostID": postId,
       "InteractionCommentTypeID": 1,
     };
-
-
 
     ResponseViewModel newPostResponse = await NetworkUtilities.handlePostRequest(methodURL: NetworkUtilities.getFullURL(method: URL.POST_ADD_OBJECTION),acceptJson: true ,requestBody: postData ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (responseJson){});
     return ResponseViewModel<void>(

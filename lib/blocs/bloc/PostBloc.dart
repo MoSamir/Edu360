@@ -13,16 +13,15 @@ import '../../Repository.dart';
 
 class PostBloc extends Bloc<PostEvents , PostStates>{
 
-  UserProfileBloc profileBloc ;
-  HomePostsBloc homePostsBloc ;
-  PostBloc({this.homePostsBloc , this.profileBloc});
+
+  Function postExecutionCallback;
+  PostBloc(this.postExecutionCallback);
 
   @override
   PostStates get initialState => PostLoadedState();
 
   @override
   Stream<PostStates> mapEventToState(PostEvents event) async*{
-
     bool isUserConnected = await NetworkUtilities.isConnected();
     if(isUserConnected == false){
       yield PostLoadingFailed(
@@ -53,40 +52,74 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
   }
 
   Stream<PostStates> _handleLikePost(LikePost event) async*{
+    yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.likePost(postId: event.postViewModel.postId);
     if(likePostResult.isSuccess){
-      profileBloc.add(LoadUserProfile());
-    } else {}
+      postExecutionCallback();
+      yield PostLoadedState();
+      return;
+    } else {
+      yield PostLoadedState();
+      return;
+    }
   }
 
   Stream<PostStates> _handleUserComment(AddComment event)  async*{
+    yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.addComment(postId: event.postModel.postId , comment: event.commentViewModel);
     if(likePostResult.isSuccess){
-      profileBloc.add(LoadUserProfile());
-    } else {}
+      postExecutionCallback();
+      yield PostLoadedState();
+      return;
+    } else {
+      yield PostLoadedState();
+      return;
+    }
   }
 
   Stream<PostStates> _handleUserObjection(AddObjection event) async* {
+    yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.addObjection(postId: event.postModel.postId , comment: event.commentViewModel);
 
     if(likePostResult.isSuccess){
-      profileBloc.add(LoadUserProfile());
-    } else {}
+      postExecutionCallback();
+      yield PostLoadedState();
+      return;
+    } else {
+      yield PostLoadedState();
+      return;
+    }
   }
 
   Stream<PostStates> _handlePostSharing(SharePost event) async* {
+    yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.sharePost(postId: event.postViewModel.postId , shareDescription: event.shareDescription);
     if(likePostResult.isSuccess){
-      profileBloc.add(LoadUserProfile());
-    } else {}
+      postExecutionCallback();
+      yield PostLoadedState();
+      return;
+    } else {
+      yield PostLoadedState();
+      return;
+    }
   }
 
-  _handlePostCommentsFetching(FetchPostComments event) async*{
-    ResponseViewModel<List<CommentViewModel>> post = await Repository.getPostComments(post: event.postModel);
+  Stream<PostStates> _handlePostCommentsFetching(FetchPostComments event) async*{
+    yield PostLoadingState();
+    ResponseViewModel<List<CommentViewModel>> postCommentsResponse = await Repository.getPostComments(post: event.postModel);
     PostViewModel postModel = event.postModel;
-    postModel.postComments = post.responseData;
-    if(post.isSuccess){
+
+    if(postCommentsResponse.isSuccess && postCommentsResponse.responseData != null){
+      postModel.postComments = [];
+      postModel.postComments.addAll(postCommentsResponse.responseData);
+      yield CommentsFetched(postViewModel: postModel);
+      return ;
+    } else {
+      postModel.postComments = [];
       yield PostLoaded(postViewModel: postModel);
-    } else {}
+      return ;
+    }
   }
+
+
 }

@@ -58,7 +58,6 @@ class _HomePageState extends State<HomePage> {
                 bloc: _exploreBloc,
                 listener: (context , state){},
               ),
-
         ),
     );
   }
@@ -71,12 +70,10 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(10),
           child: customTextFormSearch(),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.backgroundColor,
           ),
         ),
-
         tabBarWidget(),
-
         tabBarPages()
       ],
     );

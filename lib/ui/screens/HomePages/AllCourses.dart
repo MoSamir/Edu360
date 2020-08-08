@@ -1,6 +1,5 @@
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/ui/screens/SingleCourseScreen.dart';
-import 'package:edu360/ui/widgets/ContainarBody.dart';
 import 'package:edu360/ui/widgets/CourseCard.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _AllCoursesState extends State<AllCourses> {
   @override
   Widget build(BuildContext context) {
 
-    fieldCourses = widget.courses.where((element) => element.isUserSubscribed == false).toList();
+    fieldCourses = widget.courses == null ? List(): widget.courses.where((element) => element.isUserSubscribed != null && element.isUserSubscribed == false).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),

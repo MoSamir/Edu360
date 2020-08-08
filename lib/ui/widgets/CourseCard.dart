@@ -33,9 +33,9 @@ class CourseCard extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
-                Text(course.courseTitle, style: Styles.baseTextStyle,),
-                Text(course.instructorName, style: Styles.baseTextStyle,),
-                Text(course.targetClasses.join(','), style: Styles.baseTextStyle,),
+                Text(course.courseTitle ?? '', style: Styles.baseTextStyle,),
+                Text(course.instructorName ?? '', style: Styles.baseTextStyle,),
+                Text(course.targetClasses.join(',') ?? '', style: Styles.baseTextStyle,),
               ],
             ),
             Column(

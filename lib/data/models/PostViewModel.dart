@@ -1,6 +1,7 @@
-import 'dart:io';
-
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
+import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
+import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:edu360/utilities/ParserHelpers.dart';
 
 import 'CommentViewModel.dart';
 
@@ -8,6 +9,7 @@ class PostViewModel{
 
   String postBody , ownerName , ownerImagePath ;
   int postId , postOwnerId  , numberOfLikes , numberOfComments, numberOfObjections , numberOfShares;
+  bool isLiked ;
 
   @override
   String toString() {
@@ -17,25 +19,39 @@ class PostViewModel{
   List<CommentViewModel> postComments = List();
   ContentType contentType;
   List<String> postFilesPath;
-  PostViewModel({this.ownerName, this.ownerImagePath , this.numberOfLikes , this.numberOfObjections , this.numberOfComments , this.numberOfShares , this.postBody , this.postComments , this.postId , this.postOwnerId , this.contentType , this.postFilesPath});
+  PostViewModel({this.ownerName, this.ownerImagePath , this.numberOfLikes , this.numberOfObjections , this.numberOfComments , this.numberOfShares , this.postBody , this.postComments , this.postId , this.postOwnerId , this.contentType , this.isLiked ,this.postFilesPath});
   
 
   static PostViewModel fromJson(Map<String,dynamic> postMap){
+
+
+    List<String> postDocuments = List<String>();
+    try {
+
+      if(postMap[ApiParseKeys.POST_ATTACHMENTS] != null && postMap[ApiParseKeys.POST_ATTACHMENTS] is List) {
+        for (int i  = 0; i <
+            postMap[ApiParseKeys.POST_ATTACHMENTS].length; i++) {
+          var attachment = postMap[ApiParseKeys.POST_ATTACHMENTS][i];
+          String url = attachment[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH].toString();
+          postDocuments.add(ParserHelper.parseURL(url));
+        }
+      }
+    } catch(Exception){}
+
     return PostViewModel(
+      isLiked: (postMap[ApiParseKeys.POST_USER_INTERACTION] != null && postMap[ApiParseKeys.POST_USER_INTERACTION] == 1),
       postId: postMap[ApiParseKeys.POST_ID],
       postOwnerId: postMap[ApiParseKeys.POST_OWNER_ID],
-      ownerImagePath: postMap[ApiParseKeys.POST_OWNER_IMAGE],
+      ownerImagePath: ParserHelper.parseURL(postMap[ApiParseKeys.POST_OWNER_IMAGE]) ?? '',
       ownerName: postMap[ApiParseKeys.POST_OWNER_NAME],
       postBody: postMap[ApiParseKeys.POST_BODY],
-      postFilesPath: postMap[ApiParseKeys.POST_ATTACHMENTS],
+      postFilesPath: postDocuments,
       postComments: postMap[ApiParseKeys.POST_COMMENTS],
-
       numberOfLikes: postMap[ApiParseKeys.POST_NUMBER_OF_LIKES],
       numberOfObjections: postMap[ApiParseKeys.POST_NUMBER_OF_OBJECTIONS],
       numberOfComments: postMap[ApiParseKeys.POST_NUMBER_OF_COMMENTS],
       numberOfShares: postMap[ApiParseKeys.POST_NUMBER_OF_SHARES],
-
-      contentType:  getContentType(postMap[ApiParseKeys.POST_ATTACHMENTS]),
+      contentType:  getContentType(postDocuments),
     );
   }
 
@@ -54,7 +70,7 @@ class PostViewModel{
       return ContentType.TEXT_POST;
 
     for(int i = 0 ; i < attachments.length ; i++)
-      if(attachments[i].contains('.doc') || attachments[i].contains('.pdf') || attachments[i].contains('.txt'))
+      if(attachments[i].toString().contains('.doc') || attachments[i].toString().contains('.pdf') || attachments[i].toString().contains('.txt'))
         return ContentType.FILE_POST;
     return ContentType.VIDEO_POST;
   }

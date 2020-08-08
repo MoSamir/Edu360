@@ -1,7 +1,7 @@
 import 'package:edu360/data/models/PostViewModel.dart';
-import 'package:edu360/ui/widgets/ContainarBody.dart';
-import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
+
+import '../../UIHelper.dart';
 class AllDocuments extends StatefulWidget {
 
   List<PostViewModel> posts ;
@@ -25,11 +25,11 @@ class _AllDocumentsState extends State<AllDocuments> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text('Top Research',
-                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: AppColors.mainThemeColor),),
-                  ),
+//                  Padding(
+//                    padding: const EdgeInsets.all(8.0),
+//                    child: Text('Top Research',
+//                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: AppColors.mainThemeColor),),
+//                  ),
                   GridView.count(
                       shrinkWrap: true,
                       padding: EdgeInsets.symmetric(
@@ -40,9 +40,9 @@ class _AllDocumentsState extends State<AllDocuments> {
                       crossAxisCount: 2,
                       primary: false,
                       children: List.generate(
-                        4,
+                        widget.posts != null ? widget.posts.length: 0,
                             (index) {
-                          return DocsContainer();
+                          return UIHelper.getProfilePostView(widget.posts[index], context , postAction: (){});
                         },
                       ))
                 ],

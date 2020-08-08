@@ -1,5 +1,11 @@
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
+import 'package:edu360/blocs/bloc/HomePostsBloc.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
+import 'package:edu360/blocs/states/HomePostsStates.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
+import 'package:edu360/ui/UIHelper.dart';
 import 'package:edu360/ui/screens/CreatePostScreen.dart';
+import 'package:edu360/ui/screens/SinglePostScreen.dart';
 import 'package:edu360/ui/widgets/post/UserDocumentsPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserTextPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserVideoPostCard.dart';
@@ -9,6 +15,8 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'CreatePostScreen.dart';
 class FeedsScreen extends StatefulWidget {
 
@@ -21,24 +29,42 @@ class FeedsScreen extends StatefulWidget {
 }
 
 class _FeedsScreenState extends State<FeedsScreen> {
+
+  HomePostsBloc homeBloc;
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          addCommentWidget(),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            padding: EdgeInsets.only(top: 0 , left: 10, right: 10),
-            itemBuilder: (context , index) {
-              return index == 1 ? UserDocumentsPostCard(postModel: PostViewModel(),) : index == 2 ? UserVideoPostCard(postModel: PostViewModel(),) : UserTextPostCard(postModel: PostViewModel(),);
-            } , itemCount: 3, shrinkWrap: true,),
-        ],
-      ),
+    homeBloc = BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc;
+    return BlocConsumer(
+      builder: (context,state){
+        return ModalProgressHUD(
+          inAsyncCall: state is HomePostsLoading,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: 40,),
+                addCommentWidget(),
+                ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  padding: EdgeInsets.only(top: 0 , left: 10, right: 10),
+                  itemBuilder: (context , index) {
+                    return UIHelper.getPostView(homeBloc.homePosts[index], context , elevation: 5 , postAction: (){
+                      homeBloc.add(LoadHomeUserPosts());
+                      setState(() {});
+                    } , onPostClick: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+                      BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+                    },post: homeBloc.homePosts[index],))));
+                  } , itemCount: homeBloc.homePosts.length, shrinkWrap: true,),
+              ],
+            ),
+          ),
+        );
+      },
+      listener: (context, state){},
+      bloc: homeBloc,
     );
   }
   Widget addCommentWidget() {
-
     return GestureDetector(
       onTap: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CreatePostScreen(widget.onPostCreated , widget.moveToScreen))),
       child: Container(

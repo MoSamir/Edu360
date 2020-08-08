@@ -7,7 +7,7 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-import 'CourseQuestion.dart';
+import 'LessonQuizScreen.dart';
 class CoursePayNow extends StatefulWidget {
   @override
   _CoursePayNowState createState() => _CoursePayNowState();
@@ -246,6 +246,6 @@ class _CoursePayNowState extends State<CoursePayNow> {
     );
   }
   void _navigateToCoursePayNow() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CourseQuestion()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LessonQuizScreen()));
   }
 }

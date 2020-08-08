@@ -4,6 +4,7 @@ import 'package:edu360/data/apis/helpers/URL.dart';
 import 'package:edu360/data/models/LessonViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
+import 'package:edu360/utilities/ParserHelpers.dart';
 
 class CourseViewModel {
 
@@ -43,7 +44,7 @@ class CourseViewModel {
   }
   static CourseViewModel fromJson(singleCourseJson) {
 
-    print("---------------------------");
+    print("---------Single Course Information => -----------------");
     print(singleCourseJson);
     print("-----------------------------");
 
@@ -59,10 +60,15 @@ class CourseViewModel {
       }
     }
 
-
     List<LessonViewModel> courseLessons = List();
-    if(singleCourseJson[ApiParseKeys.COURSE_LESSONS] != null && singleCourseJson[ApiParseKeys.COURSE_LESSONS] is List){
-      courseLessons = LessonViewModel.fromListJson(singleCourseJson[ApiParseKeys.COURSE_LESSONS]);
+    try {
+      if (singleCourseJson[ApiParseKeys.COURSE_LESSONS] != null &&
+          singleCourseJson[ApiParseKeys.COURSE_LESSONS] is List) {
+        courseLessons = LessonViewModel.fromListJson(
+            singleCourseJson[ApiParseKeys.COURSE_LESSONS]);
+      }
+    } catch(exception){
+      print("Exception Loading lessons => $exception");
     }
 
 
@@ -71,11 +77,8 @@ class CourseViewModel {
     DateTime courseEndDate = DateTime.parse(singleCourseJson[ApiParseKeys.COURSE_END_DATE] ?? DateTime.now().toString());
     DateTime courseStartDate = DateTime.parse(singleCourseJson[ApiParseKeys.COURSE_START_DATE]?? DateTime.now().toString());
 
+    String imagePath = ParserHelper.parseURL(singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH])  ?? '';
 
-
-    String imagePath = singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH]!=null ? singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH].toString().contains(URL.BASE_URL) ?singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH] ?? '' : (URL.BASE_URL + "/" +singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH]) : '';
-    if(imagePath ==null || imagePath.length == 0)
-      imagePath = singleCourseJson[ApiParseKeys.COURSE_INAGE_PATH]!=null ? singleCourseJson[ApiParseKeys.COURSE_INAGE_PATH].toString().contains(URL.BASE_URL) ?singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH] ?? '' : (URL.BASE_URL + "/" +singleCourseJson[ApiParseKeys.COURSE_INAGE_PATH]) : '';
 
 
 

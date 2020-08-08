@@ -19,3 +19,7 @@ class FetchCourseInformation extends SingleCourseEvents{
   FetchCourseInformation({this.course});
 }
 
+class FetchLessonInformation extends SingleCourseEvents{
+  final int lessonId ;
+  FetchLessonInformation({this.lessonId});
+}

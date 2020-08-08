@@ -5,6 +5,7 @@ import 'package:edu360/data/models/CategoryPostViewModel.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
 import 'package:edu360/data/models/GradeViewModel.dart';
+import 'package:edu360/data/models/LessonViewModel.dart';
 import 'package:edu360/data/models/NotificationViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
@@ -67,7 +68,7 @@ class Repository {
     return likeCommentResponse;
   }
   static unLikePost({int postId}) async{
-    var createPostResponse = await PostDataProvider.likePost(postId);
+    var createPostResponse = await PostDataProvider.unLikePost(postId);
     return createPostResponse;
   }
   static uploadPostFiles(List<File> postDocuments) async{
@@ -81,6 +82,7 @@ class Repository {
 
 
   }
+
   static loadUserProfile({int pageNo}) async{
     var loadUserProfileResponse = await UserDataProvider.loadUserPosts(pageNo ?? 1);
     return loadUserProfileResponse;
@@ -134,7 +136,24 @@ class Repository {
           likesCount: 1,
           commentId: 1,
           ownerImagePath: '',
-        ), CommentViewModel(
+        ),
+        CommentViewModel(
+          ownerId: 1,
+          ownerName: 'User',
+          commentText: 'Hello Dummy comment',
+          likesCount: 1,
+          commentId: 1,
+          ownerImagePath: '',
+        ),
+        CommentViewModel(
+          ownerId: 1,
+          ownerName: 'User',
+          commentText: 'Hello Dummy comment',
+          likesCount: 1,
+          commentId: 1,
+          ownerImagePath: '',
+        ),
+        CommentViewModel(
           ownerId: 2,
           ownerName: 'User 2',
           commentText: 'Hello Dummy comment 22',
@@ -232,7 +251,7 @@ class Repository {
   static Future<ResponseViewModel<List<UserViewModel>>>loadStudyFieldTeachers() async => await UserDataProvider.loadStudyFieldTeachers();
   static Future<ResponseViewModel<List<UserViewModel>>>loadStudyFieldUsers() async => await UserDataProvider.loadStudyFieldUsers();
 
-  static Future<ResponseViewModel<List<PostViewModel>>>loadStudyFieldPosts() async => await UserDataProvider.loadStudyFieldPosts();
+  static Future<ResponseViewModel<List<PostViewModel>>>loadHomePagePosts() async => await UserDataProvider.loadHomePagePosts();
   static Future<ResponseViewModel<List<CourseViewModel>>>loadStudyFieldCourses() async => await UserDataProvider.loadStudyFieldCourses();
   static Future<ResponseViewModel<List<GradeViewModel>>> getSystemGradesList() async  => await UserDataProvider.loadSystemGrades();
 
@@ -242,5 +261,28 @@ class Repository {
 
   static Future<ResponseViewModel<void>>followUser({int userId}) async => await UserDataProvider.followUser(userId);
   static Future<ResponseViewModel<void>> unfollowUser({int userId}) async => await UserDataProvider.unfollowUser(userId);
+
+  static loadOtherUserProfile({int id  , int pageNo}) async{
+    var loadUserProfileResponse = await UserDataProvider.loadUserProfile(id , pageNo ?? 1);
+    return loadUserProfileResponse;
+  }
+
+  static Future<ResponseViewModel<List<PostViewModel>>> loadOtherUserProfilePosts({int id}) async{
+
+    ResponseViewModel<List<PostViewModel>> userPosts = await UserDataProvider.loadSingleUserPosts(id);
+    return userPosts;
+  }
+
+
+  static Future<ResponseViewModel<List<CourseViewModel>>> getUserSubscribedCourses() async{
+
+    ResponseViewModel<List<CourseViewModel>> userCourses = await CoursesDataProvider.getMySubscribedCourses();
+    return userCourses;
+  }
+
+  static Future<ResponseViewModel<LessonViewModel>> getLessonInformation({int lessonId}) async => await CoursesDataProvider.getLessonInformation(lessonId);
+
+  static Future<ResponseViewModel<bool>> completeLesson({LessonViewModel lesson, bool flashCards, double quizGrade}) async =>await CoursesDataProvider.completeLesson(lesson,flashCards,quizGrade);
+
 
 }

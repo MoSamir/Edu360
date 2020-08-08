@@ -35,7 +35,3 @@ class FetchPostComments extends PostEvents{
   final PostViewModel postModel;
   FetchPostComments({this.postModel});
 }
-class PostLoaded extends PostEvents{
-  final PostViewModel postViewModel;
-  PostLoaded({this.postViewModel});
-}

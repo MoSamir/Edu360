@@ -9,10 +9,11 @@ import 'package:flutter_svg/svg.dart';
 class UserTextPostCard extends StatefulWidget {
   final PostViewModel postModel;
   final double elevation;
-  final onLike, onShare, onComment, onObjection;
+  final onLike, onShare, onComment, onObjection , onPostClick;
   UserTextPostCard(
       {this.postModel,
       this.elevation,
+      this.onPostClick,
       this.onComment,
       this.onLike,
       this.onObjection,
@@ -33,223 +34,195 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
   @override
   Widget build(BuildContext context) {
     print(widget.postModel.toString());
-    int likes = 0, comment = 1000 , error = 1000;
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Material(
-        type: MaterialType.card,
-        color: Colors.white,
-        elevation: widget.elevation ?? 5.0,
-        borderRadius: BorderRadius.circular(8),
-        child: Padding(
-          padding: const EdgeInsets.all(4.0),
-          child: Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Container(
-                      height: 40,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              widget.postModel.ownerImagePath ?? ''),
+    return GestureDetector(
+      onTap: widget.onPostClick ?? (){},
+      child: Padding(
+        padding: const EdgeInsets.all(4.0),
+        child: Material(
+          type: MaterialType.card,
+          color: Colors.white,
+          elevation: widget.elevation ?? 5.0,
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: NetworkImage(
+                                widget.postModel.ownerImagePath ?? ''),
+                          ),
+                          shape: BoxShape.circle,
+                          color: AppColors.mainThemeColor,
                         ),
-                        shape: BoxShape.circle,
-                        color: AppColors.mainThemeColor,
+                        //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                       ),
-                      //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Expanded(
-                      child: Text(
-                        widget.postModel.ownerName ?? 'Name',
-                        textScaleFactor: 1,
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      SizedBox(
+                        width: 15,
                       ),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 5,left: 5,bottom: 5),
-                  child: Container(
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: AppColors.mainThemeColor,
-                      borderRadius: BorderRadius.circular(20)
-                    ),
-                    child: Text('Docs Name Category',style: Styles.studyTextStyle.copyWith(fontWeight: FontWeight.bold),),
-                  )
-                ),
-                Padding(
+                      Expanded(
+                        child: Text(
+                          widget.postModel.ownerName ?? 'Name',
+                          textScaleFactor: 1,
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
                     padding: const EdgeInsets.only(right: 5,left: 5,bottom: 5),
-                    child: Container(
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          color: AppColors.redBackgroundColor,
-                          borderRadius: BorderRadius.circular(20)
-                      ),
-                      child: Text('Docs Name Category',style: Styles.studyTextStyle.copyWith(fontWeight: FontWeight.bold),),
-                    )
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                  height: .65,
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            SizedBox(
-                                height: 25,
-                                child: InkWell(
-                                    onTap: widget.onLike ?? () {},
-                                    child: Row(
-                                      children: <Widget>[
-                                        SvgPicture.asset(Resources.Clap_SVG_IMAGE , width: 25, height: 25,),
-                                       likes < 1 ? Container() :
-                                        Text('$likes',style: TextStyle(color: AppColors.mainThemeColor),),
-                                      ],
-                                    )
-                                )),
-                            Visibility(
-                              replacement: Container(
-                                width: 0,
-                                height: 0,
-                              ),
-                              visible: widget.postModel.numberOfLikes != null
-                                  ? widget.postModel.numberOfLikes > 0
-                                  : false,
-                              child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.mainThemeColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Center(
-                                      child: Text(
-                                        widget.postModel.numberOfLikes.toString(),
-                                        style: Styles.baseTextStyle,
-                                      ))),
-                            ),
-                          ],
-                        ),
-                        SizedBox(width: 6,),
-                        Column(
-                          children: <Widget>[
-                            SizedBox(
-                                height: 25,
-                                child: InkWell(
-                                  onTap: () {
-                                    widget.onComment("Comment");
-                                    return;
-                                  },
-                                  child: Row(
-                                    children: <Widget>[
-                                      SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,),
-                                      comment < 1 ? Container() :
-                                      Text('$comment',style: TextStyle(color: AppColors.mainThemeColor),),
-                                    ],
-                                  )??
-                                      () {},
-                                )),
-                          ],
-                        ),
-                        SizedBox(width: 6,),
-                        Column(
-                          children: <Widget>[
-                            SizedBox(
-                                height: 25,
-                                child: InkWell(
-                                  onTap: () {
-                                    widget.onObjection("objection");
-                                    return;
-                                  },
-                                  child: Row(
-                                    children: <Widget>[
-                                      SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
-                                      error < 1 ? Container() :
-                                      Text('$error',style: TextStyle(color: AppColors.redBackgroundColor),),
-                                    ],
-                                  ) ??
-                                      () {},
-                                )),
-                          ],
-                        ),
-                      ],
+                    child: Text(widget.postModel.postBody  ?? '' ,style: Styles.studyTextStyle.copyWith( color: AppColors.mainThemeColor),),
                     ),
-                    Column(
-                      children: <Widget>[
-                        SizedBox(
-                          width: 30,
-                          height: 30,
-                          child: Column(
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    color: Colors.black12,
+                    width: MediaQuery.of(context).size.width,
+                    height: .65,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Column(
                             children: <Widget>[
-                              InkWell(
-                                onTap: () {
-                                  widget.onShare("share");
-                                  return;
-                                },
-                                child: SvgPicture.asset(Resources.SHARE_SVG_IMAGE , width: 30, height: 30,) ??
-                                        () {},
-                              ),
+                              SizedBox(
+                                  height: 25,
+                                  child: InkWell(
+                                      onTap: widget.onLike ?? () {},
+                                      child: Row(
+                                        children: <Widget>[
+                                          SizedBox(
+                                              height: 25,
+                                              width: 25,
+                                              child: InkWell(
+                                                  onTap: (){
+                                                    if(widget.onLike != null)
+                                                      widget.onLike();
+                                                    return;
+                                                  },
+                                                  child: Icon(widget.postModel.isLiked ?? false ? Icons.favorite  : Icons.favorite_border ,color: AppColors.mainThemeColor,))),
+                                        widget.postModel.numberOfLikes < 1 ? Container() : Text('${widget.postModel.numberOfLikes}',style: TextStyle(color: AppColors.mainThemeColor),),
+                                        ],
+                                      )
+                                  )),
+
                             ],
                           ),
-                        ),
-                        Visibility(
-                          replacement: Container(
-                            width: 0,
-                            height: 0,
+                          SizedBox(width: 6,),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                  height: 25,
+                                  child: InkWell(
+                                    onTap: () {
+                                      widget.onComment("Comment");
+                                      return;
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,),
+                                        widget.postModel.numberOfComments < 1 ? Container() :
+                                        Text('${ widget.postModel.numberOfComments}',style: TextStyle(color: AppColors.mainThemeColor),),
+                                      ],
+                                    )??
+                                        () {},
+                                  )),
+                            ],
                           ),
-                          visible: widget.postModel.numberOfShares != null
-                              ? widget.postModel.numberOfShares > 0
-                              : false,
-                          child: Container(
-                              width: 20,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                color: AppColors.mainThemeColor,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                  child: Text(
-                                widget.postModel.numberOfShares.toString(),
-                                style: Styles.baseTextStyle,
-                              ))),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                          SizedBox(width: 6,),
+                          Column(
+                            children: <Widget>[
+                              SizedBox(
+                                  height: 25,
+                                  child: InkWell(
+                                    onTap: () {
+                                      widget.onObjection("objection");
+                                      return;
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
+                                        widget.postModel.numberOfObjections < 1 ? Container() :
+                                        Text('${ widget.postModel.numberOfObjections}',style: TextStyle(color: AppColors.redBackgroundColor),),
+                                      ],
+                                    ) ??
+                                        () {},
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          SizedBox(
+//                            width: 55,
+                            height: 30,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    widget.onShare("share");
+                                    return;
+                                  },
+                                  child: Image(image: AssetImage(Resources.SHARE_IMAGE)),
+                                ),
+                                Visibility(
+                                  replacement: Container(
+                                    width: 0,
+                                    height: 0,
+                                  ),
+                                  visible: widget.postModel.numberOfShares != null
+                                      ? widget.postModel.numberOfShares > 0
+                                      : false,
+                                  child: Container(
+                                      width: 20,
+                                      height: 20,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.mainThemeColor,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                            widget.postModel.numberOfShares.toString(),
+                                            style: Styles.baseTextStyle,
+                                          ))),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

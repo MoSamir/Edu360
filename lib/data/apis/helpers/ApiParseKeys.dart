@@ -37,6 +37,8 @@ class ApiParseKeys {
   static const String POST_OWNER_ID = "userID";
   static const String POST_OWNER_NAME = "userName";
   static const String POST_OWNER_IMAGE = "userImage";
+  static const String POST_USER_INTERACTION = "InteractionTypeID";
+
 
   static const String POST_BODY = "text";
   static const String POST_NUMBER_OF_LIKES = "noOfLikes";
@@ -46,6 +48,7 @@ class ApiParseKeys {
   static const String POST_NUMBER_OF_SHARES = "noOfShares";
   static const String POST_SHARE_DESCRIPTION = "sahreDescription";
   static const String POST_ATTACHMENTS = "postAttachments";
+  static const String POST_SINGLE_ATTACHMENT_PATH = "postAttachmentPath";
   static const String POST_ID = "id";
   static const String POST_TYPE = "techStatusID";
   static const String POST_COMMENTS = "postComments";
@@ -64,7 +67,6 @@ class ApiParseKeys {
   static const String COURSE_GRADE = "grade";
   static const String COURSE_SUBSCRIPTION_PRICE = "price";
   static const String COURSE_IMAGE_PATH = "courseImagePath";
-  static const String COURSE_INAGE_PATH = "courseInagePath";
 
   static const String COURSE_OUTCOMES_EN = "learningOutcomesEn";
   static const String COURSE_OUTCOMES_AR = "learningOutcomesAr";
@@ -83,14 +85,23 @@ class ApiParseKeys {
 
 
   //----------------- LESSON KEYS ------------------------------------------------
-  static const String LESSON_ID = "lessonID";
+  static const String LESSON_ID = "id";
   static const String LESSON_NAME_AR = "lessonNameAr";
   static const String LESSON_NAME_EN = "lessonNameEn";
-  static const String LESSON_DOC = "attachment";
-  static const String LESSON_LEARNING = "learning";
-  static const String LESSON_FLASH_CARD = "flashcard";
+  static const String LESSON_DOC = "pdfPath";
+  static const String LESSON_LEARNING_AR = "learningOutcomesAr";
+  static const String LESSON_LEARNING_EN = "learningOutcomesEn";
+  static const String LESSON_FLASH_CARD = "flashCard";
   static const String QUIZ_MARK = "mark";
-  static const String LESSON_VIDEO_URL = "video";
+  static const String LESSON_QUIZ_QUESTIONS = "lessonQuestions";
+  static const String LESSON_VIDEO_URL = "videoPath";
+  static const String LESSON_COMPLETED = "isCompleted";
+
+
+
+  //-------------------- LOAD OTHER USER ---------------------------------------------
+
+  static const String IS_FOLLOWER = "isFollowedBy";
 
 
 }
