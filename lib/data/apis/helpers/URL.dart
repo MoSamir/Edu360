@@ -1,6 +1,6 @@
 class URL{
-//  static const String BASE_URL = "http://www.ref360.net:2000"; // server
-  static const String BASE_URL = "http://e96f965fca73.ngrok.io"; // local
+  static const String BASE_URL = "http://www.ref360.net:2000"; // server
+//  static const String BASE_URL = "http://7dc101b80a1b.ngrok.io"; // local
 //  static const String BASE_URL = "http://161.97.87.130:2001"; // testing
   static const String API_URL = "$BASE_URL/api/";
   //ar-EG/
@@ -17,6 +17,8 @@ class URL{
   static const String POST_CREATE_POST = "Post/CreatePost";
   static const String POST_UPLOAD_POST_FILES = "Post/UploadAttachedFiles";
   static const String GET_GET_USER_POSTS = "Post/GetMyPosts"; // profile
+  static const String POST_GET_EXPLORE_POSTS = "Post/GetExplorePostsWithPagination";
+  static const String POST_LOAD_POSTS = "Post/GetAllPostsWithPagination"; // home// explore
   static const String POST_GET_SUBSCRIBED_COURSES = "Course/GetMySubscribedCourses";
   static const String POST_LIKE_POST = "Post/LikePost";
   static const String POST_LIKE_POST_COMMENT = "Post/LikePostComment";
@@ -33,7 +35,7 @@ class URL{
   static const String POST_UNFOLLOW_USER = "Follower/UnFollow";
   static const String GET_LOAD_USER_PROFILE = "User/LoadUserProfile";
   static const String POST_GET_USER_POSTS = "Post/GetUserPosts"; // public profile posts
-  static const String POST_LOAD_POSTS = "Post/GetAllPostsWithPagination"; // home
+
   static const String POST_COMPLETE_LESSON = "Lesson/CompleteLesson";
 
 

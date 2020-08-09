@@ -45,8 +45,10 @@ class _HomePageState extends State<HomePage> {
           child: Scaffold(
             backgroundColor: AppColors.backgroundColor,
             appBar: EduAppBar(
+              logoWidth: MediaQuery.of(context).size.width / 3,
+              logoHeight: 20,
               backgroundColor: AppColors.mainThemeColor,
-              actions: <Widget>[ Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),],
+              actions: <Widget>[ Image(image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),color: Colors.white,),],
             ),
               body: BlocConsumer(
                 builder: (context, state){

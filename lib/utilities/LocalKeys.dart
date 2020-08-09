@@ -109,6 +109,12 @@ class LocalKeys{
   static const String EGP_PER_MONTH = "EGP_PER_MONTH";
   static const String COURSE_LEARNING_OUTCOMES = "COURSE_LEARNING_OUTCOMES";
 
+// ----------------------------- SINGLE COURSE PAGE ----------------------------
+
+  static const String COURSE_HAS_NO_LESSONS = "COURSE_HAS_NO_LESSONS";
+  static const String COURSE_NOT_STARTED_YET = "COURSE_NOT_STARTED_YET";
+
+
 
 
 

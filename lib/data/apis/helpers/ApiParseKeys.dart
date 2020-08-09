@@ -80,8 +80,8 @@ class ApiParseKeys {
 
   //----------------- GET SYSTEM GRADES --------------------------------------------
 
-  static const String GRADE_NAME_AR = "gradeNameAr";
-  static const String GRADE_NAME_EN = "gradeNameEn";
+  static const String GRADE_NAME_AR = "nameAr";
+  static const String GRADE_NAME_EN = "nameEn";
 
 
   //----------------- LESSON KEYS ------------------------------------------------

@@ -42,7 +42,7 @@ class ExploreBloc extends Bloc<ExploreEvents,ExploreStates>{
        Repository.loadStudyFieldTeachers() ,
        Repository.loadStudyFieldUsers() ,
        Repository.loadStudyFieldCourses(),
-       //Repository.loadStudyFieldPosts() ,
+       Repository.loadStudyFieldPosts() ,
      ]);
 
      if(responses[0].isSuccess){
@@ -66,12 +66,12 @@ class ExploreBloc extends Bloc<ExploreEvents,ExploreStates>{
        courses = null;
      }
 
-     //     if(responses[2].isSuccess){
-//       posts = responses[2].responseData;
-//     }
-//     else {
-//       posts = null;
-//     }
+          if(responses[2].isSuccess){
+       posts = responses[2].responseData;
+     }
+     else {
+       posts = null;
+     }
 
 
     yield ExploreScreenLoaded();

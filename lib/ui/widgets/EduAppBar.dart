@@ -69,8 +69,8 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
                 ),
               ) : Container(),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: autoImplyLeading?? false ? 50: 15,),
-                child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width * .25, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
+                padding: EdgeInsets.symmetric(horizontal: autoImplyLeading?? false ? 50: 15, vertical: 20),
+                child: Align(alignment: AlignmentDirectional.topStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width * .25, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
               )
             ],
           ),

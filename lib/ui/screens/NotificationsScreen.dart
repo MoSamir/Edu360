@@ -46,7 +46,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         listener: (context, state){
 
           if (state is NotificationsLoadingFailed) {
-            if (state.error.errorCode == HttpStatus.requestTimeout) {
+            if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
                   barrierDismissible: false,

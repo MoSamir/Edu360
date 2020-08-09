@@ -98,12 +98,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         SizedBox(height: 10,),
                         getFieldsOfStudySpinner(),
                         SizedBox(height: 10,),
-                        getFilesList(),
+                        Visibility(
+                          replacement: Container(width: 0, height: 0,),
+                          visible: false,
+                          child: getFilesList(),
+                        ),
                         SizedBox(height: 30,),
                         GestureDetector(
                           onTap: (){
-                            if(_formGlobalKey.currentState.validate() && uploadedDocuments!=null && uploadedDocuments.length > 0) {
-                              print("${user.userFieldOfStudy}");
+                            if(_formGlobalKey.currentState.validate() /*&& uploadedDocuments!=null && uploadedDocuments.length > 0*/) {
                               user = UserViewModel(
                                 userFieldOfStudy: user.userFieldOfStudy,
                                 userEmail: _usernameController.text,

@@ -1,8 +1,10 @@
 import 'package:edu360/data/models/CourseViewModel.dart';
+import 'package:edu360/data/models/GradeViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
 class CourseCard extends StatelessWidget {
   final CourseViewModel course ;
   final Function onCourseCardPressed ;
@@ -24,6 +26,7 @@ class CourseCard extends StatelessWidget {
               course.courseImage ?? '',
             ),
             fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(AppColors.black.withOpacity(.5), BlendMode.darken),
           ),
           borderRadius: BorderRadius.all(Radius.circular(12)),
         ),
@@ -32,10 +35,12 @@ class CourseCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(course.courseTitle ?? '', style: Styles.baseTextStyle,),
                 Text(course.instructorName ?? '', style: Styles.baseTextStyle,),
-                Text(course.targetClasses.join(',') ?? '', style: Styles.baseTextStyle,),
+                Text(getTargetGrades(course.targetClasses) ?? '', style: Styles.baseTextStyle,),
               ],
             ),
             Column(
@@ -49,5 +54,16 @@ class CourseCard extends StatelessWidget {
       ),
      ),
     );
+  }
+
+   String getTargetGrades(List<GradeViewModel> targetClasses) {
+    List<String> targets = List();
+
+
+    for(int i = 0 ; i < targetClasses.length; i++) {
+      print("Grade => ${targetClasses[i].toString()}");
+      targets.add(targetClasses[i].gradeNameEn);
+    }
+      return targets.join(',');
   }
 }

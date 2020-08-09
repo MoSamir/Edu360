@@ -46,6 +46,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: EduAppBar(
+        logoWidth: MediaQuery.of(context).size.width / 3,
+        logoHeight: 20,
         autoImplyLeading: true,
       ),
       body: SingleChildScrollView(

@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         listener: (context , state){
           if (state is AuthenticationFailed) {
-            if (state.error.errorCode == HttpStatus.requestTimeout) {
+            if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
                   barrierDismissible: false,

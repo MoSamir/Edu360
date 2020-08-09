@@ -45,7 +45,9 @@
   "WHOLE_POSTS_PLACE_HOLDER": "لا يوجد منشورات حتي الان",
   "COURSE_NAME": "اسم دورة",
   "EGP_PER_MONTH": "جنيه/شهر",
-  "COURSE_LEARNING_OUTCOMES":"الدروس المستفاده :"
+  "COURSE_LEARNING_OUTCOMES":"الدروس المستفاده :",
+  "COURSE_HAS_NO_LESSONS": "لا يوجد دروس حاليا",
+  "COURSE_NOT_STARTED_YET": "المحاضرات لم تبدأ بعض"
 
 }
 

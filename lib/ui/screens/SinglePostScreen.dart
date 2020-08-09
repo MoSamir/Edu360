@@ -46,6 +46,8 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: EduAppBar(
+        logoWidth: MediaQuery.of(context).size.width / 3,
+        logoHeight: 20,
         backgroundColor: AppColors.mainThemeColor,
         autoImplyLeading: true,
       ),

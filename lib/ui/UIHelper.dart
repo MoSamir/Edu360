@@ -1,5 +1,6 @@
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/PostBloc.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/PostEvents.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/data/models/CommentViewModel.dart';
@@ -17,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class UIHelper {
   static Widget getPostView(PostViewModel post , BuildContext context ,{double elevation , Function postAction , Function onPostClick}){
     PostBloc postBloc = PostBloc((){
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
       BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
     });
     UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
@@ -93,6 +95,7 @@ class UIHelper {
   }
   static Widget getProfilePostView(PostViewModel post , BuildContext context , {Function postAction , Function onPostClick}){
     PostBloc postBloc = PostBloc((){
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
       BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
     });
     UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;

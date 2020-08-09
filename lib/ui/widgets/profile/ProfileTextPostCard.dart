@@ -48,10 +48,11 @@ class ProfileTextPostCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppColors.mainThemeColor,
-                                  image: DecorationImage(
-                                    image: NetworkImage(postModel.ownerImagePath ?? ''),
-                                    fit: BoxFit.cover,
-                                  ),
+
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: postModel.ownerImagePath, fit: BoxFit.cover,),
                                 ),
                                 //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                               ),

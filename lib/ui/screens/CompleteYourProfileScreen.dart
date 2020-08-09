@@ -79,7 +79,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> BlocProvider.value(value: _bloc , child: VerificationScreen(),)));
             }
             else if (state is RegistrationFailed) {
-              if (state.error.errorCode == HttpStatus.requestTimeout) {
+              if (state.error.errorCode == HttpStatus.requestTimeout || state.error.errorCode == HttpStatus.badGateway) {
                 showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -159,7 +159,8 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                                               fit: BoxFit.fill,
                                               image: FileImage(userImage),
                                             ),
-                                          ),) : Icon(Icons.account_circle , color: AppColors.mainThemeColor, size: 100,)),
+                                          ),
+                                        ) : Icon(Icons.account_circle , color: AppColors.mainThemeColor, size: 100,)),
                                         Padding(
                                           padding: const EdgeInsetsDirectional.only(end: 50 , bottom: 10),
                                           child: Align(alignment: AlignmentDirectional.bottomCenter, child: Icon(Icons.add_circle , size: 30, color: AppColors.backgroundColor,),),

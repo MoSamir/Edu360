@@ -285,4 +285,11 @@ class Repository {
   static Future<ResponseViewModel<bool>> completeLesson({LessonViewModel lesson, bool flashCards, double quizGrade}) async =>await CoursesDataProvider.completeLesson(lesson,flashCards,quizGrade);
 
 
+
+  static Future<ResponseViewModel<List<PostViewModel>>> loadStudyFieldPosts() async{
+    ResponseViewModel<List<PostViewModel>> userPosts = await UserDataProvider.loadStudyFieldPosts();
+    return userPosts;
+  }
+
+
 }

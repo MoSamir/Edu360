@@ -74,6 +74,9 @@ class NetworkUtilities {
       );
     }
     catch(exception){
+
+      print("Exception in Get Response => $exception");
+
       getResponse =  ResponseViewModel(
         isSuccess: false ,
         errorViewModel: ErrorViewModel(

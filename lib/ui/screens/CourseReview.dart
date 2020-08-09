@@ -15,6 +15,7 @@ class _CourseReviewState extends State<CourseReview> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: EduAppBar(
+        autoImplyLeading: true,
         backgroundColor: AppColors.mainThemeColor,
         logoWidth: MediaQuery.of(context).size.width / 3,
         logoHeight: 20,

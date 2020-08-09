@@ -66,8 +66,6 @@ class _LandingScreenState extends State<LandingScreen> {
           MaterialPageRoute(builder: (context) => RegistrationScreen()));
   }
   void _navigateToLoginForm() {
-
     Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LoginScreen()));
   }
-
 }

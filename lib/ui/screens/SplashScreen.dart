@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       listener: (context , state)
         {
         if (state is AuthenticationFailed) {
-          if (state.error.errorCode == HttpStatus.requestTimeout) {
+          if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
             showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -60,7 +60,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           }
         }
         else if (state is UserNotInitialized) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LandingScreen()));
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => LandingScreen()));
         } else if(state is UserAuthenticated){
           Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => TabsHolderScreen()));
         }

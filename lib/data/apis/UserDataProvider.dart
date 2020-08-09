@@ -236,9 +236,6 @@ class UserDataProvider {
     };
     String userToken = (await Repository.getUser()).userToken;
     var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.POST_RETRIEVE_COURSES),parserFunction: (jsonResponse){
-
-      print(jsonResponse[ApiParseKeys.POSTS_DATA]);
-
       return CourseViewModel.fromListJson(jsonResponse[ApiParseKeys.POSTS_DATA]);
     });
 
@@ -316,16 +313,15 @@ class UserDataProvider {
   static Future<ResponseViewModel<List<GradeViewModel>>> loadSystemGrades() async{
 
 
-    var getgGradesResponse = await NetworkUtilities.handleGetRequest(requestHeaders: NetworkUtilities.getHeaders(), methodURL: NetworkUtilities.getFullURL(method: URL.GET_RETRIEVE_SYSTEM_GRADES), parserFunction: GradeViewModel.fromListJson);
+    var getGradesResponse = await NetworkUtilities.handleGetRequest(requestHeaders: NetworkUtilities.getHeaders(), methodURL: NetworkUtilities.getFullURL(method: URL.GET_RETRIEVE_SYSTEM_GRADES), parserFunction: GradeViewModel.fromListJson);
     return ResponseViewModel<List<GradeViewModel>>(
-      responseData: getgGradesResponse.responseData,
-      isSuccess: getgGradesResponse.isSuccess,
-      errorViewModel: getgGradesResponse.errorViewModel,
+      responseData: getGradesResponse.responseData,
+      isSuccess: getGradesResponse.isSuccess,
+      errorViewModel: getGradesResponse.errorViewModel,
     );
   }
 
   static unfollowUser(int userId) async{
-
     Map<String,dynamic> requestBody = {
       'UserID' : userId,
     };
@@ -409,5 +405,22 @@ class UserDataProvider {
     );
   }
 
-
+  static loadStudyFieldPosts() async{
+    UserViewModel user = await getUser();
+    Map<String,dynamic> postMap = {
+      'PageNumber': 1,
+      'PageSize' : 100,
+      'UserType' : 1,
+      'FieldOfStudyID':  -1 , // user.userFieldOfStudy.studyFieldId,
+    };
+    String userToken = (await Repository.getUser()).userToken;
+    var getUserPostsResponse = await NetworkUtilities.handlePostRequest(acceptJson: true, requestBody: postMap ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}), methodURL: NetworkUtilities.getFullURL(method: URL.POST_GET_EXPLORE_POSTS),parserFunction: (postsJson){
+    return PostViewModel.fromListJson(postsJson[ApiParseKeys.POSTS_DATA]);
+    });
+    return ResponseViewModel<List<PostViewModel>>(
+    responseData: getUserPostsResponse.responseData,
+    isSuccess: getUserPostsResponse.isSuccess,
+    errorViewModel: getUserPostsResponse.errorViewModel,
+    );
+  }
 }

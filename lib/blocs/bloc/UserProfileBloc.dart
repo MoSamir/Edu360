@@ -72,10 +72,13 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
 
   Stream<UserProfileStates> _handleUnFollowUser(UnfollowUser event) async*{
     yield UserProfileLoading();
-    print('Requesting unfollow => ${event.userId}');
     ResponseViewModel<void> followUser = await Repository.unfollowUser(userId: event.userId);
     if(followUser.isSuccess){
-      add(LoadUserProfile(userId: event.userId));
+      followStream.sink.add(true);
+      if(userViewModel ==null)
+        add(LoadUserProfile(userId: event.userId));
+      else
+        add(LoadOtherUsersProfile(userId: userViewModel.userId));
       return;
     } else {
       yield UserProfileLoadingFailed(error: followUser.errorViewModel , failureEvent: event );
@@ -88,10 +91,10 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
     ResponseViewModel<void> followUser = await Repository.followUser(userId: event.userId);
     if(followUser.isSuccess){
       followStream.sink.add(true);
-      if(userViewModel !=null)
+      if(userViewModel ==null)
         add(LoadUserProfile(userId: event.userId));
       else
-        add(LoadOtherUsersProfile(userId: userViewModel.userId));
+      add(LoadOtherUsersProfile(userId: userViewModel.userId));
       return;
     } else {
       yield UserProfileLoadingFailed(error: followUser.errorViewModel , failureEvent: event );
@@ -103,9 +106,8 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
     yield UserProfileLoading();
     ResponseViewModel<UserViewModel> userResponse = await Repository.loadOtherUserProfile(id: event.userId);
     if(userResponse.isSuccess){
-      followStream.sink.add(false);
+      followStream.sink.add(userResponse.responseData.isFollowingLoggedInUser);
       userViewModel = userResponse.responseData;
-
       ResponseViewModel<List<PostViewModel>> userPostsResponse = await Repository.loadOtherUserProfilePosts(id: event.userId);
       if(userPostsResponse.isSuccess)
         userPosts = userPostsResponse.responseData;

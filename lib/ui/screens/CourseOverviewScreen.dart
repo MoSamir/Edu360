@@ -26,13 +26,6 @@ class _CourseOverviewScreenState extends State<CourseOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-//      appBar:  EduAppBar(
-//        backgroundColor: AppColors.mainThemeColor,
-//        icon: Icons.search,
-//        actions: <Widget>[Icon(Icons.message)],
-//        logoWidth: MediaQuery.of(context).size.width / 3,
-//        logoHeight: 20,
-//      ),
       body: Stack(
         children: <Widget>[
 
@@ -155,16 +148,17 @@ class _CourseOverviewScreenState extends State<CourseOverviewScreen> {
             ],
           ),
           EduAppBar(
+            logoWidth: MediaQuery.of(context).size.width / 3,
+            logoHeight: 20,
+            autoImplyLeading: true,
             backgroundColor: AppColors.mainThemeColor,
             icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 25, height: 25,),
             actions: <Widget>[
               Image(
-                image: AssetImage(Resources.COMMENT_IMAGE),
+                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
                 color: Colors.white,
               ),
             ],
-            logoWidth: MediaQuery.of(context).size.width / 3,
-            logoHeight: 20,
           )
         ],
       ),

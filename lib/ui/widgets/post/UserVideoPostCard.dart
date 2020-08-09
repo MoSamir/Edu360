@@ -63,12 +63,12 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                widget.postModel.ownerImagePath ?? ''),
-                          ),
                           shape: BoxShape.circle,
                           color: AppColors.mainThemeColor,
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: widget.postModel.ownerImagePath, fit: BoxFit.cover,),
                         ),
                         //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                       ),

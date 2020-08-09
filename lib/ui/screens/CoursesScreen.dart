@@ -20,33 +20,36 @@ class _CoursesScreenState extends State<CoursesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      body: Stack(
-        children: <Widget>[
-          Column(
-            children: <Widget>[
-              Expanded(
-                child: GridView.count(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 20.0),
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 17.0,
-                    childAspectRatio: 0.545,
-                    crossAxisCount: 2,
-                    primary: false,
-                    children: List.generate(
-                      BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses!= null ? BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.length : 0,
-                          (index) {
-                        return CourseCard(course: BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses[index], onCourseCardPressed: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider.value(value: SingleCourseBloc() , child: CourseLessonsScreen(course: BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses[index]),)));
-                            },);
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
+        child: Stack(
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Expanded(
+                  child: GridView.count(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10.0, vertical: 20.0),
+                      crossAxisSpacing: 10.0,
+                      mainAxisSpacing: 17.0,
+                      childAspectRatio: 0.545,
+                      crossAxisCount: 2,
+                      primary: false,
+                      children: List.generate(
+                        BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses!= null ? BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.length : 0,
+                            (index) {
+                          return CourseCard(course: BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses[index], onCourseCardPressed: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>BlocProvider.value(value: SingleCourseBloc() , child: CourseLessonsScreen(course: BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses[index]),)));
+                              },);
 
-                      },
-                    )),
-              ),
-            ],
-          ),
-        ],
+                        },
+                      )),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

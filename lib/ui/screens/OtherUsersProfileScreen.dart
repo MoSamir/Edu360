@@ -35,7 +35,6 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
     super.initState();
 
     bloc = UserProfileBloc();
-
     bloc.add(LoadOtherUsersProfile(userId: widget.userId));
     tabController = TabController(
       vsync: this,
@@ -48,16 +47,16 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
 
     return Scaffold(
       appBar: EduAppBar(
-        backgroundColor: AppColors.mainThemeColor,
-        actions: <Widget>[
-          Image(
-            image: AssetImage(Resources.COMMENT_IMAGE),
-            color: Colors.white,
-          ),
-        ],
         logoWidth: MediaQuery.of(context).size.width / 3,
         logoHeight: 20,
         autoImplyLeading: true,
+        backgroundColor: AppColors.mainThemeColor,
+        actions: <Widget>[
+          Image(
+            image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+            color: Colors.white,
+          ),
+        ],
       ),
       body: BlocConsumer(
         bloc: bloc,
@@ -163,6 +162,7 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
               bloc.userPosts[index].postOwnerId = bloc.userViewModel.userId;
               return UIHelper.getProfilePostView(bloc.userPosts[index], context,postAction: (){
                 setState(() {});
+                bloc.add(LoadOtherUsersProfile(userId: bloc.userViewModel.userId));
               });
             },
           ))  : Container(

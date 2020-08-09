@@ -82,7 +82,7 @@ class _ViewLessonState extends State<ViewLesson> {
           else if (state is LessonInformationLoadingFailed ||
                    state is LoadingCourseFailed ||
                    state is LessonCompletionFailed) {
-            if (state.error.errorCode == HttpStatus.requestTimeout) {
+            if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -172,6 +172,7 @@ class _ViewLessonState extends State<ViewLesson> {
                   backgroundColor: AppColors.mainThemeColor,
                   logoWidth: MediaQuery.of(context).size.width / 3,
                   logoHeight: 20,
+                  autoImplyLeading: true,
                 ),
               ],
             ),

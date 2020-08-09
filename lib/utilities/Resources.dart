@@ -16,19 +16,14 @@ class Resources{
   static const String COMMENT_IMAGE = "assets/images/comment.png";
   static const String COMMENT_SVG_IMAGE = "assets/images/comment.svg";
   static const String POST_PAGE_COMMENT_SVG_IMAGE = "assets/images/single_post_comment.svg";
-
+  static const String APPBAR_MESSAGE_IMAGE = "assets/images/message_icon.png";
   static const String COMPONENT_IMAGE = "assets/images/Component.png";
-
-//  static const String Clap_IMAGE = "assets/images/clap.png";
-//  static const String Clap_SVG_IMAGE = "assets/images/clap.svg";
-
   static const String ICON_1_IMAGE = "assets/images/icon_1.png";
   static const String COMMENT_CON_IMAGE = "assets/images/comment_con.png";
   static const String COMMENT_CON_SVG_IMAGE = "assets/images/comment.png";
   static const String COMMENT_ERROR_IMAGE = "assets/images/comment_error.png";
   static const String COMMENT_ERROR_SVG_IMAGE = "assets/images/comment_error.svg";
   static const String SHARE_IMAGE = "assets/images/share.png";
-//  static const String SHARE_SVG_IMAGE = "assets/images/share.svg";
   static const String LOGO_IMAGE_SVG = "assets/images/logo_profile.svg";
 
   //--------------------- Appbar Icons ------------------------------

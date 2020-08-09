@@ -27,6 +27,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: EduAppBar(
+
+        logoHeight: 20,
         logoWidth: MediaQuery.of(context).size.width * .25,
         backgroundColor: AppColors.mainThemeColor,
         autoImplyLeading: true,

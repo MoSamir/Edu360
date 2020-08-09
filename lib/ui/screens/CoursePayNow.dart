@@ -196,16 +196,17 @@ class _CoursePayNowState extends State<CoursePayNow> {
             ],
           ),
           EduAppBar(
+            logoWidth: MediaQuery.of(context).size.width / 3,
+            logoHeight: 20,
+            autoImplyLeading: true,
             backgroundColor: AppColors.mainThemeColor,
             icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 25, height: 25,),
             actions: <Widget>[
               Image(
-                image: AssetImage(Resources.COMMENT_IMAGE),
+                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
                 color: Colors.white,
               ),
             ],
-            logoWidth: MediaQuery.of(context).size.width / 3,
-            logoHeight: 20,
           )
         ],
       ),

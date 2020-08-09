@@ -6,12 +6,9 @@ import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/ui/UIHelper.dart';
 import 'package:edu360/ui/screens/CreatePostScreen.dart';
 import 'package:edu360/ui/screens/SinglePostScreen.dart';
-import 'package:edu360/ui/widgets/post/UserDocumentsPostCard.dart';
-import 'package:edu360/ui/widgets/post/UserTextPostCard.dart';
-import 'package:edu360/ui/widgets/post/UserVideoPostCard.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
-import 'package:edu360/utilities/Resources.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -49,7 +46,7 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   padding: EdgeInsets.only(top: 0 , left: 10, right: 10),
                   itemBuilder: (context , index) {
                     return UIHelper.getPostView(homeBloc.homePosts[index], context , elevation: 5 , postAction: (){
-                      homeBloc.add(LoadHomeUserPosts());
+                      //homeBloc.add(LoadHomeUserPosts());
                       setState(() {});
                     } , onPostClick: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
                       BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());

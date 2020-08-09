@@ -13,6 +13,7 @@ import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduFormField.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:edu360/utilities/Validators.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -57,7 +58,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
       listener: (context, state){
         print(state);
         if (state is PostCreationFailed) {
-          if (state.error.errorCode == HttpStatus.requestTimeout) {
+          if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
             showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -87,11 +88,14 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 fontSize: 16.0
             );
             widget.onFinish(success: false);
+            Navigator.of(context).pop();
           }
         }
         else if(state is PostCreationSuccess){
           BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
           widget.onFinish(success: true);
+          Navigator.of(context).pop();
         }
       },
       builder: (context, state){
@@ -114,9 +118,10 @@ class _CreatePostCardState extends State<CreatePostCard> {
                               decoration: BoxDecoration(
                                 color: AppColors.mainThemeColor,
                                 borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                  image: NetworkImage(loggedInUser.profileImagePath??""),
-                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: loggedInUser.profileImagePath , fit: BoxFit.cover,),
                               ),
                             ),
                             SizedBox(width: 10,),

@@ -26,12 +26,12 @@ class CommentWidget extends StatelessWidget {
                     height: 50,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: comment.ownerImagePath != null && comment.ownerImagePath.length > 0 ? NetworkImage(
-                          comment.ownerImagePath,
-                        ) : AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
-                      ),
                     ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(25),
+                      child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: comment.ownerImagePath , fit: BoxFit.cover,),
+                    ),
+
                   ),
                   SizedBox(width: 5,),
                   Text(comment.ownerName),

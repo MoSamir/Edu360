@@ -50,10 +50,11 @@ class ProfileDocumentCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppColors.mainThemeColor,
-                                  image: DecorationImage(
-                                    image: NetworkImage(postModel.ownerImagePath ?? ''),
-                                    fit: BoxFit.cover,
-                                  ),
+
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: postModel.ownerImagePath, fit: BoxFit.cover,),
                                 ),
                                 //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                               ),
@@ -82,23 +83,35 @@ class ProfileDocumentCard extends StatelessWidget {
                             child: Wrap(
                               direction: Axis.vertical,
                               spacing: 5,
-                              children: postModel.postFilesPath.map((document) => GestureDetector(
-                                onTap: (){
-                                  print(document);
-
-                                  PdftronFlutter.openDocument(document);
-                                },
-                                child: Text(
-                                  document.split("/")[document.split("/").length -1],
+                              children: [
+                                Text(
+                                  postModel.postBody ?? '',
                                   textAlign: TextAlign.start,
                                   textScaleFactor: 1,
                                   maxLines: 10,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                      color: AppColors.white
+                                      color: AppColors.mainThemeColor
                                   ),
                                 ),
-                              )).toList(),
+                                SizedBox(height: 5,),
+                                ...postModel.postFilesPath.map((document) => GestureDetector(
+                                  onTap: (){
+                                    PdftronFlutter.openDocument(document);
+                                  },
+                                  child: Text(
+                                    document.split("/")[document.split("/").length -1],
+                                    textAlign: TextAlign.start,
+                                    textScaleFactor: 1,
+                                    maxLines: 10,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: AppColors.white
+                                    ),
+                                  ),
+                                )).toList(),
+
+                              ],
                             ),
                           ),
                         ],

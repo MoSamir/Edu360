@@ -1,8 +1,10 @@
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/ui/screens/SingleCourseScreen.dart';
 import 'package:edu360/ui/widgets/CourseCard.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class AllCourses extends StatefulWidget {
 
   final List<CourseViewModel> courses ;
@@ -25,13 +27,13 @@ class _AllCoursesState extends State<AllCourses> {
   @override
   Widget build(BuildContext context) {
 
-    fieldCourses = widget.courses == null ? List(): widget.courses.where((element) => element.isUserSubscribed != null && element.isUserSubscribed == false).toList();
+    fieldCourses = widget.courses == null ? List():
+    widget.courses.where((element) => BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.contains(element) == false).toList();
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: ListView(
         children: <Widget>[
-
           Container(
               color: Colors.white,
               child: Column(

@@ -6,9 +6,10 @@ import 'package:edu360/blocs/states/SingleCourseStates.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/LessonViewModel.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
-import 'package:edu360/ui/widgets/EduIconImage.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/ui/widgets/PlaceHolderWidget.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,16 +48,17 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar:  EduAppBar(
+        logoWidth: MediaQuery.of(context).size.width / 3,
+        logoHeight: 20,
+        autoImplyLeading: true,
         backgroundColor: AppColors.mainThemeColor,
-        icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 25, height: 25,),
+        //icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 25, height: 25,),
         actions: <Widget>[
           Image(
-            image: AssetImage(Resources.COMMENT_IMAGE),
+            image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
             color: Colors.white,
           ),
         ],
-        logoWidth: MediaQuery.of(context).size.width / 3,
-        logoHeight: 20,
       ),
       body: BlocConsumer(
 
@@ -80,16 +82,18 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
           else
           return  Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView(
+            child: Column(
               children: <Widget>[
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text(course.courseTitle,
-                        style: TextStyle(
-                          color: AppColors.mainThemeColor,
-                          fontSize: 20,
-                        )),
+                    Expanded(
+                      child: Text(course.courseTitle,
+                          style: TextStyle(
+                            color: AppColors.mainThemeColor,
+                            fontSize: 20,
+                          )),
+                    ),
                     Image(
                       image: AssetImage(Resources.SETTINGS_IMAGE),
                     )
@@ -98,13 +102,14 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
                 SizedBox(
                   height: 15,
                 ),
+                course.courseStartTime.isAfter(DateTime.now()) ?  Expanded(child: Center(child: PlaceHolderWidget(placeHolder: Text(LocalKeys.COURSE_NOT_STARTED_YET).tr(),))) :course.courseLessons.length > 0 ?
                 ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: course.courseLessons.length,
                     itemBuilder: (context, index) {
                       return singleLessonView(course.courseLessons[index]);
-                    }),
+                    }) : Expanded(child: Center(child: PlaceHolderWidget(placeHolder: Text(LocalKeys.COURSE_HAS_NO_LESSONS).tr(),))),
               ],
             ),
           );

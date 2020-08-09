@@ -4,6 +4,7 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 class UserDocumentsPostCard extends StatefulWidget {
 
@@ -43,13 +44,14 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                         height: 40,
                         width: 40,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                widget.postModel.ownerImagePath ?? ''),
-                          ),
                           shape: BoxShape.circle,
                           color: AppColors.mainThemeColor,
                         ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: widget.postModel.ownerImagePath, fit: BoxFit.cover,),
+                        ),
+
                         //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                       ),
                       SizedBox(
@@ -77,17 +79,21 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                     ), textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                   ),
                   SizedBox(height: 5,),
-                  widget.postModel.postFilesPath != null ? ListView.builder(
-                    itemBuilder: (context, index){
-                    return Card(
-                      elevation: 5,
-                      child: Container(
-                        height: 50,
-                        child: Padding(padding: EdgeInsets.all(8), child: Text(widget.postModel.postFilesPath[index] ,textScaleFactor: 1),),
-                        width: MediaQuery.of(context).size.width,
+                  ...widget.postModel.postFilesPath.map((document) => GestureDetector(
+                    onTap: (){
+                      PdftronFlutter.openDocument(document);
+                    },
+                    child: Text(
+                      document.split("/")[document.split("/").length -1],
+                      textAlign: TextAlign.start,
+                      textScaleFactor: 1,
+                      maxLines: 10,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: AppColors.white
                       ),
-                    );
-                  } , physics: NeverScrollableScrollPhysics() ,itemCount: widget.postModel.postFilesPath.length, shrinkWrap: true,) : Container(),
+                    ),
+                  )).toList(),
                   SizedBox(height: 10,),
                   Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .65,),
                   SizedBox(height: 10,),

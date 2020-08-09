@@ -109,9 +109,11 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: <Widget>[
-                                    Text(
-                                    widget.courseModel.courseField.studyFieldNameEn,
-                                    style: Styles.studyTextStyle,
+                                    Expanded(
+                                      child: Text(
+                                      widget.courseModel.courseField.studyFieldNameEn,
+                                      style: Styles.studyTextStyle,
+                                      ),
                                     ),
                                     Text(
                                       '${widget.courseModel.feesPerMonth} ${(LocalKeys.EGP_PER_MONTH).tr()}',
@@ -132,7 +134,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                 shrinkWrap: true,
                                 itemCount: widget.courseModel.targetClasses.length,
                                 itemBuilder: (context, index) {
-                                  return schoolStage(widget.courseModel.targetClasses[index], index);
+                                  return schoolStage(widget.courseModel.targetClasses[index].gradeNameEn ?? '', index);
                                 }),
                           ),
                           SizedBox(
@@ -179,6 +181,11 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
   }
 
   Widget schoolStage(String name, int index) {
+
+    if(name.length == 1){
+      return Container();
+    }
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 8, bottom: 8, left: 20),
@@ -204,7 +211,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Icon(Icons.arrow_right, color: AppColors.mainThemeColor),
-          Text(outcome, style: TextStyle(color: AppColors.mainThemeColor)),
+          Expanded(child: Text(outcome, style: TextStyle(color: AppColors.mainThemeColor))),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -37,13 +38,12 @@ class ProfileScreenHeader extends StatelessWidget {
                     height: 80,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(40),
-                      image: DecorationImage(
-                        image: user != null && user.profileImagePath != null && user.profileImagePath.length > 0 ?
-                        NetworkImage(user.profileImagePath) :
-                        AssetImage(Resources.USER_PROFILE2_IMAGE),
-                        fit: BoxFit.cover,
-                      ),
                     ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(40),
+                      child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: user.profileImagePath , fit: BoxFit.cover,),
+                    ),
+
                   ),
                   SizedBox(height: 8,),
                   Text(user.userFullName!= null ? user.userFullName ?? ""  :"", style: _headerTextStyle,),

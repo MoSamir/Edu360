@@ -26,7 +26,7 @@ class TabsHolderScreen extends StatefulWidget {
 class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
    void _onPostCreated({bool success}){
-    currentVisiblePageIndex = success ? 1 : 0 ;
+    currentVisiblePageIndex = success ? 2 : 0 ;
     setState(() {});
   }
 
@@ -120,11 +120,12 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
             child: screens[currentVisiblePageIndex],
           ),
           EduAppBar(
+
             backgroundColor: AppColors.mainThemeColor,
             icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
             actions: <Widget>[
               Image(
-                image: AssetImage(Resources.COMMENT_IMAGE),
+                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
                 color: Colors.white,
               ),
             ],

@@ -29,11 +29,10 @@ class EduCircleAvatar extends StatelessWidget {
                       width: 70,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: userModel.profileImagePath != null && userModel.profileImagePath.length > 0 ? NetworkImage(
-                            userModel.profileImagePath,
-                        ) : AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
-                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(35),
+                        child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: userModel.profileImagePath, fit: BoxFit.cover,),
                       ),
                     ),
                     Visibility(

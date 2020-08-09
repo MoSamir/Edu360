@@ -55,6 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             padding: EdgeInsets.all(0),
             child: Column(
               children: <Widget>[
+                SizedBox(height: 15,),
                 ProfileScreenHeader(
                   user: user,
                   isMe: true,
