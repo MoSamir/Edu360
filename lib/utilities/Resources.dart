@@ -41,6 +41,9 @@ class Resources{
   static const String COURSES_ICON_ACTIVE = "assets/images/active_courses.png";
 
 
+  //------------------ FLAG ICONS ---------------------------------------------
+  static const String ARABIC_LOCALE_FLAG = "assets/images/flags/ar.png";
+  static const String ENGLISH_LOCALE_FLAG = "assets/images/flags/en.png";
 
   //-------------------- FONTS ----------------------------------
   static const String FONT_FAMILY_NAME = "Segoe UI";

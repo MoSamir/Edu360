@@ -3,7 +3,7 @@ description: A new Flutter application.
 authors: ['Mohamed Samir Abbas']
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.1+4
+version: 1.0.1+6
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -46,4 +46,5 @@ flutter:
     - assets/
     - assets/locales/
     - assets/images/
+    - assets/images/flags/
     - assets/fonts/

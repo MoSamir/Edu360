@@ -131,7 +131,7 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
     for(int i = 0 ; i < 3 ; i++){
       if(i == currentTabIndex) itemsList.add(
         Container(width: 70, height: 35, padding: EdgeInsets.all(0) ,decoration: BoxDecoration(color: AppColors.mainThemeColor,
-          borderRadius: BorderRadius.circular(15),),),);
+          borderRadius: BorderRadius.circular(15),),child: Center(child: Text(getTabTitle(currentTabIndex) , style: Styles.studyTextStyle,),),),);
       else
         itemsList.add(Container(width: 35, height: 35, padding: EdgeInsets.all(0), decoration: BoxDecoration(color: AppColors.white,
           borderRadius: BorderRadius.circular(17.5), border: Border.all(
@@ -140,7 +140,6 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
     }
     return itemsList;
   }
-
   getPostsView(int currentTabIndex) {
 
     if(currentTabIndex == 0){
@@ -218,6 +217,17 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
           height: MediaQuery.of(context).size.height * .4,
           child: PlaceHolderWidget(placeHolder: Text(LocalKeys.DOCUMENT_POSTS_PLACE_HOLDER).tr(),));
     }
+  }
+  String getTabTitle(int currentTabIndex) {
+    if(currentTabIndex == 0)
+      return (LocalKeys.ALL_TITLE).tr();
+    if(currentTabIndex == 1)
+      return (LocalKeys.TEXT_POSTS_TITLE).tr();
+    if(currentTabIndex == 2)
+      return (LocalKeys.DOCUMENTS_POSTS_TITLE).tr();
+    if(currentTabIndex == 3)
+      return (LocalKeys.EDIT_PROFILE_TITLE).tr();
+    return "";
   }
 
 }

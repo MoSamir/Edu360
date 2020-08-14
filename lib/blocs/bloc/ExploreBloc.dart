@@ -45,34 +45,10 @@ class ExploreBloc extends Bloc<ExploreEvents,ExploreStates>{
        Repository.loadStudyFieldPosts() ,
      ]);
 
-     if(responses[0].isSuccess){
-       teachers = responses[0].responseData;
-     }
-     else {
-       teachers = null;
-     }
-     if(responses[1].isSuccess){
-       teachers = responses[1].responseData;
-     }
-     else {
-       users = null;
-     }
-
-
-     if(responses[2].isSuccess){
-       courses = responses[2].responseData;
-     }
-     else {
-       courses = null;
-     }
-
-          if(responses[2].isSuccess){
-       posts = responses[2].responseData;
-     }
-     else {
-       posts = null;
-     }
-
+     teachers =  responses[0].isSuccess ? responses[0].responseData : null;
+     users = responses[1].isSuccess ? responses[1].responseData : null;
+     courses = responses[2].isSuccess?  responses[2].responseData :courses = null;
+     posts = responses[3].isSuccess ?  responses[3].responseData : null;
 
     yield ExploreScreenLoaded();
   }

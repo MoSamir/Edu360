@@ -80,7 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         SizedBox(height: 10,),
                         SizedBox(height: MediaQuery.of(context).size.height * .15, child: Center(child: Text(LocalKeys.REGISTRATION_MESSAGE, textScaleFactor: 1, textAlign:TextAlign.center , style: Styles.baseTextStyle,).tr(),),),
                         EduFormField(placeHolder: (LocalKeys.EMAIL).tr() , fieldController: _usernameController
-                            , focusNode: _usernameNode , nextFocusNode: _passwordNode ,
+                            , focusNode: _usernameNode , nextFocusNode: _passwordNode , forceLTR: true ,
                             trailingWidget: GestureDetector(
                                 onTap: _openEmailHintDialog
                                 ,child: Container(width: 25, height: 25, child: Center(child: Text('?',textScaleFactor: 1),),  decoration: BoxDecoration(shape: BoxShape.circle , color: AppColors.canaryColor),)),
@@ -298,7 +298,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               return DropdownMenuItem<StudyFieldViewModel>(
                 value: studyField,
                 child: Text(
-                  studyField.studyFieldNameEn,
+                  studyField.getStudyFieldName(context),
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   textScaleFactor: 1,

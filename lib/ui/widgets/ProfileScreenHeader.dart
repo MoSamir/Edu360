@@ -43,7 +43,6 @@ class ProfileScreenHeader extends StatelessWidget {
                       borderRadius: BorderRadius.circular(40),
                       child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: user.profileImagePath , fit: BoxFit.cover,),
                     ),
-
                   ),
                   SizedBox(height: 8,),
                   Text(user.userFullName!= null ? user.userFullName ?? ""  :"", style: _headerTextStyle,),

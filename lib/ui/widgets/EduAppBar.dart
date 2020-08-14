@@ -1,4 +1,5 @@
-import 'package:edu360/ui/screens/HomePages/HomePage.dart';
+
+import 'package:edu360/ui/screens/explore_pages/HomePage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,8 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
                     Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                   },
                   child: Material(
-                    shadowColor: AppColors.backgroundColor,
+                    elevation: 3,
+                    shadowColor: AppColors.white,
                     borderRadius: BorderRadius.all(Radius.circular(25)),
                     child: Container(
                       child: icon,

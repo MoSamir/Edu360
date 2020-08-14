@@ -53,7 +53,11 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
 
   Stream<PostStates> _handleLikePost(LikePost event) async*{
     yield PostLoadingState();
-    ResponseViewModel<void> likePostResult = await Repository.likePost(postId: event.postViewModel.postId);
+    ResponseViewModel<void> likePostResult;
+    if(event.postViewModel.isLiked)
+      likePostResult = await Repository.unLikePost(postId: event.postViewModel.postId);
+    else
+      likePostResult = await Repository.likePost(postId: event.postViewModel.postId);
     if(likePostResult.isSuccess){
       postExecutionCallback();
       yield PostLoadedState();

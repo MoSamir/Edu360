@@ -52,7 +52,6 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
         logoHeight: 20,
         autoImplyLeading: true,
         backgroundColor: AppColors.mainThemeColor,
-        //icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 25, height: 25,),
         actions: <Widget>[
           Image(
             image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
@@ -88,7 +87,7 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Expanded(
-                      child: Text(course.courseTitle,
+                      child: Text(course.getCourseName(context),
                           style: TextStyle(
                             color: AppColors.mainThemeColor,
                             fontSize: 20,
@@ -143,33 +142,33 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                lesson.lessonNameEn ,
+                lesson.getLessonName(context) ,
                 style: TextStyle(
                     color: AppColors.mainThemeColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                "video : ${lesson.isCompleted  ? 'done' : 'not done'}",
+                "${(LocalKeys.VIDEO_KEY).tr()} : ${lesson.isCompleted  ? (LocalKeys.DONE).tr() : (LocalKeys.NOT_DONE).tr()} ",
                 style: TextStyle(
                     color: AppColors.mainThemeColor,
                     fontSize: 14,
                     fontWeight: FontWeight.bold),
               ),
               Text(
-                "quiz : ${lesson.quizMark}" ,
+                "${(LocalKeys.QUIZ_LABEL).tr()} : ${lesson.quizMark * 1.0}" ,
                 style: TextStyle(color: AppColors.mainThemeColor, fontSize: 14),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    "cards : ${lesson.flashCards}" ,
+                    "${(LocalKeys.CARDS).tr()} : ${lesson.flashCards ? (LocalKeys.ACTIVE).tr() : (LocalKeys.INACTIVE).tr()}" ,
                     style: TextStyle(color: AppColors.mainThemeColor, fontSize: 14),
                     textAlign: TextAlign.center,
                   ),
                   Text(
-                    "View",
+                    (LocalKeys.VIEW).tr(),
                     style: TextStyle(
                         color: AppColors.mainThemeColor,
                         fontSize: 20,

@@ -20,26 +20,25 @@ class PostViewModel{
   ContentType contentType;
   List<String> postFilesPath;
   PostViewModel({this.ownerName, this.ownerImagePath , this.numberOfLikes , this.numberOfObjections , this.numberOfComments , this.numberOfShares , this.postBody , this.postComments , this.postId , this.postOwnerId , this.contentType , this.isLiked ,this.postFilesPath});
-  
 
   static PostViewModel fromJson(Map<String,dynamic> postMap){
 
-
     List<String> postDocuments = List<String>();
-    try {
+    if(postMap[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH] != null)
+      postDocuments.add(postMap[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH]);
 
-      if(postMap[ApiParseKeys.POST_ATTACHMENTS] != null && postMap[ApiParseKeys.POST_ATTACHMENTS] is List) {
-        for (int i  = 0; i <
-            postMap[ApiParseKeys.POST_ATTACHMENTS].length; i++) {
-          var attachment = postMap[ApiParseKeys.POST_ATTACHMENTS][i];
-          String url = attachment[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH].toString();
-          postDocuments.add(ParserHelper.parseURL(url));
-        }
-      }
-    } catch(Exception){}
+//    try {
+//      if(postMap[ApiParseKeys.POST_ATTACHMENTS] != null && postMap[ApiParseKeys.POST_ATTACHMENTS] is List) {
+//        for (int i  = 0; i < postMap[ApiParseKeys.POST_ATTACHMENTS].length; i++) {
+//          var attachment = postMap[ApiParseKeys.POST_ATTACHMENTS][i];
+//
+//          postDocuments.add(ParserHelper.parseURL(url));
+//        }
+//      }
+//    } catch(Exception){}
 
-    return PostViewModel(
-      isLiked: (postMap[ApiParseKeys.POST_USER_INTERACTION] != null && postMap[ApiParseKeys.POST_USER_INTERACTION] == 1),
+    PostViewModel post =  PostViewModel(
+      isLiked: (postMap[ApiParseKeys.POST_USER_INTERACTION] != null && postMap[ApiParseKeys.POST_USER_INTERACTION] == 0),
       postId: postMap[ApiParseKeys.POST_ID],
       postOwnerId: postMap[ApiParseKeys.POST_OWNER_ID],
       ownerImagePath: ParserHelper.parseURL(postMap[ApiParseKeys.POST_OWNER_IMAGE]) ?? '',
@@ -53,6 +52,7 @@ class PostViewModel{
       numberOfShares: postMap[ApiParseKeys.POST_NUMBER_OF_SHARES],
       contentType:  getContentType(postDocuments),
     );
+    return post;
   }
 
 
@@ -75,12 +75,17 @@ class PostViewModel{
     return ContentType.VIDEO_POST;
   }
 
-
-
-
-
-
-
+  bool canMatch(String query) {
+     try{
+       bool mainPostHasMatch =  (postBody.contains(query) || ownerName.contains(query));
+       if(mainPostHasMatch) return mainPostHasMatch;
+       for(int i = 0 ; i < postFilesPath.length ; i++)
+         if(postFilesPath[i].contains(query)) return true ;
+       return false ;
+     }catch(exception){
+       return false;
+     }
+  }
 }
 
 enum ContentType {

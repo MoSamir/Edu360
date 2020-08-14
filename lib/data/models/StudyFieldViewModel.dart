@@ -1,8 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
+import 'package:edu360/utilities/Constants.dart';
+import 'package:flutter/cupertino.dart';
 
 class StudyFieldViewModel {
   String studyFieldNameAr, studyFieldNameEn , studyFieldDescAr , studyFieldDescEn ,  imagePath;
   int studyFieldId ;
+
+
+
+
+  getStudyFieldName(BuildContext context){
+   return EasyLocalization.of(context).locale.languageCode == "en" ? studyFieldNameEn : studyFieldNameAr ;
+  }
+  getStudyFieldDescription(BuildContext context){
+    return EasyLocalization.of(context).locale.languageCode == "en" ? studyFieldDescEn : studyFieldDescAr ;
+  }
+
+
 
 
   @override

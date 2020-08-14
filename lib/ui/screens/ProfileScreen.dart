@@ -1,17 +1,20 @@
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
-import 'package:edu360/blocs/bloc/UserDataBloc.dart';
 import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
+import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
+import 'package:edu360/blocs/states/AuthenticationStates.dart';
 import 'package:edu360/blocs/states/UserProfileStates.dart';
-import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/UIHelper.dart';
+import 'package:edu360/ui/screens/LandingScreen.dart';
 import 'package:edu360/ui/screens/SinglePostScreen.dart';
+import 'package:edu360/ui/widgets/EduRadioButtonListTile.dart';
 
 import 'package:edu360/ui/widgets/PlaceHolderWidget.dart';
 import 'package:edu360/ui/widgets/ProfileScreenHeader.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/Constants.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +33,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin{
 
 
+
+  String currentLocale ;
   TabController tabController;
   UserViewModel user;
   int currentTabIndex = 0 ;
@@ -41,9 +46,19 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         initialIndex: currentTabIndex,
         length:4,
     );
+    currentLocale = Constants.CURRENT_LOCALE;
+
+    BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.listen((state) {
+      if(state is UserAuthenticated){
+        if(BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.isAnonymous()){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> LandingScreen()), (route) => false);
+        }
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
+    print('assets/${Constants.CURRENT_LOCALE}.png');
     user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
     return BlocConsumer(
       bloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc,
@@ -107,8 +122,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     List<Widget> itemsList = List();
     for(int i = 0 ; i < 4 ; i++){
       if(i == currentTabIndex) itemsList.add(
-        Container(width: 70, height: 35, padding: EdgeInsets.all(0) ,decoration: BoxDecoration(color: AppColors.mainThemeColor,
-          borderRadius: BorderRadius.circular(15),),),);
+        Container(width: 80, height: 35, padding: EdgeInsets.all(0) ,decoration: BoxDecoration(color: AppColors.mainThemeColor,
+          borderRadius: BorderRadius.circular(15),), child: Center(child: Text(getTabTitle(currentTabIndex) , style: Styles.studyTextStyle.copyWith(fontWeight: FontWeight.normal),),), ),);
       else
         itemsList.add(Container(width: 35, height: 35, padding: EdgeInsets.all(0), decoration: BoxDecoration(color: AppColors.white,
           borderRadius: BorderRadius.circular(17.5), border: Border.all(
@@ -139,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 setState(() {});
               }, onPostClick: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
-                  bloc.add(LoadUserProfile());
+                  bloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
                   BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
                 } ,post: bloc.userPosts[index],)));
               },
@@ -154,14 +169,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     else if(currentTabIndex == 1){
       return bloc.userTextPosts.length > 0 ?
       GridView.count(
-
         padding: EdgeInsets.all(0),
           shrinkWrap: true,
           crossAxisSpacing: 5,
           mainAxisSpacing: 5,
           childAspectRatio: .8,
           crossAxisCount: 2,
-
           primary: false,
           children: List.generate(
             bloc.userTextPosts != null ? bloc.userTextPosts.length : 0, (index) {
@@ -172,7 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 setState(() {});
               }, onPostClick: (){
                 Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
-                  bloc.add(LoadUserProfile());
+                  bloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
                   BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
                 },post: bloc.userPosts[index],)));
               },);
@@ -199,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
             setState(() {});
           }, onPostClick: (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
-              bloc.add(LoadUserProfile());
+              bloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
               BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
             },post: bloc.userPosts[index],)));
           },);
@@ -214,9 +227,125 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
      return Container(
          color: AppColors.white,
          width: MediaQuery.of(context).size.width,
-         height: MediaQuery.of(context).size.height * .4,
-         child: PlaceHolderWidget(placeHolder: Text('Edit Profile coming soon')));
+         height: MediaQuery.of(context).size.height ,
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           crossAxisAlignment: CrossAxisAlignment.start,
+           children: <Widget>[
+             Padding(
+               padding: const EdgeInsets.all(8.0),
+               child: GestureDetector(
+                 onTap: showLocalePickerDialog,
+                 child: Row(
+                   children: <Widget>[
+                     ClipRRect(
+                       borderRadius: BorderRadius.all(Radius.circular(20)),
+                       child: Image.asset('assets/images/flags/${Constants.CURRENT_LOCALE}.png' , fit: BoxFit.cover, width: 40, height: 40,),
+                     ),
+                     SizedBox(width: 10,),
+                     Text( EasyLocalization.of(context).locale.languageCode == "en" ?  LocalKeys.EN : LocalKeys.AR)
+                   ],
+                 ),
+               ),
+             ),
+             Padding(
+               padding: EdgeInsets.symmetric(horizontal: 8),
+               child: FlatButton(
+                 onPressed: (){
+                   BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(Logout());
+                 },
+                 child: Text((LocalKeys.LOGOUT).tr()),
+               ),
+             )
+           ],
+         ),);
+         //PlaceHolderWidget(placeHolder: Text('Edit Profile coming soon')));
     }
+  }
+
+  String getTabTitle(int currentTabIndex) {
+    if(currentTabIndex == 0)
+      return (LocalKeys.ALL_TITLE).tr();
+    if(currentTabIndex == 1)
+      return (LocalKeys.TEXT_POSTS_TITLE).tr();
+    if(currentTabIndex == 2)
+      return (LocalKeys.DOCUMENTS_POSTS_TITLE).tr();
+    if(currentTabIndex == 3)
+      return (LocalKeys.EDIT_PROFILE_TITLE).tr();
+    return "";
+  }
+
+  showLocalePickerDialog() async {
+    await showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                //shrinkWrap: true,
+                children: getLanguagesList(),
+              ),
+            ),
+          );
+        });
+  }
+  getLanguagesList() {
+    List<Widget> languagesRows = List();
+    languagesRows.add(languageRow(
+      flagAsset: Resources.ARABIC_LOCALE_FLAG,
+      locale: LocalKeys.AR,
+    ));
+    languagesRows.add(languageRow(
+      flagAsset: Resources.ENGLISH_LOCALE_FLAG,
+      locale: LocalKeys.EN,
+    ));
+
+    return languagesRows;
+  }
+
+  Widget languageRow({String locale , String flagAsset}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: RadioButtonListTile(
+        key: GlobalKey(),
+        activeColor: Colors.grey[900],
+        title: Row(
+          children: <Widget>[
+            Container(
+              height: 30,
+              width: 30,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage('$flagAsset'),
+                    fit: BoxFit.cover),
+                shape: BoxShape.circle,
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              locale,
+            ),
+          ],
+        ),
+        value: flagAsset,
+        onChanged: (langVal) {
+          print(langVal);
+
+          String localeName = langVal.toString().split('/')[langVal.toString().split('/').length -1].split('.')[0];
+          EasyLocalization.of(context).locale = Locale(localeName);
+          if(localeName == "en")
+            Constants.CURRENT_LOCALE = "en";
+          else
+            Constants.CURRENT_LOCALE = "ar";
+            setState(() {});
+        },
+        groupValue: flagAsset == currentLocale,
+      ),
+    );
   }
 
 }

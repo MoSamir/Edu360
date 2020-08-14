@@ -58,12 +58,21 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
 
   Stream<UserProfileStates> _loadUserProfile(LoadUserProfile event) async*{
     yield UserProfileLoading();
+
     ResponseViewModel<List<PostViewModel>> userPostsResponse = await Repository.loadUserProfile();
     if(userPostsResponse.isSuccess){
       userPosts.clear();
-      userPosts = userPostsResponse.responseData;
-      yield UserProfileLoaded();
-      return ;
+      if(userPostsResponse.responseData.isEmpty == false){
+        userPosts = userPostsResponse.responseData;
+        yield UserProfileLoaded();
+        return ;
+      } else {
+        UserViewModel userModel = await Repository.getUser();
+        ResponseViewModel<List<PostViewModel>> feedsResponse = await Repository.loadHomePagePosts();
+        userPosts = feedsResponse.responseData.where((element) => element.postOwnerId == userModel.userId).toList();
+        yield UserProfileLoaded();
+        return ;
+      }
     } else {
       yield UserProfileLoadingFailed(error: userPostsResponse.errorViewModel , failureEvent: event);
       return ;

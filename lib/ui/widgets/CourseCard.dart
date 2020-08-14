@@ -38,9 +38,9 @@ class CourseCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(course.courseTitle ?? '', style: Styles.baseTextStyle,),
+                Text(course.getCourseName(context) ?? '', style: Styles.baseTextStyle,),
                 Text(course.instructorName ?? '', style: Styles.baseTextStyle,),
-                Text(getTargetGrades(course.targetClasses) ?? '', style: Styles.baseTextStyle,),
+                Text(getTargetGrades(course.targetClasses , context) ?? '', style: Styles.baseTextStyle,),
               ],
             ),
             Column(
@@ -56,13 +56,10 @@ class CourseCard extends StatelessWidget {
     );
   }
 
-   String getTargetGrades(List<GradeViewModel> targetClasses) {
+   String getTargetGrades(List<GradeViewModel> targetClasses , context) {
     List<String> targets = List();
-
-
     for(int i = 0 ; i < targetClasses.length; i++) {
-      print("Grade => ${targetClasses[i].toString()}");
-      targets.add(targetClasses[i].gradeNameEn);
+      targets.add(targetClasses[i].getGradeName(context));
     }
       return targets.join(',');
   }

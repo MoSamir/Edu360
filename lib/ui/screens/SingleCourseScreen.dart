@@ -100,7 +100,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
-                                  widget.courseModel.courseTitle,
+                                  widget.courseModel.getCourseName(context),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -111,7 +111,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                   children: <Widget>[
                                     Expanded(
                                       child: Text(
-                                      widget.courseModel.courseField.studyFieldNameEn,
+                                      widget.courseModel.courseField.getStudyFieldName(context),
                                       style: Styles.studyTextStyle,
                                       ),
                                     ),
@@ -134,7 +134,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                 shrinkWrap: true,
                                 itemCount: widget.courseModel.targetClasses.length,
                                 itemBuilder: (context, index) {
-                                  return schoolStage(widget.courseModel.targetClasses[index].gradeNameEn ?? '', index);
+                                  return schoolStage(widget.courseModel.targetClasses[index].getGradeName(context) ?? '', index);
                                 }),
                           ),
                           SizedBox(
@@ -150,15 +150,15 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.only(left: 7,top: 10,bottom: 10),
-                                  child: Text(LocalKeys.COURSE_LEARNING_OUTCOMES,
+                                  child: Text((LocalKeys.COURSE_LEARNING_OUTCOMES).tr(),
                                       style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold)),
                                 ),
                                 ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
-                                    itemCount: _singleCourseBloc.courseViewModel != null && _singleCourseBloc.courseViewModel.courseOutcomesEn != null ? _singleCourseBloc.courseViewModel.courseOutcomesEn.length ?? 0 : 0,
+                                    itemCount: _singleCourseBloc.courseViewModel != null && _singleCourseBloc.courseViewModel.getCourseOutcomes(context) != null ? _singleCourseBloc.courseViewModel.getCourseOutcomes(context).length ?? 0 : 0,
                                     itemBuilder: (context, index) {
-                                      return learningOutcomes(_singleCourseBloc.courseViewModel.courseOutcomesEn[index]);
+                                      return learningOutcomes(_singleCourseBloc.courseViewModel.getCourseOutcomes(context)[index]);
                                     }),
                               ],
                             ),
@@ -166,7 +166,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                         ],
                       ),
                     ),
-                    EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+                    EduButton( title: (LocalKeys.SUBSCRIBE).tr() , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
 
                   ],
                 ),

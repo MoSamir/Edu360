@@ -42,7 +42,28 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.backgroundColor,
-      child: BlocConsumer(
+      child: Center(
+        child: PlaceHolderWidget(
+          placeHolder: Text("Coming Soon" , style: Styles.studyTextStyle,),
+        ),
+      ),
+    );
+  }
+
+  _loadMoreNotifications() {
+    if (_notificationScrollController.offset <
+        (_notificationScrollController.position.maxScrollExtent - 50) &&
+        notificationsBloc.state is NotificationsLoadingState == false) {
+      notificationsBloc.add(LoadNotifications());
+      return;
+    }
+  }
+
+
+
+}
+/*
+BlocConsumer(
         listener: (context, state){
 
           if (state is NotificationsLoadingFailed) {
@@ -99,18 +120,4 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
         },
       ),
-    );
-  }
-
-  _loadMoreNotifications() {
-    if (_notificationScrollController.offset <
-        (_notificationScrollController.position.maxScrollExtent - 50) &&
-        notificationsBloc.state is NotificationsLoadingState == false) {
-      notificationsBloc.add(LoadNotifications());
-      return;
-    }
-  }
-
-
-
-}
+ */

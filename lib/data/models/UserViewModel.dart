@@ -97,4 +97,25 @@ class UserViewModel {
         userBirthDay != null &&
         userFieldOfStudy != null ;
   }
+
+
+
+  bool canMatch(String query) {
+    try {
+      bool mainPostHasMatch = (userFullName.contains(query));
+//          || userMobileNumber.contains(query) || userMobileNumber.contains(query));
+//      mainPostHasMatch = mainPostHasMatch || userEducation.contains(query) ||
+//          userFieldOfStudy.studyFieldNameEn.contains(query) ||
+//          userFieldOfStudy.studyFieldNameAr.contains(query);
+      return mainPostHasMatch;
+    } catch(exception){
+      return false;
+    }
+  }
+
+  bool isAnonymous() {
+    return (userId == null || userEmail == null || userEmail.isEmpty);
+  }
+
+
 }

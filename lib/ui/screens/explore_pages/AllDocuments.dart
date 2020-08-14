@@ -18,18 +18,12 @@ class _AllDocumentsState extends State<AllDocuments> {
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
       child: ListView(
         children: <Widget>[
-
           Container(
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-//                  Padding(
-//                    padding: const EdgeInsets.all(8.0),
-//                    child: Text('Top Research',
-//                      style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: AppColors.mainThemeColor),),
-//                  ),
                   GridView.count(
                       shrinkWrap: true,
                       padding: EdgeInsets.symmetric(

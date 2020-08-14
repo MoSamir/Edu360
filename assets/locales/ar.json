@@ -47,7 +47,27 @@
   "EGP_PER_MONTH": "جنيه/شهر",
   "COURSE_LEARNING_OUTCOMES":"الدروس المستفاده :",
   "COURSE_HAS_NO_LESSONS": "لا يوجد دروس حاليا",
-  "COURSE_NOT_STARTED_YET": "المحاضرات لم تبدأ بعض"
-
+  "COURSE_NOT_STARTED_YET": "المحاضرات لم تبدأ بعض",
+  "ALL_TITLE":"الكل",
+  "TEXT_POSTS_TITLE":"نص",
+  "DOCUMENTS_POSTS_TITLE":"ملفات",
+  "EDIT_PROFILE_TITLE":"الاعدادات",
+  "DOCUMENTS": "ملفات",
+  "PEOPLE": "مستخدمين",
+  "TEACHERS": "مدرسين",
+  "COURSES": "كورسات",
+  "VIDEO_KEY": "فيديو",
+  "NOT_DONE": "غير منتهي",
+  "DONE": "منتهي",
+  "QUIZ_LABEL": "اختبار",
+  "CARDS": "تذكيرات",
+  "VIEW": "مشاهده",
+  "WHAT_YOU_LOOKING_FOR": "عن ما تبحث ؟",
+  "LOGOUT": "خروج",
+  "YOUR_GRADE": "درجتك",
+  "INACTIVE": "غير مفعله",
+  "ACTIVE": "مفعله",
+  "SUBSCRIBE": "اشتراك",
+  "MARK_DONE": "اكمال",
+  "COURSE_NAME": "اسم الدوره"
 }
-

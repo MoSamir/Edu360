@@ -92,7 +92,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
           }
         }
         else if(state is PostCreationSuccess){
-          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
           BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
           widget.onFinish(success: true);
           Navigator.of(context).pop();

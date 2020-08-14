@@ -19,10 +19,11 @@ class UIHelper {
   static Widget getPostView(PostViewModel post , BuildContext context ,{double elevation , Function postAction , Function onPostClick}){
     PostBloc postBloc = PostBloc((){
       BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
-      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
     });
     UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
 
+    print("Home Post => ${post.postFilesPath}");
     if(post.postFilesPath == null || post.postFilesPath.length == 0) {
       return UserTextPostCard(postModel: post,
         elevation: elevation,
@@ -96,7 +97,7 @@ class UIHelper {
   static Widget getProfilePostView(PostViewModel post , BuildContext context , {Function postAction , Function onPostClick}){
     PostBloc postBloc = PostBloc((){
       BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
-      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
     });
     UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
 

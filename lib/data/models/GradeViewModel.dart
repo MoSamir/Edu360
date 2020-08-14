@@ -1,9 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
+import 'package:flutter/cupertino.dart';
 
 class GradeViewModel {
   int gradeId ;
   String gradeNameAr , gradeNameEn ;
 
+
+
+  String getGradeName(BuildContext context){
+    return EasyLocalization.of(context).locale.languageCode == "en" ? gradeNameEn : gradeNameAr ;
+  }
 
   @override
   String toString() {
@@ -13,13 +20,6 @@ class GradeViewModel {
   GradeViewModel({this.gradeId, this.gradeNameAr, this.gradeNameEn});
 
   static fromJson(Map<String,dynamic> gradeJson){
-
-    print("*****************GRADE JSON*****************************");
-    print(gradeJson);
-    print("**********************************************");
-
-
-
     return GradeViewModel(
       gradeId: gradeJson[ApiParseKeys.ID],
       gradeNameAr: gradeJson[ApiParseKeys.GRADE_NAME_AR],

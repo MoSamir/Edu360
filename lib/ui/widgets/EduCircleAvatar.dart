@@ -44,7 +44,7 @@ class EduCircleAvatar extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Text(userModel.userFullName ?? "Username"),
-                          Text(userModel.userFieldOfStudy != null ? userModel.userFieldOfStudy.studyFieldNameEn : "English Literal" , style: TextStyle(
+                          Text(userModel.userFieldOfStudy != null ? userModel.userFieldOfStudy.getStudyFieldName(context) : "English Literal" , style: TextStyle(
                             fontSize: 13,
                           ),),
                         ],

@@ -12,7 +12,6 @@ import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
-import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,8 +29,6 @@ class ViewLesson extends StatefulWidget {
 
 class _ViewLessonState extends State<ViewLesson> {
   LessonViewModel currentLesson ;
-  bool showComment1 = false;
-  bool showComment2 = false;
   bool flashCardEnabled = false;
 
   VideoPlayerController videoPlayerController ;
@@ -41,10 +38,10 @@ class _ViewLessonState extends State<ViewLesson> {
   @override
   void initState() {
     super.initState();
-    videoPlayerController = VideoPlayerController.network('http://ref360.net/assets/video/ref360_video_intro.mp4');
+    videoPlayerController = VideoPlayerController.network('https://ref360.net/assets/video/ref360_video_intro.mp4');
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
-      aspectRatio: 3/4,
+      aspectRatio: 4/3,
       autoPlay: false,
       autoInitialize: true,
       placeholder: Container(),
@@ -57,6 +54,7 @@ class _ViewLessonState extends State<ViewLesson> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: BlocConsumer(
@@ -71,7 +69,7 @@ class _ViewLessonState extends State<ViewLesson> {
             videoPlayerController = VideoPlayerController.network(state.lesson.videoURL);
             chewieController = ChewieController(
               videoPlayerController: videoPlayerController,
-              aspectRatio: 3/4,
+              aspectRatio: 21/9,
               autoPlay: false,
               autoInitialize: true,
               placeholder: Container(),
@@ -117,64 +115,49 @@ class _ViewLessonState extends State<ViewLesson> {
         builder: (context , state){
           return ModalProgressHUD(
             inAsyncCall: state is LessonLoadingState,
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Expanded(
-                        child: ListView(
-                          children: <Widget>[
-                            SizedBox(height: 65,),
-                            Container(
+            child: Scaffold(
+              appBar: EduAppBar(
+                backgroundColor: AppColors.mainThemeColor,
+                logoWidth: MediaQuery.of(context).size.width / 3,
+                logoHeight: 20,
+                autoImplyLeading: true,
+              ),
+              body: Column(
+                children: <Widget>[
+                  Expanded(
+                      child: ListView(
+                        children: <Widget>[
+                          Container(
+                            height: MediaQuery.of(context).size.height * 0.3,
+                            width: MediaQuery.of(context).size.width,
+                            color: AppColors.redBackgroundColor,
+                            child: Container(
                               height: 180,
-                              color: AppColors.white,
-                              child: Stack(
-                                children: <Widget>[
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 25),
-                                    child: Container(
-                                      height: 120,
-                                      child: Chewie(
-                                        controller: chewieController ?? VideoPlayerController.network('http://ref360.net/assets/video/ref360_video_intro.mp4'),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    color: Colors.black12,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: .25,
-                                  ),
-                                  commentCont(),
-                                ],
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Chewie(
+                                  controller: chewieController ?? VideoPlayerController.network('https://ref360.net/assets/video/ref360_video_intro.mp4'),
+                                ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                children: <Widget>[
-                                  lessonTextWidget(),
-                                  SizedBox(height: 10,),
-                                  flashCards(),
-                                  SizedBox(height: 10,),
-                                  quiz(),
-                                ],
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Column(
+                              children: <Widget>[
+                                lessonTextWidget(),
+                                SizedBox(height: 10,),
+                                flashCards(),
+                                SizedBox(height: 10,),
+                                quiz(),
+                              ],
                             ),
-                          ],
-                        )),
-                    EduButton( title: LocalKeys.MarkDone , onPressed: _completeLesson,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
-                  ],
-                ),
-                EduAppBar(
-                  backgroundColor: AppColors.mainThemeColor,
-                  logoWidth: MediaQuery.of(context).size.width / 3,
-                  logoHeight: 20,
-                  autoImplyLeading: true,
-                ),
-              ],
+                          ),
+                        ],
+                      )),
+                  EduButton( title: (LocalKeys.MARK_DONE).tr() , onPressed: _completeLesson,bgColor: currentLesson.isCompleted ? Colors.grey : AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+                ],
+              ),
             ),
           );
         },
@@ -189,133 +172,133 @@ class _ViewLessonState extends State<ViewLesson> {
     super.dispose();
   }
 
-  Widget commentCont() {
-    return Align(
-      alignment: Alignment(-1, -1),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment:CrossAxisAlignment.center,
-                        children: <Widget>[
-                          InkWell(child:              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
-                          setState(() {
-                            showComment2 = !showComment2;
-                          });
-                    },),
-                        ],
-                      ),),
-                  ],
-                ),
-
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 25),
-                    child:  showComment2  == true?
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:  Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: AppColors.mainThemeColor,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(100))),
-//                     width: MediaQuery.of(context).size.width,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                contentPadding:
-                                EdgeInsets.only(left: 10, bottom: 16),
-                                hintText: "Type your comment here..",
-                                hintStyle: TextStyle(color: Colors.white,fontSize: 14),
-                                border: InputBorder.none),
-                          )),
-                    ): Container(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Stack(
-              children: <Widget>[
-                Container(
-                  height: 40,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      height: 40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment:CrossAxisAlignment.center,
-                        children: <Widget>[
-                          InkWell(child: SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
-                            setState(() {
-                              showComment1 = !showComment1;
-                            });
-                          },),
-                        ],
-                      ),),
-                  ],
-                ),
-
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  left: 0,
-                  child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 25),
-                    child:  showComment1  == true?
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child:  Container(
-                          height: 30,
-                          decoration: BoxDecoration(
-                              color: AppColors.redBackgroundColor,
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(100))),
-//                     width: MediaQuery.of(context).size.width,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                contentPadding:
-                                EdgeInsets.only(left: 10, bottom: 16),
-                                hintText: "Type your objection  here..",
-                                hintStyle: TextStyle(color: Colors.white,fontSize: 14),
-                                border: InputBorder.none),
-                          )),
-                    ): Container(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+//  Widget commentCont() {
+//    return Align(
+//      alignment: Alignment(-1, -1),
+//      child: Column(
+//        mainAxisAlignment: MainAxisAlignment.end,
+//        crossAxisAlignment: CrossAxisAlignment.start,
+//        children: <Widget>[
+//
+//          Padding(
+//            padding: const EdgeInsets.symmetric(horizontal: 10),
+//            child: Stack(
+//              children: <Widget>[
+//                Container(
+//                  height: 40,
+//                  width: MediaQuery.of(context).size.width,
+//                ),
+//                Column(
+//                  mainAxisAlignment: MainAxisAlignment.center,
+//                  children: <Widget>[
+//                    Container(
+//                      height: 40,
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.start,
+//                        crossAxisAlignment:CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          InkWell(child:              SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
+//                          setState(() {
+//                            showComment2 = !showComment2;
+//                          });
+//                    },),
+//                        ],
+//                      ),),
+//                  ],
+//                ),
+//
+//                Positioned(
+//                  top: 0,
+//                  right: 0,
+//                  left: 0,
+//                  child: Container(
+//                    margin: EdgeInsets.symmetric(horizontal: 25),
+//                    child:  showComment2  == true?
+//                    Padding(
+//                      padding: const EdgeInsets.all(8.0),
+//                      child:  Container(
+//                          height: 30,
+//                          decoration: BoxDecoration(
+//                              color: AppColors.mainThemeColor,
+//                              borderRadius:
+//                              BorderRadius.all(Radius.circular(100))),
+////                     width: MediaQuery.of(context).size.width,
+//                          child: TextFormField(
+//                            decoration: InputDecoration(
+//                                contentPadding:
+//                                EdgeInsets.only(left: 10, bottom: 16),
+//                                hintText: "Type your comment here..",
+//                                hintStyle: TextStyle(color: Colors.white,fontSize: 14),
+//                                border: InputBorder.none),
+//                          )),
+//                    ): Container(),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//
+//          Padding(
+//            padding: const EdgeInsets.symmetric(horizontal: 10),
+//            child: Stack(
+//              children: <Widget>[
+//                Container(
+//                  height: 40,
+//                  width: MediaQuery.of(context).size.width,
+//                ),
+//                Column(
+//                  mainAxisAlignment: MainAxisAlignment.center,
+//                  children: <Widget>[
+//                    Container(
+//                      height: 40,
+//                      child: Row(
+//                        mainAxisAlignment: MainAxisAlignment.start,
+//                        crossAxisAlignment:CrossAxisAlignment.center,
+//                        children: <Widget>[
+//                          InkWell(child: SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,), onTap: () {
+//                            setState(() {
+//                              showComment1 = !showComment1;
+//                            });
+//                          },),
+//                        ],
+//                      ),),
+//                  ],
+//                ),
+//
+//                Positioned(
+//                  top: 0,
+//                  right: 0,
+//                  left: 0,
+//                  child: Container(
+//                    margin: EdgeInsets.symmetric(horizontal: 25),
+//                    child:  showComment1  == true?
+//                    Padding(
+//                      padding: const EdgeInsets.all(8.0),
+//                      child:  Container(
+//                          height: 30,
+//                          decoration: BoxDecoration(
+//                              color: AppColors.redBackgroundColor,
+//                              borderRadius:
+//                              BorderRadius.all(Radius.circular(100))),
+////                     width: MediaQuery.of(context).size.width,
+//                          child: TextFormField(
+//                            decoration: InputDecoration(
+//                                contentPadding:
+//                                EdgeInsets.only(left: 10, bottom: 16),
+//                                hintText: "Type your objection  here..",
+//                                hintStyle: TextStyle(color: Colors.white,fontSize: 14),
+//                                border: InputBorder.none),
+//                          )),
+//                    ): Container(),
+//                  ),
+//                ),
+//              ],
+//            ),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
 
   Widget lessonTextWidget(){
     return Container(
@@ -330,7 +313,7 @@ class _ViewLessonState extends State<ViewLesson> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(currentLesson.lessonNameEn,style: TextStyle(color: AppColors.mainThemeColor,fontSize: 20),),
+            Text(currentLesson.getLessonName(context),style: TextStyle(color: AppColors.mainThemeColor,fontSize: 20),),
             SizedBox(height: 5,),
             Text(currentLesson.lessonLearningEn,style: TextStyle(color: AppColors.mainThemeColor,fontSize: 15),),
           ],
@@ -375,15 +358,16 @@ class _ViewLessonState extends State<ViewLesson> {
 
   Widget quiz(){
     return GestureDetector(
-      onTap: (){
-        if(currentLesson.isCompleted == false)
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LessonQuizScreen()));
+      onTap: ()async{
+        if(currentLesson.isCompleted == false && currentLesson.quizQuestions.length > 0)
+          currentLesson.quizMark = await Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LessonQuizScreen(questions: currentLesson.quizQuestions))) ?? 0.0;
+        setState(() {});
       } ,
       child: Container(
         padding: EdgeInsets.only(left: 15,right: 15),
         height: 60,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: currentLesson.isCompleted ?  Colors.grey : Colors.white,
           borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
@@ -397,7 +381,8 @@ class _ViewLessonState extends State<ViewLesson> {
     );
   }
   void _completeLesson() {
-    BlocProvider.of<SingleCourseBloc>(context).add(CompleteLesson(lesson: widget.lesson , flashCard: flashCardEnabled , quizGrade : 100));
+    if(currentLesson.isCompleted == false)
+      BlocProvider.of<SingleCourseBloc>(context).add(CompleteLesson(lesson: widget.lesson , flashCard: flashCardEnabled , quizGrade : 100));
   }
 
 }

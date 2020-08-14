@@ -1,16 +1,25 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/utilities/ParserHelpers.dart';
+import 'package:flutter/material.dart';
 
 import 'QuizQuestion.dart';
 
 class LessonViewModel {
 
   String videoURL , documentURL , lessonLearningAr , lessonLearningEn;
-  int lessonId , quizMark ;
+  int lessonId  ;
+  double quizMark;
   String lessonNameEn, lessonNameAr ;
   bool flashCards , isCompleted;
   List<QuizQuestion> quizQuestions = List();
   List<String> lessonFlashCards = List();
+
+
+
+  String getLessonName(BuildContext context){
+    return EasyLocalization.of(context).locale.languageCode == "en" ? lessonNameEn : lessonNameAr ;
+  }
 
   LessonViewModel({
       this.videoURL, this.quizMark , this.lessonFlashCards, this.lessonLearningAr ,this.isCompleted , this.lessonLearningEn , this.lessonNameAr , this.lessonNameEn ,this.flashCards ,this.lessonId ,this.documentURL,  this.quizQuestions});
@@ -26,6 +35,11 @@ class LessonViewModel {
 
   static LessonViewModel fromJson(lessonJson) {
 
+
+    print("***************************************************************");
+    print(lessonJson);
+    print("***************************************************************");
+
     List<String> flashCards = List();
     for(int i = 0 ; i < 5 ; i++){
       if(lessonJson['${ApiParseKeys.LESSON_FLASH_CARD}${i+1}'] !=null){
@@ -34,14 +48,10 @@ class LessonViewModel {
     }
 
     List<QuizQuestion> quiz = List();
+
     if(lessonJson[ApiParseKeys.LESSON_QUIZ_QUESTIONS] is List) {
       quiz.addAll(QuizQuestion.fromListJson(lessonJson[ApiParseKeys.LESSON_QUIZ_QUESTIONS]));
     }
-
-
-    print("**************************************");
-    print("Lesson From Json => $lessonJson");
-    print("**************************************");
 
     return LessonViewModel(
       lessonId: lessonJson[ApiParseKeys.LESSON_ID] ?? 0,
@@ -54,7 +64,7 @@ class LessonViewModel {
       lessonFlashCards: flashCards,
       quizQuestions: quiz,
       lessonNameAr: lessonJson[ApiParseKeys.LESSON_NAME_AR] ?? '',
-      quizMark: lessonJson[ApiParseKeys.QUIZ_MARK] ?? 0,
+      quizMark: lessonJson[ApiParseKeys.QUIZ_MARK] != null ? lessonJson[ApiParseKeys.QUIZ_MARK] * 1.0 ?? 0.0 : 0.0,
       lessonNameEn: lessonJson[ApiParseKeys.LESSON_NAME_EN] ?? ''
     );
 

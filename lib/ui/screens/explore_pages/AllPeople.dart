@@ -1,6 +1,7 @@
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/screens/OtherUsersProfileScreen.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 class AllPeople extends StatefulWidget {
 
@@ -17,21 +18,13 @@ class _AllPeopleState extends State<AllPeople> {
   Widget build(BuildContext context) {
     return  Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-      child: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0),
-            child:ListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.users != null ? widget.users.length : 0,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (context, index) {
-                  return story(widget.users[index] , index);
-                }),
-          ),
-
-        ],
-      ),
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: widget.users != null ? widget.users.length : 0,
+          scrollDirection: Axis.vertical,
+          itemBuilder: (context, index) {
+            return story(widget.users[index] , index);
+          }),
     );
   }
   Widget story(UserViewModel user ,  int index) {
@@ -43,12 +36,18 @@ class _AllPeopleState extends State<AllPeople> {
         padding: EdgeInsets.all(5),
         color: Colors.white,
         child: Row(
-
           children: <Widget>[
-            CircleAvatar(
-              backgroundColor: AppColors.mainThemeColor,
-              backgroundImage: NetworkImage(user.profileImagePath ?? ''),
-              radius: 30,
+            Container(
+
+              width: 60,
+              height: 60,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: user.profileImagePath , fit: BoxFit.cover,),
+              ),
             ),
           SizedBox(width: 20,),
             Column(

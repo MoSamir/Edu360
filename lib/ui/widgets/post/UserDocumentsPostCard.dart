@@ -1,5 +1,6 @@
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/ParserHelpers.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,9 @@ class UserDocumentsPostCard extends StatefulWidget {
 class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
   @override
   Widget build(BuildContext context) {
+
+    print("Building Post with Documents");
+
     return GestureDetector(
       onTap: widget.onPostClick ?? (){},
       child: Padding(
@@ -79,21 +83,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                     ), textScaleFactor: 1,maxLines: 2, textAlign: TextAlign.start,),
                   ),
                   SizedBox(height: 5,),
-                  ...widget.postModel.postFilesPath.map((document) => GestureDetector(
-                    onTap: (){
-                      PdftronFlutter.openDocument(document);
-                    },
-                    child: Text(
-                      document.split("/")[document.split("/").length -1],
-                      textAlign: TextAlign.start,
-                      textScaleFactor: 1,
-                      maxLines: 10,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: AppColors.white
-                      ),
-                    ),
-                  )).toList(),
+                  ...getFiles(),
                   SizedBox(height: 10,),
                   Container( color: Colors.black12,width: MediaQuery.of(context).size.width, height: .65,),
                   SizedBox(height: 10,),
@@ -108,35 +98,25 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                             children: <Widget>[
                               SizedBox(
                                   height: 25,
-                                  width: 25,
                                   child: InkWell(
-                                      onTap: (){
-                                        if(widget.onLike != null)
-                                          widget.onLike();
-                                        return;
-                                      },
-                                      child: Icon(widget.postModel.isLiked ?? false ? Icons.favorite  : Icons.favorite_border ,color: AppColors.mainThemeColor,))),
-                              Visibility(
-                                replacement: Container(
-                                  width: 0,
-                                  height: 0,
-                                ),
-                                visible: widget.postModel.numberOfLikes != null
-                                    ? widget.postModel.numberOfLikes > 0
-                                    : false,
-                                child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.mainThemeColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                          widget.postModel.numberOfLikes.toString(),
-                                          style: Styles.baseTextStyle,
-                                        ))),
-                              ),
+                                      onTap: widget.onLike ?? () {},
+                                      child: Row(
+                                        children: <Widget>[
+                                          SizedBox(
+                                              height: 25,
+                                              width: 25,
+                                              child: InkWell(
+                                                  onTap: (){
+                                                    if(widget.onLike != null)
+                                                      widget.onLike();
+                                                    return;
+                                                  },
+                                                  child: Icon(widget.postModel.isLiked ?? false ? Icons.favorite  : Icons.favorite_border ,color: AppColors.mainThemeColor,))),
+                                          widget.postModel.numberOfLikes < 1 ? Container() : Text('${widget.postModel.numberOfLikes}',style: TextStyle(color: AppColors.mainThemeColor),),
+                                        ],
+                                      )
+                                  )),
+
                             ],
                           ),
                           SizedBox(width: 6,),
@@ -144,81 +124,41 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                             children: <Widget>[
                               SizedBox(
                                   height: 25,
-                                  width: 25,
                                   child: InkWell(
                                     onTap: () {
                                       widget.onComment("Comment");
                                       return;
                                     },
-                                    child: SvgPicture.asset(
-                                        Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,) ,
+                                    child: Row(
+                                      children: <Widget>[
+                                        SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,),
+                                        widget.postModel.numberOfComments < 1 ? Container() :
+                                        Text('${ widget.postModel.numberOfComments}',style: TextStyle(color: AppColors.mainThemeColor),),
+                                      ],
+                                    )??
+                                            () {},
                                   )),
-                              Visibility(
-                                replacement: Container(
-                                  width: 0,
-                                  height: 0,
-                                ),
-                                visible: widget.postModel.numberOfComments != null
-                                    ? widget.postModel.numberOfComments > 0
-                                    : false,
-                                child: Container(
-                                    width: 20,
-                                    height: 20,
-                                    decoration: BoxDecoration(
-                                      color: AppColors.mainThemeColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                          widget.postModel.numberOfComments
-                                              .toString(),
-                                          style: Styles.baseTextStyle,
-                                        ))),
-                              ),
                             ],
                           ),
                           SizedBox(width: 6,),
                           Column(
                             children: <Widget>[
                               SizedBox(
-                                  width: 25,
                                   height: 25,
-                                  child: Row(
-                                    children: <Widget>[
-                                      InkWell(
-                                        onTap: () {
-                                          widget.onObjection("objection");
-                                          return;
-                                        },
-                                        child: SvgPicture.asset(
-                                            Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
-                                      ),
-                                      Visibility(
-                                        replacement: Container(
-                                          width: 0,
-                                          height: 0,
-                                        ),
-                                        visible:
-                                        widget.postModel.numberOfObjections != null
-                                            ? widget.postModel.numberOfObjections > 0
-                                            : false,
-                                        child: Container(
-                                            width: 20,
-                                            height: 20,
-                                            decoration: BoxDecoration(
-                                              color: AppColors.mainThemeColor,
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: Center(
-                                                child: Text(
-                                                  widget.postModel.numberOfObjections
-                                                      .toString(),
-                                                  style: Styles.baseTextStyle,
-                                                ))),
-                                      ),
-                                    ],
+                                  child: InkWell(
+                                    onTap: () {
+                                      widget.onObjection("objection");
+                                      return;
+                                    },
+                                    child: Row(
+                                      children: <Widget>[
+                                        SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
+                                        widget.postModel.numberOfObjections < 1 ? Container() :
+                                        Text('${ widget.postModel.numberOfObjections}',style: TextStyle(color: AppColors.redBackgroundColor),),
+                                      ],
+                                    ) ??
+                                            () {},
                                   )),
-
                             ],
                           ),
                         ],
@@ -226,6 +166,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                       Column(
                         children: <Widget>[
                           SizedBox(
+//                            width: 55,
                             height: 30,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -261,7 +202,6 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                               ],
                             ),
                           ),
-
                         ],
                       ),
                     ],
@@ -274,4 +214,44 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
       ),
     );
   }
+
+  getFiles() {
+    List<Widget> widgetList = List<Widget>();
+    for(int i = 0 ; i < widget.postModel.postFilesPath.length ; i ++){
+
+      String document = ParserHelper.parseURL(widget.postModel.postFilesPath[i]);
+      print('Opening => $document');
+
+      widgetList.add(GestureDetector(
+        onTap: (){
+          PdftronFlutter.openDocument(document);
+        },
+        child: Container(
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            color: document.endsWith(".pdf") ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor,
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 8),
+          child: Center(
+            child: Text(
+              document.split("/")[document.split("/").length -1],
+              softWrap: true,
+              textAlign: TextAlign.start,
+              textScaleFactor: 1,
+//              maxLines: 1,
+//              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: AppColors.white
+              ),
+            ),
+          ),
+        ),
+      ));
+    }
+
+    print(widgetList.length);
+    return widgetList;
+  }
+
 }

@@ -245,7 +245,7 @@ class NetworkUtilities {
     debugPrint('---------------------------------------------------');
   }
   static String getFullURL({String method}) {
-    return URL.API_URL + method;
+    return Constants.CURRENT_LOCALE == "ar" ?  URL.ARABIC_API_URL + method : URL.ENGLISH_API_URL + method;
   }
 
   static ResponseViewModel handleServerError(http.Response serverResponse) {

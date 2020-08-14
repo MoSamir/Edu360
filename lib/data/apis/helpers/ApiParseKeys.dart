@@ -35,9 +35,9 @@ class ApiParseKeys {
 
   static const String POSTS_DATA = "data";
   static const String POST_OWNER_ID = "userID";
-  static const String POST_OWNER_NAME = "userName";
-  static const String POST_OWNER_IMAGE = "userImage";
-  static const String POST_USER_INTERACTION = "InteractionTypeID";
+  static const String POST_OWNER_NAME = "fullName";
+  static const String POST_OWNER_IMAGE = "profileImagePath";
+  static const String POST_USER_INTERACTION = "interactionTypeID";
 
 
   static const String POST_BODY = "text";
@@ -82,6 +82,15 @@ class ApiParseKeys {
 
   static const String GRADE_NAME_AR = "nameAr";
   static const String GRADE_NAME_EN = "nameEn";
+
+  //---------------- GET QUIZ QUESTION ---------------------------------------------
+
+  static const String QUESTION = "questionBody";
+  static const String ANSWER_NO = "choose";
+  static const String CORRECT_ANSWER_INDEX = "rightChoose";
+
+
+
 
 
   //----------------- LESSON KEYS ------------------------------------------------

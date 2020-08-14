@@ -143,7 +143,7 @@ class _CourseOverviewScreenState extends State<CourseOverviewScreen> {
                   ],
                 ),
               ),
-              EduButton( title: LocalKeys.Subscribe , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
+              EduButton( title: (LocalKeys.SUBSCRIBE).tr() , onPressed: _navigateToDetailsCourseName,bgColor: AppColors.mainThemeColor,style: Styles.studyTextStyle,cornerRadius: 0,),
 
             ],
           ),
@@ -152,7 +152,7 @@ class _CourseOverviewScreenState extends State<CourseOverviewScreen> {
             logoHeight: 20,
             autoImplyLeading: true,
             backgroundColor: AppColors.mainThemeColor,
-            icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 25, height: 25,),
+            icon: Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),
             actions: <Widget>[
               Image(
                 image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),

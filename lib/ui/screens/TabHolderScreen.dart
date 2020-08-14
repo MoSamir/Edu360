@@ -99,7 +99,6 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-
         items: barTabs,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
@@ -120,9 +119,8 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
             child: screens[currentVisiblePageIndex],
           ),
           EduAppBar(
-
             backgroundColor: AppColors.mainThemeColor,
-            icon: SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
+            icon:  Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),//SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
             actions: <Widget>[
               Image(
                 image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),

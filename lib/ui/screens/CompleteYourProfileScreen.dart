@@ -185,7 +185,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                               SizedBox(height: 10,),
                               GestureDetector(
                                 onTap: ()async{
-                                  print("Ko");
+
                                   await _openCalendar(context);
                                 },
                                 child: Container(

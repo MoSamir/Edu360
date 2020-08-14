@@ -2,7 +2,7 @@ import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/HomePostsBloc.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/states/HomePostsStates.dart';
-import 'package:edu360/data/models/PostViewModel.dart';
+
 import 'package:edu360/ui/UIHelper.dart';
 import 'package:edu360/ui/screens/CreatePostScreen.dart';
 import 'package:edu360/ui/screens/SinglePostScreen.dart';
@@ -46,7 +46,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
                   padding: EdgeInsets.only(top: 0 , left: 10, right: 10),
                   itemBuilder: (context , index) {
                     return UIHelper.getPostView(homeBloc.homePosts[index], context , elevation: 5 , postAction: (){
-                      //homeBloc.add(LoadHomeUserPosts());
                       setState(() {});
                     } , onPostClick: ()=> Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePostScreen((){
                       BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
@@ -6,10 +7,11 @@ import 'package:edu360/data/models/LessonViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
 import 'package:edu360/utilities/ParserHelpers.dart';
+import 'package:flutter/cupertino.dart';
 
 class CourseViewModel {
 
-  String courseTitle ,  courseImage , instructorName;
+  String  courseImage , instructorName , courseNameAr, courseNameEn;
   DateTime courseStartTime ;
   StudyFieldViewModel courseField ;
   int numberOfLessonsPerWeek , numberOfMonthsLeft  , courseId;
@@ -18,6 +20,14 @@ class CourseViewModel {
   List<String> courseOutcomesEn = List() , courseOutcomesAr = List();
   List<LessonViewModel> courseLessons = List();
   bool isUserSubscribed ;
+
+
+  String getCourseName(BuildContext context){
+    return EasyLocalization.of(context).locale.languageCode == "en" ? courseNameEn : courseNameAr ;
+  }
+  List<String> getCourseOutcomes(BuildContext context){
+    return EasyLocalization.of(context).locale.languageCode == "en" ? courseOutcomesEn : courseOutcomesAr ;
+  }
 
 
   @override
@@ -30,7 +40,7 @@ class CourseViewModel {
   @override
   int get hashCode => courseId.hashCode;
 
-  CourseViewModel({this.courseTitle, this.isUserSubscribed , this.courseField ,this.courseImage ,this.courseOutcomesEn , this.courseOutcomesAr ,this.targetClasses, this.courseStartTime,
+  CourseViewModel({this.courseNameAr , this.courseNameEn , this.isUserSubscribed , this.courseField ,this.courseImage ,this.courseOutcomesEn , this.courseOutcomesAr ,this.targetClasses, this.courseStartTime,
       this.numberOfLessonsPerWeek, this.numberOfMonthsLeft, this.courseId ,this.feesPerMonth , this.instructorName , this.courseLessons});
 
   static List<CourseViewModel> fromListJson(List<dynamic> coursesListJson) {
@@ -47,8 +57,6 @@ class CourseViewModel {
 
     List<GradeViewModel> gradesList = List();
     var target = singleCourseJson[ApiParseKeys.COURSE_GRADE];
-
-
     try{
       if((target is List ) == false){
         gradesList.add(GradeViewModel.fromJson(target));
@@ -82,6 +90,8 @@ class CourseViewModel {
     String imagePath = ParserHelper.parseURL(singleCourseJson[ApiParseKeys.COURSE_IMAGE_PATH])  ?? '';
 
     return CourseViewModel(
+      courseNameAr: singleCourseJson[ApiParseKeys.COURSE_NAME_AR] ?? '',
+      courseNameEn: singleCourseJson[ApiParseKeys.COURSE_NAME_EN] ?? '',
       courseLessons: courseLessons,
       targetClasses:  gradesList,
      courseOutcomesEn: (singleCourseJson[ApiParseKeys.COURSE_OUTCOMES_EN]!= null) ? (singleCourseJson[ApiParseKeys.COURSE_OUTCOMES_EN]).split(',') : List(),
@@ -92,7 +102,6 @@ class CourseViewModel {
         studyFieldNameAr: singleCourseJson[ApiParseKeys.COURSE_TITLE_AR],
         studyFieldNameEn: singleCourseJson[ApiParseKeys.COURSE_TITLE_EN],
       ),
-      courseTitle: singleCourseJson[ApiParseKeys.COURSE_NAME_EN],
       courseImage: imagePath,
       isUserSubscribed: singleCourseJson[ApiParseKeys.COURSE_ALREADY_SUBSCRIBED] ?? false,
       instructorName: singleCourseJson[ApiParseKeys.COURSE_TEACHER_NAME],
@@ -100,5 +109,26 @@ class CourseViewModel {
       numberOfMonthsLeft: (courseEndDate.difference(courseStartDate).inDays/30).floor(),
       numberOfLessonsPerWeek: 1,
     );
+  }
+
+
+  bool canMatch(String query) {
+    try{
+      bool mainPostHasMatch =  (courseNameAr.contains(query) || courseNameEn.contains(query)) ;
+//      || courseOutcomesAr.contains(query) || courseOutcomesEn.contains(query));
+//      mainPostHasMatch = mainPostHasMatch || courseField.studyFieldNameEn.contains(query) || courseField.studyFieldNameAr.contains(query);
+//      mainPostHasMatch = mainPostHasMatch || instructorName.contains(query);
+//      if(mainPostHasMatch) return mainPostHasMatch;
+//
+//      for(int i = 0 ; i < courseOutcomesEn.length ; i++)
+//        if(courseOutcomesEn[i].contains(query) || courseOutcomesAr[i].contains(query)) return true ;
+//      for(int i = 0 ; i < targetClasses.length ; i++)
+//        if(targetClasses[i].gradeNameEn.contains(query) || targetClasses[i].gradeNameAr.contains(query)) return true ;
+//      for(int i = 0 ; i < courseLessons.length ; i++)
+//        if(courseLessons[i].lessonNameEn.contains(query) || courseLessons[i].lessonNameAr.contains(query)) return true ;
+      return mainPostHasMatch ;
+    } catch(exception){
+      return false ;
+    }
   }
 }
