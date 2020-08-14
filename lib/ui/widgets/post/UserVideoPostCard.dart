@@ -84,7 +84,7 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                         ),
                       ),
                       SizedBox(width: 5,),
-                      IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
+//                      IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
                     ],
                   ),
                   SizedBox(height: 10,),
@@ -152,11 +152,11 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                   width: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      widget.onComment("Comment");
+                                      //widget.onComment("Comment");
                                       return;
                                     },
-                                    child: SvgPicture.asset(
-                                            Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,) ,
+                                    child: Image.asset(
+                                      Resources.COMMENT_IMAGE , width: 25, height: 25,) ,
                                   )),
                               Visibility(
                                 replacement: Container(
@@ -190,11 +190,11 @@ class _UserVideoPostCardState extends State<UserVideoPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      widget.onObjection("objection");
+                                      //widget.onObjection("objection");
                                       return;
                                     },
-                                    child: SvgPicture.asset(
-                                            Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
+                                    child: Image.asset(
+                                            Resources.OBJECTION_IMAGE , width: 25, height: 25,),
                                   )),
                               Visibility(
                                 replacement: Container(

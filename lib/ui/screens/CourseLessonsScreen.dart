@@ -53,10 +53,10 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
         autoImplyLeading: true,
         backgroundColor: AppColors.mainThemeColor,
         actions: <Widget>[
-          Image(
-            image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
-            color: Colors.white,
-          ),
+//          Image(
+//            image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+//            color: Colors.white,
+//          ),
         ],
       ),
       body: BlocConsumer(
@@ -64,13 +64,37 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
         builder: (context , state){
 
           if(state is LoadingCourseFailed){
-            return PlaceHolderWidget(
-              placeHolderIcon: IconButton(icon: Icon(Icons.refresh), onPressed: (){
-                courseBloc.add(FetchCourseInformation(
-                  course: course,
-                ));
-              },),
-              placeHolder: Text('Unable to load course lessons please try again in while'),
+            return Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0 , vertical: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(course.getCourseName(context),
+                            style: TextStyle(
+                              color: AppColors.mainThemeColor,
+                              fontSize: 20,
+                            )),
+                      ),
+//                      Image(
+//                        image: AssetImage(Resources.SETTINGS_IMAGE),
+//                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: PlaceHolderWidget(
+                    placeHolderIcon: IconButton(icon: Icon(Icons.refresh), onPressed: (){
+                      courseBloc.add(FetchCourseInformation(
+                        course: course,
+                      ));
+                    },),
+                    placeHolder: Center(child: Text(LocalKeys.COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR , textAlign: TextAlign.center,).tr()),
+                  ),
+                ),
+              ],
             );
           } else if(state is CourseLoadingStates){
             return Center(child: SizedBox(
@@ -83,20 +107,23 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(course.getCourseName(context),
-                          style: TextStyle(
-                            color: AppColors.mainThemeColor,
-                            fontSize: 20,
-                          )),
-                    ),
-                    Image(
-                      image: AssetImage(Resources.SETTINGS_IMAGE),
-                    )
-                  ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0 , horizontal: 16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(course.getCourseName(context),
+                            style: TextStyle(
+                              color: AppColors.mainThemeColor,
+                              fontSize: 20,
+                            )),
+                      ),
+//                      Image(
+//                        image: AssetImage(Resources.SETTINGS_IMAGE),
+//                      )
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 15,

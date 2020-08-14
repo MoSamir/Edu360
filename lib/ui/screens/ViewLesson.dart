@@ -12,11 +12,13 @@ import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
+import 'package:edu360/utilities/ParserHelpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:pdftron_flutter/pdftron_flutter.dart';
 import 'package:video_player/video_player.dart';
 
 class ViewLesson extends StatefulWidget {
@@ -78,8 +80,8 @@ class _ViewLessonState extends State<ViewLesson> {
             setState(() {});
           }
           else if (state is LessonInformationLoadingFailed ||
-                   state is LoadingCourseFailed ||
-                   state is LessonCompletionFailed) {
+              state is LoadingCourseFailed ||
+              state is LessonCompletionFailed) {
             if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
@@ -127,6 +129,11 @@ class _ViewLessonState extends State<ViewLesson> {
                   Expanded(
                       child: ListView(
                         children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8 , right: 8 , left: 8),
+                            child: Text(currentLesson.getLessonName(context),style: TextStyle(color: AppColors.mainThemeColor,fontSize: 20),),
+                          ),
+                          SizedBox(height: 5,),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.3,
                             width: MediaQuery.of(context).size.width,
@@ -303,22 +310,13 @@ class _ViewLessonState extends State<ViewLesson> {
   Widget lessonTextWidget(){
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.only(left: 15,right: 15),
+      // padding: EdgeInsets.only(left: 15,right: 15),
       //height: 60,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Text(currentLesson.getLessonName(context),style: TextStyle(color: AppColors.mainThemeColor,fontSize: 20),),
-            SizedBox(height: 5,),
-            Text(currentLesson.lessonLearningEn,style: TextStyle(color: AppColors.mainThemeColor,fontSize: 15),),
-          ],
-        ),
-      ),
+      child: getLessonFile(),
     );
   }
 
@@ -337,20 +335,20 @@ class _ViewLessonState extends State<ViewLesson> {
           Expanded(child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text('Flashcards',style: TextStyle(color: AppColors.mainThemeColor,fontSize: 20),),
+              Text((LocalKeys.CARDS).tr(),style: TextStyle(color: AppColors.mainThemeColor,fontSize: 20),),
               ...currentLesson.lessonFlashCards.map((e) => Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Text(e , style: TextStyle(color: AppColors.mainThemeColor,fontSize: 15),),
               )).toList()
             ],
           )),
-        InkWell(
-            onTap: (){
-              setState(() {
-                flashCardEnabled =! flashCardEnabled;
-              });
-            },
-            child: Icon(flashCardEnabled ?Icons.check_circle: Icons.check_circle_outline,color: AppColors.mainThemeColor,))
+          InkWell(
+              onTap: (){
+                setState(() {
+                  flashCardEnabled =! flashCardEnabled;
+                });
+              },
+              child: Icon(flashCardEnabled ?Icons.check_circle: Icons.check_circle_outline,color: AppColors.mainThemeColor,))
         ],
       ),
     );
@@ -384,6 +382,37 @@ class _ViewLessonState extends State<ViewLesson> {
     if(currentLesson.isCompleted == false)
       BlocProvider.of<SingleCourseBloc>(context).add(CompleteLesson(lesson: widget.lesson , flashCard: flashCardEnabled , quizGrade : 100));
   }
+
+
+  getLessonFile() {
+    String document = ParserHelper.parseURL(currentLesson.documentURL);
+    return GestureDetector(
+      onTap: (){
+        PdftronFlutter.openDocument(document);
+      },
+      child: Container(
+        // height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: document.endsWith(".pdf") ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor,
+        ),
+        padding : EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(
+            document.split("/")[document.split("/").length -1],
+            softWrap: true,
+            textAlign: TextAlign.start,
+            maxLines: 2,
+            textScaleFactor: 1,
+            style: TextStyle(
+                color: AppColors.white
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
 
 }
 

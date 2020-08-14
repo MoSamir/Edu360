@@ -1,6 +1,7 @@
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/utilities/ParserHelpers.dart';
 
 import 'CommentViewModel.dart';
@@ -85,6 +86,18 @@ class PostViewModel{
      }catch(exception){
        return false;
      }
+  }
+
+  static PostViewModel fromFullPost(postData, commentsList) {
+
+    List<CommentViewModel> postComments = List();
+    PostViewModel post ;
+    if(commentsList != null && commentsList is List)
+     postComments = CommentViewModel.fromListJson(commentsList);
+    if(postData != null)
+      post = PostViewModel.fromJson(postData);
+    post.postComments = postComments;
+    return post;
   }
 }
 

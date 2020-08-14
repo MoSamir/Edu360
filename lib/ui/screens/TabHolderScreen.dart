@@ -122,10 +122,10 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
             backgroundColor: AppColors.mainThemeColor,
             icon:  Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),//SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
             actions: <Widget>[
-              Image(
-                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
-                color: Colors.white,
-              ),
+//              Image(
+//                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+//                color: Colors.white,
+//              ),
             ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,

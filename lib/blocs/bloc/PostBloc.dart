@@ -99,6 +99,7 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.sharePost(postId: event.postViewModel.postId , shareDescription: event.shareDescription);
     if(likePostResult.isSuccess){
+      yield PostSharedSuccessfully();
       postExecutionCallback();
       yield PostLoadedState();
       return;
@@ -109,18 +110,21 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
   }
 
   Stream<PostStates> _handlePostCommentsFetching(FetchPostComments event) async*{
+
+
+    if(event.silentLoad != null && event.silentLoad == false)
     yield PostLoadingState();
-    ResponseViewModel<List<CommentViewModel>> postCommentsResponse = await Repository.getPostComments(post: event.postModel);
+
+    ResponseViewModel<PostViewModel> postCommentsResponse = await Repository.getPostComments(post: event.postModel);
     PostViewModel postModel = event.postModel;
 
     if(postCommentsResponse.isSuccess && postCommentsResponse.responseData != null){
-      postModel.postComments = [];
-      postModel.postComments.addAll(postCommentsResponse.responseData);
+      postModel = postCommentsResponse.responseData;
       yield CommentsFetched(postViewModel: postModel);
       return ;
     } else {
       postModel.postComments = [];
-      yield PostLoaded(postViewModel: postModel);
+      yield CommentsFetched(postViewModel: postModel);
       return ;
     }
   }

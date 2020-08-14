@@ -31,6 +31,10 @@ class LocalKeys{
   static const String WHOLE_POSTS_PLACE_HOLDER = "WHOLE_POSTS_PLACE_HOLDER";
   static const String ACTIVE = "ACTIVE";
   static const String INACTIVE = "INACTIVE";
+  static const String POST_SHARED_SUCCESSFULLY = "POST_SHARED_SUCCESSFULLY";
+  static const String COMING_SOON = "COMING_SOON";
+
+
 
 
   //-------------------------- COMPLETE YOUR PROFILE SCREEN -------------------
@@ -78,6 +82,8 @@ class LocalKeys{
   static const String SHOW_MORE = "SHOW_MORE";
   static const String TUTORS_FOR_YOU = "TUTORS_FOR_YOU";
   static const String EXPLORE_TITLE = "EXPLORE_TITLE";
+  static const String ALL_GRADES = "ALL_GRADES";
+
 
 
 //------------------- COURSE NAME ----------------------------------------------
@@ -89,6 +95,7 @@ class LocalKeys{
 //------------------ SINGLE POST PAGE ------------------------------------------
 
   static const String NO_COMMENTS_YET = "NO_COMMENTS_YET_PLACEHOLDER";
+  static const String TYPE_YOUR_COMMENT = "TYPE_YOUR_COMMENT";
 
 //------------------ NOTIFICATIONS SCREEN --------------------------------------
   static const String NO_MORE_NOTIFICATIONS = "NO_MORE_NOTIFICATIONS";
@@ -107,6 +114,10 @@ class LocalKeys{
 
   static const String COURSE_HAS_NO_LESSONS = "COURSE_HAS_NO_LESSONS";
   static const String COURSE_NOT_STARTED_YET = "COURSE_NOT_STARTED_YET";
+  static const String COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR = "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR";
+
+
+
 
 //------------------------------ PROFILE SCREEN --------------------------------
 
@@ -140,5 +151,17 @@ class LocalKeys{
 
   static const String AR = "عربي";
   static const String EN = "English";
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

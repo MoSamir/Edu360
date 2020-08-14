@@ -21,7 +21,7 @@ class ProfileScreenHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 160,
+      height: 170,
       color: AppColors.mainThemeColor,
       width: MediaQuery.of(context).size.width,
       child: Padding(
@@ -47,7 +47,7 @@ class ProfileScreenHeader extends StatelessWidget {
                   SizedBox(height: 8,),
                   Text(user.userFullName!= null ? user.userFullName ?? ""  :"", style: _headerTextStyle,),
                   SizedBox(height: 2,),
-                  Text(user.userEmail != null ? user.userEmail ?? "" : "", style: _headerTextStyle,),
+                  Expanded(child: Text(user.userEmail != null ? user.userEmail ?? "" : "", style: _headerTextStyle,)),
                 ],
               ),
             ),

@@ -33,5 +33,6 @@ class AddObjection extends PostEvents{
 }
 class FetchPostComments extends PostEvents{
   final PostViewModel postModel;
-  FetchPostComments({this.postModel});
+  final bool silentLoad;
+  FetchPostComments({this.postModel , this.silentLoad});
 }

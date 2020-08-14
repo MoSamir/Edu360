@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu360/Repository.dart';
+import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/models/CommentViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
@@ -184,6 +185,27 @@ class PostDataProvider{
       errorViewModel: newPostResponse.errorViewModel,
       isSuccess: newPostResponse.isSuccess,
       responseData: newPostResponse.responseData,
+    );
+  }
+
+  static Future<ResponseViewModel<PostViewModel>> loadPostComments(PostViewModel post)async {
+
+    UserViewModel userVm = await Repository.getUser();
+    String userToken = userVm.userToken;
+    Map<String,dynamic> postData = {
+      "PostID" : post.postId,
+      "PageSize":100,
+      "PageNumber":1
+    };
+
+    ResponseViewModel getPostComments = await NetworkUtilities.handlePostRequest(methodURL: NetworkUtilities.getFullURL(method: URL.POST_RETRIEVE_POST_COMMENTS),acceptJson: true ,requestBody: postData ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (commentsJson){
+      return PostViewModel.fromFullPost(commentsJson['data'][0]["postMobvM"] , commentsJson['data'][0]["postCommentMobVM"]);
+    });
+
+    return ResponseViewModel<PostViewModel>(
+      isSuccess: getPostComments.isSuccess,
+      errorViewModel: getPostComments.errorViewModel,
+      responseData: getPostComments.responseData,
     );
   }
 

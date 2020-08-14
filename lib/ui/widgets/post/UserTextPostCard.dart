@@ -81,7 +81,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                       SizedBox(
                         width: 5,
                       ),
-                      IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
+//                      IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
                     ],
                   ),
                   SizedBox(
@@ -141,12 +141,12 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      widget.onComment("Comment");
+                                      //widget.onComment("Comment");
                                       return;
                                     },
                                     child: Row(
                                       children: <Widget>[
-                                        SvgPicture.asset(Resources.COMMENT_SVG_IMAGE , width: 25, height: 25,),
+                                        Image.asset(Resources.COMMENT_IMAGE , width: 25, height: 25,),
                                         widget.postModel.numberOfComments < 1 ? Container() :
                                         Text('${ widget.postModel.numberOfComments}',style: TextStyle(color: AppColors.mainThemeColor),),
                                       ],
@@ -162,12 +162,12 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      widget.onObjection("objection");
+                                      //widget.onObjection("objection");
                                       return;
                                     },
                                     child: Row(
                                       children: <Widget>[
-                                        SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE , width: 25, height: 25,),
+                                        Image.asset(Resources.OBJECTION_IMAGE , width: 25, height: 25,),
                                         widget.postModel.numberOfObjections < 1 ? Container() :
                                         Text('${ widget.postModel.numberOfObjections}',style: TextStyle(color: AppColors.redBackgroundColor),),
                                       ],

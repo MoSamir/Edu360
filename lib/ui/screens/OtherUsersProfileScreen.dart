@@ -52,10 +52,10 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
         autoImplyLeading: true,
         backgroundColor: AppColors.mainThemeColor,
         actions: <Widget>[
-          Image(
-            image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
-            color: Colors.white,
-          ),
+//          Image(
+//            image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+//            color: Colors.white,
+//          ),
         ],
       ),
       body: BlocConsumer(

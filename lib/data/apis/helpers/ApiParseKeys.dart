@@ -111,6 +111,15 @@ class ApiParseKeys {
   //-------------------- LOAD OTHER USER ---------------------------------------------
 
   static const String IS_FOLLOWER = "isFollowedBy";
+  static const String COMMENT_OWNER_IMAGE = "profileImagePath";
+  static const String COMMENT_OWNER_NAME = "fullName";
+  static const String COMMENT_TEXT_BODY = "comment";
+  static const String COMMENT_NUMBER_OF_LIKES = "noOfLikes";
+  static const String COMMENT_OWNER_ID = "userCommentID";
+  static const String COMMENT_TYPE = "interactionCommentTypeID";
+
+
+
 
 
 }

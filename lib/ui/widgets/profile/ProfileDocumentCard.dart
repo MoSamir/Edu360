@@ -2,6 +2,7 @@ import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 class ProfileDocumentCard extends StatelessWidget {
@@ -190,12 +191,12 @@ class ProfileDocumentCard extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     if(onComment != null)
-                                    onComment("Comment");
+                                    //onComment("Comment");
                                     return;
                                   },
                                   child: Image(
                                       image: AssetImage(
-                                          Resources.COMMENT_CON_IMAGE)) ??
+                                          Resources.COMMENT_IMAGE)) ??
                                           () {},
                                 )),
                             Visibility(
@@ -230,14 +231,11 @@ class ProfileDocumentCard extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     if(onObjection != null)
-                                    onObjection("Objection");
+                                    //onObjection("Objection");
                                     return;
                                   },
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.COMMENT_ERROR_IMAGE)) ??
-                                          () {},
-                                )),
+                                  child: Image.asset(Resources.OBJECTION_IMAGE , width: 25, height: 25,)) ?? () {},
+                                ),
                             Visibility(
                               replacement: Container(
                                 width: 0,

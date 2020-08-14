@@ -13,7 +13,7 @@ class PostLoadingFailed extends PostStates{
   final ErrorViewModel error;
   PostLoadingFailed({this.failureEvent , this.error});
 }
-
+class PostSharedSuccessfully extends PostStates{}
 class PostLoaded extends PostStates{
   final PostViewModel postViewModel;
   PostLoaded({this.postViewModel});

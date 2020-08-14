@@ -3,17 +3,21 @@ import 'package:edu360/blocs/bloc/PostBloc.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/PostEvents.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
+import 'package:edu360/blocs/states/PostStates.dart';
 import 'package:edu360/data/models/CommentViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/widgets/post/UserDocumentsPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserTextPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserVideoPostCard.dart';
 import 'package:edu360/ui/widgets/profile/ProfileDocumentCard.dart';
 import 'package:edu360/ui/widgets/profile/ProfileTextPostCard.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UIHelper {
   static Widget getPostView(PostViewModel post , BuildContext context ,{double elevation , Function postAction , Function onPostClick}){
@@ -23,7 +27,23 @@ class UIHelper {
     });
     UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
 
-    print("Home Post => ${post.postFilesPath}");
+
+    postBloc.listen((postBlocState) {
+      if(postBlocState is PostSharedSuccessfully){
+        Fluttertoast.showToast(
+            msg: (LocalKeys.POST_SHARED_SUCCESSFULLY).tr(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.greenAccent,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+
+    });
+
+
     if(post.postFilesPath == null || post.postFilesPath.length == 0) {
       return UserTextPostCard(postModel: post,
         elevation: elevation,
@@ -99,8 +119,24 @@ class UIHelper {
       BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
       BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
     });
-    UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
 
+
+    postBloc.listen((postBlocState) {
+      if(postBlocState is PostSharedSuccessfully){
+        Fluttertoast.showToast(
+            msg: (LocalKeys.POST_SHARED_SUCCESSFULLY).tr(),
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.greenAccent,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    });
+
+
+    UserViewModel user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
     if(post.postFilesPath == null || post.postFilesPath.length == 0) {
       return ProfileTextPostCard(postModel: post,
         onPostClick: onPostClick ?? (){},

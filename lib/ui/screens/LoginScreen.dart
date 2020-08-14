@@ -123,6 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   builder: (context) {
                     return NetworkErrorView();
                   });
+              Future.delayed(Duration(seconds: 2), () {
+                Navigator.pop(context);
+              });
+
             }
             else if(state.error.errorCode == HttpStatus.serviceUnavailable){
               Fluttertoast.showToast(

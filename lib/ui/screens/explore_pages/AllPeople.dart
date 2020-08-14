@@ -2,6 +2,7 @@ import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/ui/screens/OtherUsersProfileScreen.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 class AllPeople extends StatefulWidget {
 
@@ -50,16 +51,18 @@ class _AllPeopleState extends State<AllPeople> {
               ),
             ),
           SizedBox(width: 20,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(user.userFullName ,style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold),),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(user.userEmail ,style: TextStyle(color: AppColors.mainThemeColor,)),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(user.userFullName , overflow: TextOverflow.ellipsis,style: TextStyle(color: AppColors.mainThemeColor,fontWeight: FontWeight.bold),),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Text(user.userEmail ,style: TextStyle(color: AppColors.mainThemeColor,) , overflow: TextOverflow.ellipsis,),
+                ],
+              ),
             )
           ],
         ),

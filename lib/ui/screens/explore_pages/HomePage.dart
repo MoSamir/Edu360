@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
               logoWidth: MediaQuery.of(context).size.width / 3,
               logoHeight: 20,
               backgroundColor: AppColors.mainThemeColor,
-              actions: <Widget>[ Image(image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),color: Colors.white,),],
+              //actions: <Widget>[ Image(image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),color: Colors.white,),],
             ),
               body: BlocConsumer(
                 builder: (context, state){

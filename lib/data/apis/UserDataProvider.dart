@@ -253,7 +253,7 @@ class UserDataProvider {
     Map<String,dynamic> postMap = {
       'PageNumber': 1,
       'PageSize' : 100,
-      'UserType' : -1,
+      'UserType' : 0,
       'FieldOfStudyID':  -1 , //user.userFieldOfStudy.studyFieldId,
     };
     String userToken = (await Repository.getUser()).userToken;

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:edu360/data/apis/CoursesDataProvider.dart';
 import 'package:edu360/data/apis/PostDataProvider.dart';
+import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/models/CategoryPostViewModel.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
@@ -101,79 +102,35 @@ class Repository {
     return loadUserProfileResponse;
   }
 
-  static Future<ResponseViewModel<List<CategoryPostViewModel>> >loadUserCategories() async{
-   await Future.delayed(Duration(seconds: 1),(){});
-
-   return ResponseViewModel<List<CategoryPostViewModel>>(
-     responseData: [CategoryPostViewModel(
-       studyField: StudyFieldViewModel(
-         studyFieldNameEn: 'Category Name',
-         imagePath: null,
-       ),
-     ),CategoryPostViewModel(
-       studyField: StudyFieldViewModel(
-         studyFieldNameEn: 'Category Name',
-         imagePath: null,
-       ),
-     ),CategoryPostViewModel(
-       studyField: StudyFieldViewModel(
-         studyFieldNameEn: 'Category Name',
-         imagePath: null,
-       ),
-     ),],
-     isSuccess: true,
-   );
+  static Future<ResponseViewModel<PostViewModel>> getPostComments({PostViewModel post}) async {
+   ResponseViewModel<PostViewModel> getPostComments = await PostDataProvider.loadPostComments(post);
+    return getPostComments;
   }
 
-  static Future<ResponseViewModel<List<CommentViewModel>>>getPostComments({PostViewModel post}) async {
-    await Future.delayed(Duration(seconds: 1), (){});
-    return ResponseViewModel<List<CommentViewModel>>(
-      responseData: [
-        CommentViewModel(
-          ownerId: 1,
-          ownerName: 'User',
-          commentText: 'Hello Dummy comment',
-          likesCount: 1,
-          commentId: 1,
-          ownerImagePath: '',
+  static Future<ResponseViewModel<List<CategoryPostViewModel>> >loadUserCategories() async{
+    await Future.delayed(Duration(seconds: 1),(){});
+
+    return ResponseViewModel<List<CategoryPostViewModel>>(
+      responseData: [CategoryPostViewModel(
+        studyField: StudyFieldViewModel(
+          studyFieldNameEn: 'Category Name',
+          imagePath: null,
         ),
-        CommentViewModel(
-          ownerId: 1,
-          ownerName: 'User',
-          commentText: 'Hello Dummy comment',
-          likesCount: 1,
-          commentId: 1,
-          ownerImagePath: '',
+      ),CategoryPostViewModel(
+        studyField: StudyFieldViewModel(
+          studyFieldNameEn: 'Category Name',
+          imagePath: null,
         ),
-        CommentViewModel(
-          ownerId: 1,
-          ownerName: 'User',
-          commentText: 'Hello Dummy comment',
-          likesCount: 1,
-          commentId: 1,
-          ownerImagePath: '',
+      ),CategoryPostViewModel(
+        studyField: StudyFieldViewModel(
+          studyFieldNameEn: 'Category Name',
+          imagePath: null,
         ),
-        CommentViewModel(
-          ownerId: 2,
-          ownerName: 'User 2',
-          commentText: 'Hello Dummy comment 22',
-          likesCount: 2,
-          commentId: 2,
-          ownerImagePath: '',
-        ),
-        CommentViewModel(
-          ownerId: 3,
-          ownerName: 'User 2',
-          commentText: 'Hello Dummy comment 23432',
-          likesCount: 0,
-          commentId: 3,
-          ownerImagePath: '',
-        )
-      ],
+      ),],
       isSuccess: true,
-      errorViewModel: null,
     );
   }
+
 
   static Future<ResponseViewModel<List<NotificationViewModel>>>loadUserNotifications({int pageNo}) async{
     Future.delayed(Duration(seconds: 1),(){});

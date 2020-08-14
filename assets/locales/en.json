@@ -69,5 +69,9 @@
   "ACTIVE": "Active",
   "SUBSCRIBE": "Subscribe",
   "MARK_DONE": "Mark done",
-  "COURSE_NAME": "Course name"
+  "POST_SHARED_SUCCESSFULLY": "Post shared successfully",
+  "ALL_GRADES": "All Grades",
+  "TYPE_YOUR_COMMENT"  : "Type your comment here..",
+  "COMING_SOON" : "Coming Soon",
+  "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "Course has no lessons \n or no lessons yet"
 }

@@ -78,22 +78,15 @@ class ProfileTextPostCard extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(right: 5,left: 5),
                             child: SizedBox(
-//                            height: 170,
-                              child: ListView(
-                                shrinkWrap: true,
-                                /*physics: NeverScrollableScrollPhysics(),*/
-                                children: <Widget>[
-                                  Text(
-                                    postModel.postBody ?? '',
-                                    textAlign: TextAlign.start,
-                                    textScaleFactor: 1,
-                                    maxLines: 10,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: AppColors.mainThemeColor
-                                    ),
-                                  ),
-                                ],
+                              child: Text(
+                                postModel.postBody ?? '',
+                                textAlign: TextAlign.start,
+                                textScaleFactor: 1,
+                                maxLines: 10,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: AppColors.mainThemeColor
+                                ),
                               ),
                             ),
                           ),
@@ -163,18 +156,15 @@ class ProfileTextPostCard extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             SizedBox(
-                                height: 25,
-                                width: 25,
-                                child: InkWell(
+                              height: 25,
+                              width: 25,
+                              child: InkWell(
                                   onTap: () {
-                                    onComment("Comment");
+                                    //onComment("Comment");
                                     return;
                                   },
-                                  child: Image(
-                                      image: AssetImage(
-                                          Resources.COMMENT_CON_IMAGE)) ??
-                                          () {},
-                                )),
+                                  child: Image.asset(Resources.COMMENT_IMAGE , width: 25, height: 25,)) ?? () {},
+                            ),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -206,12 +196,12 @@ class ProfileTextPostCard extends StatelessWidget {
                                 height: 25,
                                 child: InkWell(
                                   onTap: () {
-                                    onObjection("Objection");
+                                    //onObjection("Objection");
                                     return;
                                   },
                                   child: Image(
                                       image: AssetImage(
-                                          Resources.COMMENT_ERROR_IMAGE)) ??
+                                          Resources.OBJECTION_IMAGE)) ??
                                           () {},
                                 )),
                             Visibility(
@@ -249,7 +239,7 @@ class ProfileTextPostCard extends StatelessWidget {
                           child: InkWell(
                             onTap: (){
                               if(onShare != null)
-                              onShare("Share");
+                                onShare("Share");
                               return;
                             },
                             child: Image(

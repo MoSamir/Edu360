@@ -44,7 +44,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       color: AppColors.backgroundColor,
       child: Center(
         child: PlaceHolderWidget(
-          placeHolder: Text("Coming Soon" , style: Styles.studyTextStyle,),
+          placeHolder: Text((LocalKeys.COMING_SOON).tr() , style: Styles.studyTextStyle,),
         ),
       ),
     );

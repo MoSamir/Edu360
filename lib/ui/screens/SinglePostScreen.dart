@@ -14,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:flutter/material.dart';
 class SinglePostScreen extends StatefulWidget {
   final PostViewModel post;
   final Function onPostExecution ;
@@ -25,14 +26,17 @@ class SinglePostScreen extends StatefulWidget {
 }
 
 class _SinglePostScreenState extends State<SinglePostScreen> {
-   PostBloc _postBloc ;
+  PostBloc _postBloc ;
   TextEditingController _commentController = TextEditingController();
+  PostViewModel postModel ;
 
   @override
   void initState() {
+    super.initState();
+    postModel = widget.post;
     _postBloc =  PostBloc(widget.onPostExecution);
     _postBloc.add(FetchPostComments(postModel: widget.post));
-    super.initState();
+
   }
 
   GlobalKey<FormState> _commentForm = GlobalKey<FormState>();
@@ -51,69 +55,38 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
         backgroundColor: AppColors.mainThemeColor,
         autoImplyLeading: true,
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: SingleChildScrollView(
+      body: Scaffold(
+        body: BlocBuilder(
+          bloc: _postBloc,
+          builder: (context , state){
+
+            if(state is CommentsFetched){
+              postModel = state.postViewModel;
+
+            }
+
+            return ModalProgressHUD(
+              inAsyncCall: state is PostLoadingState,
               child: Column(
                 children: <Widget>[
-                  BlocBuilder(
-                    bloc: _postBloc,
-                    builder: (context, state){
-                      PostViewModel _post = widget.post;
-                      if(state is PostLoaded)
-                        _post = state.postViewModel;
-                      return UIHelper.getPostView( _post , context ,  elevation: 0 , postAction: (){
-                        setState(() {});
-                      });
-                    },
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          UIHelper.getPostView( postModel , context ,  elevation: 0 , postAction: (){setState(() {});}),
+                          SizedBox(height: 15,),
+                         getCommentsView(state),
+                        ],
+                      ),
+                    ),
                   ),
-                  SizedBox(height: 15,),
-                  BlocConsumer(
-                    bloc: _postBloc,
-                    listener: (context , state){},
-                    builder: (context, state){
-                      if(state is PostLoaded){
-                        _postBloc.add(FetchPostComments(postModel: state.postViewModel));
-                        return state.postViewModel.postComments != null && state.postViewModel.postComments.length > 0 ?
-                        ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: state.postViewModel.postComments.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context , index) => CommentWidget(
-                              comment : state.postViewModel.postComments[index],
-                            )) : PlaceHolderWidget(
-                          placeHolder: Text(LocalKeys.NO_COMMENTS_YET , style: TextStyle(color: AppColors.mainThemeColor),).tr(),
-                        );
-                      }
-                      if(state is CommentsFetched){
-                        return state.postViewModel.postComments.length > 0 ?
-                        ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: state.postViewModel.postComments.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context , index) => CommentWidget(
-                              comment : state.postViewModel.postComments[index],
-                            )) : PlaceHolderWidget(
-                          placeHolder: Text(LocalKeys.NO_COMMENTS_YET , style: TextStyle(color: AppColors.mainThemeColor),).tr(),
-                        );
-                      }
-                      else if(state is PostLoadingState){
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      else {
-                        return Container();
-                      }
-                    },
-                  ),
+                  addCommentView(),
                 ],
               ),
-            ),
-          ),
-          addCommentView(),
-        ],
+            );
+          },
+
+        ),
       ),
     );
   }
@@ -132,7 +105,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
             children: <Widget>[
               Expanded(
                 child: Form(
-                  key: _commentForm,
+                    key: _commentForm,
                     child: Container(
                       margin: EdgeInsets.symmetric(horizontal: 25),
                       child: Padding(
@@ -144,11 +117,14 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                                 BorderRadius.all(Radius.circular(100))),
 //                     width: MediaQuery.of(context).size.width,
                             child: TextFormField(
+                              validator: (text){
+                                return text == null || text.isEmpty ? '' : null;
+                              },
                               controller: _commentController,
                               decoration: InputDecoration(
 //                                  contentPadding:
 //                                  EdgeInsets.only(left: 10, bottom: 16),
-                                  hintText: "Type your comment here..",
+                                  hintText: (LocalKeys.TYPE_YOUR_COMMENT).tr(),
                                   hintStyle: TextStyle(color: AppColors.mainThemeColor.withOpacity(.5),fontSize: 14),
                                   border: InputBorder.none),
                             )),
@@ -157,10 +133,12 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
               ),
               IconButton(
                 padding: EdgeInsets.all(0),
-                icon: SvgPicture.asset(Resources.COMMENT_ERROR_SVG_IMAGE , width: 30, height: 30,),
+                icon: Image.asset(Resources.OBJECTION_IMAGE , width: 30, height: 30,),
                 onPressed: (){
                   if(_commentForm.currentState.validate()){
                     _postBloc.add(AddObjection(postModel: widget.post , commentViewModel: UIHelper.createComment(_commentController.text, BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser)));
+                    _postBloc.add(FetchPostComments(postModel: widget.post , silentLoad: true));
+                    _commentController.clear();
                   }
                 },
               ),
@@ -170,6 +148,8 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                 onPressed: (){
                   if(_commentForm.currentState.validate()){
                     _postBloc.add(AddComment(postModel: widget.post , commentViewModel: UIHelper.createComment(_commentController.text, BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser)));
+                    _postBloc.add(FetchPostComments(postModel: widget.post , silentLoad: true));
+                    _commentController.clear();
                   }
                 },
               ),
@@ -178,6 +158,27 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
         ),
       ),
     );
+  }
+
+  Widget getCommentsView(PostStates state) {
+    if(state is PostLoadingState) return Container();
+      return postModel.postComments != null && postModel.postComments.length > 0 ?
+      ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: postModel.postComments.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) =>
+              CommentWidget(
+                comment: postModel.postComments[index],
+              )) :
+      Center(child: PlaceHolderWidget(
+        placeHolder: Center(
+          child: Text(LocalKeys.NO_COMMENTS_YET,
+            style: TextStyle(color: AppColors.mainThemeColor),).tr(),
+        ),
+      ),
+      );
+
   }
 }
 

@@ -202,10 +202,10 @@ class _CoursePayNowState extends State<CoursePayNow> {
             backgroundColor: AppColors.mainThemeColor,
             icon: Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),
             actions: <Widget>[
-              Image(
-                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
-                color: Colors.white,
-              ),
+//              Image(
+//                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+//                color: Colors.white,
+//              ),
             ],
           )
         ],
