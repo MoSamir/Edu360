@@ -73,5 +73,6 @@
   "ALL_GRADES": "All Grades",
   "TYPE_YOUR_COMMENT"  : "Type your comment here..",
   "COMING_SOON" : "Coming Soon",
-  "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "Course has no lessons \n or no lessons yet"
+  "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "Course has no lessons \n or no lessons yet",
+  "DELETE_LABEL": "Delete"
 }

@@ -248,5 +248,11 @@ class Repository {
     return userPosts;
   }
 
+  static Future<ResponseViewModel<bool>> deletePost({int postId}) async{
+    ResponseViewModel<bool> deletePostResponse = await PostDataProvider.deletePost(postId);
+    return deletePostResponse;
+  }
+
+
 
 }

@@ -25,6 +25,77 @@ class NetworkUtilities {
     return false ;
   }
 
+
+  static Future <ResponseViewModel<dynamic>> handleDeleteRequest({String methodURL, Map<String,String> requestHeaders , Function parserFunction})async{
+    ResponseViewModel getResponse ;
+
+    try{
+      var serverResponse  = await http.delete(methodURL , headers: requestHeaders);
+
+      if(serverResponse.statusCode == 200){
+        ResponseViewModel checkServerError = handleServerError(serverResponse);
+        getResponse = checkServerError ?? ResponseViewModel(
+          isSuccess: true,
+          errorViewModel: null,
+          responseData: parserFunction(json.decode(serverResponse.body)),
+        );
+      }
+      else {
+        String serverError = "";
+        try{
+          serverError = json.decode(serverResponse.body)['error'];
+        } catch(exception){
+          serverError = serverResponse.body;
+        }
+        getResponse =  ResponseViewModel(
+          isSuccess: false ,
+          errorViewModel: ErrorViewModel(
+            errorMessage: serverError,
+            errorCode: serverResponse.statusCode,
+          ),
+          responseData: null,
+        );
+        if(getResponse.errorViewModel.errorCode == 404){
+          getResponse =  ResponseViewModel(
+            isSuccess: false ,
+            errorViewModel: ErrorViewModel(
+              errorMessage: (LocalKeys.SERVER_UNREACHABLE).tr(),
+              errorCode: serverResponse.statusCode,
+            ),
+            responseData: null,
+          );
+        }
+      }
+    }
+    on SocketException{
+      getResponse = ResponseViewModel(
+        isSuccess: false ,
+        errorViewModel: Constants.CONNECTION_TIMEOUT,
+        responseData: null,
+      );
+    }
+    catch(exception){
+
+      print("Exception in Get Response => $exception");
+
+      getResponse =  ResponseViewModel(
+        isSuccess: false ,
+        errorViewModel: ErrorViewModel(
+          errorMessage: '',
+          errorCode: HttpStatus.serviceUnavailable,
+        ),
+        responseData: null,
+      );
+    }
+    networkLogger(url: methodURL , body: '', headers: requestHeaders , response: getResponse);
+    return getResponse;
+  }
+
+
+
+
+
+
   static Future <ResponseViewModel<dynamic>> handleGetRequest({String methodURL, Map<String,String> requestHeaders , Function parserFunction})async{
     ResponseViewModel getResponse ;
 
@@ -153,7 +224,6 @@ class NetworkUtilities {
     networkLogger(url: methodURL , body: requestBody, headers: requestHeaders , response: postResponse);
     return postResponse;
   }
-
   static Future <ResponseViewModel> handleFilesUploading({ bool acceptJson = false ,  String methodURL, Map<String,String> requestHeaders, FormData formData , Function parserFunction})async{
     ResponseViewModel postResponse ;
     try{
@@ -221,7 +291,6 @@ class NetworkUtilities {
     networkLogger(url: methodURL , body: formData , headers: requestHeaders , response: postResponse);
     return postResponse;
   }
-
   static Map<String, String> getHeaders({Map<String,String> customHeaders}){
 
     Map<String,String> headers = {
@@ -235,7 +304,6 @@ class NetworkUtilities {
     }
     return headers;
   }
-
   static void networkLogger({url , headers , body ,ResponseViewModel response}){
     debugPrint('---------------------------------------------------');
     debugPrint('URL => $url');
@@ -247,7 +315,6 @@ class NetworkUtilities {
   static String getFullURL({String method}) {
     return Constants.CURRENT_LOCALE == "ar" ?  URL.ARABIC_API_URL + method : URL.ENGLISH_API_URL + method;
   }
-
   static ResponseViewModel handleServerError(http.Response serverResponse) {
     if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){
       if (json.decode(serverResponse.body)[0][ApiParseKeys.ERROR_MESSAGE] != null) {

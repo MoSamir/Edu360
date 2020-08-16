@@ -144,18 +144,18 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
-                          child: EduButton(
-                            borderColor: AppColors.mainThemeColor,
-                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
-                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
-                              picVideoFile();
-                              return ;
-                            },
-                            title: LocalKeys.MEDIA,
-                          ),
-                        ),
-                        SizedBox(width: 10,),
+//                        Expanded(
+//                          child: EduButton(
+//                            borderColor: AppColors.mainThemeColor,
+//                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
+//                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
+//                              picVideoFile();
+//                              return ;
+//                            },
+//                            title: LocalKeys.MEDIA,
+//                          ),
+//                        ),
+//                        SizedBox(width: 10,),
                         Expanded(
                           child: EduButton(
                             borderColor: AppColors.mainThemeColor,
@@ -343,19 +343,19 @@ class _CreatePostCardState extends State<CreatePostCard> {
   }
 
 
-  picVideoFile() async{
-    try{
-      FilePicker.getFile(
-        type: FileType.video).then((value){
-        if(value!= null){
-          postFiles.add(value);
-          setState(() {});
-        }
-      });
-    } catch(exception){
-      print("Exception while picking file => $exception");
-    }
-  }
+//  picVideoFile() async{
+//    try{
+//      FilePicker.getFile(
+//        type: FileType.video).then((value){
+//        if(value!= null){
+//          postFiles.add(value);
+//          setState(() {});
+//        }
+//      });
+//    } catch(exception){
+//      print("Exception while picking file => $exception");
+//    }
+//  }
 
   void _createPost() {
     if(postFormKey.currentState.validate()) {

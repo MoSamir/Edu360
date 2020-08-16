@@ -33,6 +33,9 @@ class LocalKeys{
   static const String INACTIVE = "INACTIVE";
   static const String POST_SHARED_SUCCESSFULLY = "POST_SHARED_SUCCESSFULLY";
   static const String COMING_SOON = "COMING_SOON";
+  static const String DELETE_LABEL = "DELETE_LABEL";
+
+
 
 
 
@@ -151,6 +154,7 @@ class LocalKeys{
 
   static const String AR = "عربي";
   static const String EN = "English";
+
 
 
 

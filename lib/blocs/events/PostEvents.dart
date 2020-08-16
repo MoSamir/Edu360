@@ -6,6 +6,15 @@ class LikePost extends PostEvents{
   final PostViewModel postViewModel;
   LikePost({this.postViewModel});
 }
+
+class DeletePost extends PostEvents{
+  final PostViewModel postViewModel;
+  DeletePost({this.postViewModel});
+}
+
+
+
+
 class UnLikePost extends PostEvents{
   final PostViewModel postViewModel;
   UnLikePost({this.postViewModel});

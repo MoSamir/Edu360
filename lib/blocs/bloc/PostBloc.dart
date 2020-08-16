@@ -37,7 +37,8 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
       else if(event is AddComment){
       yield* _handleUserComment(event);
       return ;
-    } else if(event is AddObjection){
+    }
+      else if(event is AddObjection){
       yield* _handleUserObjection(event);
       return ;
     }
@@ -48,6 +49,10 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
       else if(event is FetchPostComments){
       yield* _handlePostCommentsFetching(event);
       return ;
+    }
+      else if(event is DeletePost){
+        yield* _handleDeletePost(event);
+        return ;
     }
   }
 
@@ -126,6 +131,19 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
       postModel.postComments = [];
       yield CommentsFetched(postViewModel: postModel);
       return ;
+    }
+  }
+
+  Stream<PostStates> _handleDeletePost(DeletePost event) async*{
+    yield PostLoadingState();
+    ResponseViewModel<void> deletePostResponse = await Repository.deletePost(postId: event.postViewModel.postId);
+    if(deletePostResponse.isSuccess){
+      postExecutionCallback();
+      yield PostLoadedState();
+      return;
+    } else {
+      yield PostLoadedState();
+      return;
     }
   }
 

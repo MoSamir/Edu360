@@ -11,9 +11,9 @@ class UserDocumentsPostCard extends StatefulWidget {
 
   final PostViewModel postModel ;
   final double elevation ;
-  final onLike , onShare , onComment , onObjection , onPostClick;
+  final onLike , onShare , onComment , onObjection , onPostClick , onDelete;
 
-  UserDocumentsPostCard({this.postModel, this.elevation , this.onComment, this.onPostClick , this.onLike , this.onObjection , this.onShare});
+  UserDocumentsPostCard({this.postModel, this.elevation , this.onComment, this.onDelete, this.onPostClick , this.onLike , this.onObjection , this.onShare});
 
 
   @override
@@ -23,9 +23,6 @@ class UserDocumentsPostCard extends StatefulWidget {
 class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
   @override
   Widget build(BuildContext context) {
-
-    print("Building Post with Documents");
-
     return GestureDetector(
       onTap: widget.onPostClick ?? (){},
       child: Padding(

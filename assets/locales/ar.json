@@ -15,7 +15,7 @@
   "WHAT_YOU_HAVE_TO_VERIFY": "سوف نرسل لك رابط\n عن طريف وسيله تواصلك المفضلة \n اضعط عليه و سوف يعيدك الينا",
   "REGISTRATION_MESSAGE": "من فضلك املا بياناتك",
   "SERVER_UNREACHABLE": "غير قادر علي التواصل مع الخادم حاليا يرجي المحاوله وقت لاحق",
-  "COMPLETE_YOUR_PROFILE":"بعض ثواني اضافيه",
+  "COMPLETE_YOUR_PROFILE":"بضع ثواني اضافيه",
   "EDUCATION": "التعليم",
   "BIRTHDAY": "تاريخ الميلاد",
   "FIRST_NAME": "الاسم الاول",
@@ -47,7 +47,7 @@
   "EGP_PER_MONTH": "جنيه/شهر",
   "COURSE_LEARNING_OUTCOMES":"الدروس المستفادة :",
   "COURSE_HAS_NO_LESSONS": "لا يوجد دروس حاليا",
-  "COURSE_NOT_STARTED_YET": "المحاضرات لم تبدأ بعض",
+  "COURSE_NOT_STARTED_YET": "المحاضرات لم تبدأ بعد",
   "ALL_TITLE":"الكل",
   "TEXT_POSTS_TITLE":"نص",
   "DOCUMENTS_POSTS_TITLE":"ملفات",
@@ -73,5 +73,6 @@
   "ALL_GRADES": "جميع المراحل",
   "TYPE_YOUR_COMMENT"  : "شارك رأيك .. ",
   "COMING_SOON" : "قريبا",
-  "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "الدوره لم تبدأ او لا يوجد محتوي حاليا"
+  "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "الدوره لم تبدأ او لا يوجد محتوي حاليا",
+  "DELETE_LABEL": "حذف"
 }

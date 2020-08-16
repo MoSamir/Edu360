@@ -40,7 +40,6 @@ class UIHelper {
             fontSize: 16.0
         );
       }
-
     });
 
 
@@ -48,6 +47,11 @@ class UIHelper {
       return UserTextPostCard(postModel: post,
         elevation: elevation,
         onPostClick: onPostClick ?? (){},
+        onDelete: () {
+          postBloc.add(DeletePost(postViewModel: post));
+          if (postAction != null)
+            postAction();
+        },
         onComment: (String comment) {
           postBloc.add(AddComment(
               postModel: post, commentViewModel: createComment(comment, user)));
@@ -95,19 +99,24 @@ class UIHelper {
         postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
         if(postAction != null)
           postAction();
-      }, onLike: (){
-        postBloc.add(LikePost(postViewModel:  post));
-        if(postAction != null)
+      },onDelete: () {
+        postBloc.add(DeletePost(postViewModel: post));
+        if (postAction != null)
           postAction();
-      }, onShare: (String shareDescription){
-        postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
-        if(postAction != null)
-          postAction();
-      }, onObjection: (String objection){
-        postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
-        if(postAction != null)
-          postAction();
-      },);
+      },
+        onLike: (){
+          postBloc.add(LikePost(postViewModel:  post));
+          if(postAction != null)
+            postAction();
+        }, onShare: (String shareDescription){
+          postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
+          if(postAction != null)
+            postAction();
+        }, onObjection: (String objection){
+          postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
+          if(postAction != null)
+            postAction();
+        },);
 
   }
 
@@ -140,6 +149,14 @@ class UIHelper {
     if(post.postFilesPath == null || post.postFilesPath.length == 0) {
       return ProfileTextPostCard(postModel: post,
         onPostClick: onPostClick ?? (){},
+        onDelete: () {
+          postBloc.add(DeletePost(postViewModel: post));
+          if (postAction != null)
+            postAction();
+        },
+
+
+
         onComment: (String comment) {
           postBloc.add(AddComment(
               postModel: post, commentViewModel: createComment(comment, user)));
@@ -169,23 +186,30 @@ class UIHelper {
     else
       return ProfileDocumentCard(postModel: post,
         onPostClick:onPostClick ?? (){},
+
+        onDelete: () {
+          postBloc.add(DeletePost(postViewModel: post));
+          if (postAction != null)
+            postAction();
+        },
+
         onComment: (String comment){
-        postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
-        if(postAction != null)
-          postAction();
-      }, onLike: (){
-        postBloc.add(LikePost(postViewModel:  post));
-        if(postAction != null)
-          postAction();
-      }, onShare: (String shareDescription){
-        postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
-        if(postAction != null)
-          postAction();
-      }, onObjection: (String objection){
-        postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
-        if(postAction != null)
-          postAction();
-      },);
+          postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
+          if(postAction != null)
+            postAction();
+        }, onLike: (){
+          postBloc.add(LikePost(postViewModel:  post));
+          if(postAction != null)
+            postAction();
+        }, onShare: (String shareDescription){
+          postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
+          if(postAction != null)
+            postAction();
+        }, onObjection: (String objection){
+          postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
+          if(postAction != null)
+            postAction();
+        },);
   }
 
 

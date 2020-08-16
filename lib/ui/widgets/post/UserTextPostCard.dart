@@ -1,19 +1,21 @@
-import 'package:edu360/blocs/bloc/PostBloc.dart';
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 class UserTextPostCard extends StatefulWidget {
   final PostViewModel postModel;
   final double elevation;
-  final onLike, onShare, onComment, onObjection , onPostClick;
+  final onLike, onShare, onComment, onObjection , onPostClick , onDelete;
   UserTextPostCard(
       {this.postModel,
       this.elevation,
       this.onPostClick,
+      this.onDelete ,
       this.onComment,
       this.onLike,
       this.onObjection,
@@ -81,7 +83,23 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                       SizedBox(
                         width: 5,
                       ),
-//                      IconButton(icon: Icon(Icons.more_vert , color: AppColors.mainThemeColor,),),
+                      widget.postModel.postOwnerId == BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId
+                          ? PopupMenuButton<int>(
+                        icon: Icon(Icons.more_vert),
+                        onSelected: (int value) {
+                          if(value == 0){
+                            if(widget.onLike != null)
+                              widget.onDelete();
+                            return;
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => <PopupMenuEntry<int>>[
+                          PopupMenuItem<int>(
+                            value: 0,
+                            child: Text((LocalKeys.DELETE_LABEL).tr()),
+                          ),
+                        ],
+                      ) : Container(width: 0, height: 0,),
                     ],
                   ),
                   SizedBox(

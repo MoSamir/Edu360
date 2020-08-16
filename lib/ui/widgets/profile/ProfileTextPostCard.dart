@@ -1,22 +1,40 @@
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 class ProfileTextPostCard extends StatelessWidget {
   final PostViewModel postModel ;
   final double elevation ;
-  final onLike , onShare , onComment , onObjection , onPostClick;
+  final onLike , onShare , onComment , onObjection , onPostClick , onDelete;
 
-  ProfileTextPostCard({this.postModel, this.elevation , this.onComment, this.onPostClick , this.onLike , this.onObjection , this.onShare});
-
+  ProfileTextPostCard({this.postModel, this.elevation , this.onComment, this.onDelete , this.onPostClick , this.onLike , this.onObjection , this.onShare});
+  final GlobalKey _cardKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return  GestureDetector(
+      key: _cardKey,
       onTap: onPostClick ?? (){},
-      child: Container(
+      onLongPress: (){
+        RenderBox box = _cardKey.currentContext.findRenderObject();
+        Offset position = box.localToGlobal(Offset.zero);
+        showMenu(context: context, position: RelativeRect.fromLTRB(position.dx , position.dy , position.dx + 40 , position.dy + 60),
+            items: List.generate(1, (index) => PopupMenuItem<int>(
+              child:  GestureDetector(
+                child: Text((LocalKeys.DELETE_LABEL).tr()),
+                onTap: (){
+                  onDelete();
+                  Navigator.of(context).pop();
+                  return;
+                },
+              ),
+              value: 0,
 
+            )));
+      },
+
+      child: Container(
         decoration: BoxDecoration(
             color: AppColors.white,
             borderRadius: BorderRadius.circular(20)
@@ -282,4 +300,9 @@ class ProfileTextPostCard extends StatelessWidget {
       ),
     );
   }
+
+
+
+
+
 }

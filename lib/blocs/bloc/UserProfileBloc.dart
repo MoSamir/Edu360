@@ -51,6 +51,9 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
         yield* _handleUnFollowUser(event);
         return ;
     }
+
+
+
   }
 
 
@@ -120,7 +123,6 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
       ResponseViewModel<List<PostViewModel>> userPostsResponse = await Repository.loadOtherUserProfilePosts(id: event.userId);
       if(userPostsResponse.isSuccess)
         userPosts = userPostsResponse.responseData;
-
       yield UserProfileLoaded();
       return ;
     } else {

@@ -41,5 +41,4 @@ class URL{
   static const String POST_COMPLETE_LESSON = "Lesson/CompleteLesson";
   static const String POST_RETRIEVE_POST_COMMENTS = "Post/GetPostComments/";
   static const String POST_DELETE_POST = "Post/DeletePost?id=";
-
 }

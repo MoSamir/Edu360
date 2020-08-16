@@ -1,25 +1,47 @@
 import 'package:edu360/data/models/PostViewModel.dart';
+import 'package:edu360/ui/screens/SinglePostScreen.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 class ProfileDocumentCard extends StatelessWidget {
 
 
+  final GlobalKey _cardKey = GlobalKey();
   final PostViewModel postModel ;
   final double elevation ;
-  final onLike , onShare , onComment , onObjection , onPostClick;
-
-  ProfileDocumentCard({this.postModel, this.elevation , this.onComment, this.onPostClick , this.onLike , this.onObjection , this.onShare});
-
-
+  final onLike , onShare , onComment , onObjection , onPostClick , onDelete;
+  ProfileDocumentCard({this.postModel, this.elevation , this.onComment, this.onDelete ,this.onPostClick , this.onLike , this.onObjection , this.onShare});
   @override
   Widget build(BuildContext context) {
+
+
+
     Color bgColor  = postModel.postFilesPath[0].endsWith(".pdf") ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor;
     return GestureDetector(
+      key: _cardKey,
       onTap: onPostClick ?? (){},
+      onLongPress: (){
+       RenderBox box = _cardKey.currentContext.findRenderObject();
+       Offset position = box.localToGlobal(Offset.zero);
+        showMenu(context: context, position: RelativeRect.fromLTRB(position.dx , position.dy , position.dx + 40 , position.dy + 60),
+            items: List.generate(1, (index) => PopupMenuItem<int>(
+              child:  GestureDetector(
+                child: Text((LocalKeys.DELETE_LABEL).tr()),
+                onTap: (){
+                  onDelete();
+                  Navigator.of(context).pop();
+                  return;
+                },
+              ),
+              value: 0,
+
+            )));
+      },
       child: Container(
         decoration: BoxDecoration(
             color: bgColor,
@@ -150,7 +172,7 @@ class ProfileDocumentCard extends StatelessWidget {
                                 child: InkWell(
                                     onTap: (){
                                       if(onLike != null)
-                                      onLike();
+                                        onLike();
                                       return;
                                     },
                                     child: Icon(postModel.isLiked ?? false ? Icons.favorite  : Icons.favorite_border ,color: AppColors.mainThemeColor,))),
@@ -191,8 +213,8 @@ class ProfileDocumentCard extends StatelessWidget {
                                 child: InkWell(
                                   onTap: () {
                                     if(onComment != null)
-                                    //onComment("Comment");
-                                    return;
+                                      //onComment("Comment");
+                                      return;
                                   },
                                   child: Image(
                                       image: AssetImage(
@@ -226,16 +248,16 @@ class ProfileDocumentCard extends StatelessWidget {
                         Column(
                           children: <Widget>[
                             SizedBox(
-                                width: 25,
-                                height: 25,
-                                child: InkWell(
+                              width: 25,
+                              height: 25,
+                              child: InkWell(
                                   onTap: () {
                                     if(onObjection != null)
-                                    //onObjection("Objection");
-                                    return;
+                                      //onObjection("Objection");
+                                      return;
                                   },
                                   child: Image.asset(Resources.OBJECTION_IMAGE , width: 25, height: 25,)) ?? () {},
-                                ),
+                            ),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -270,7 +292,7 @@ class ProfileDocumentCard extends StatelessWidget {
                                   InkWell(
                                     onTap: () {
                                       if(onShare != null)
-                                      onShare("Share");
+                                        onShare("Share");
                                       return;
                                     },
                                     child: Image(

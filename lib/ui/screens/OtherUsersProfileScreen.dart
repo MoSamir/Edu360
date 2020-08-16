@@ -1,6 +1,7 @@
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 
 import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/blocs/states/UserProfileStates.dart';
 import 'package:edu360/ui/UIHelper.dart';
@@ -33,7 +34,6 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
   @override
   void initState() {
     super.initState();
-
     bloc = UserProfileBloc();
     bloc.add(LoadOtherUsersProfile(userId: widget.userId));
     tabController = TabController(
@@ -60,7 +60,11 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
       ),
       body: BlocConsumer(
         bloc: bloc,
-        listener: (context, state){},
+        listener: (context, state){
+          if(state is UserProfileLoaded){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+          }
+        },
         builder: (context, state){
           return ModalProgressHUD(
             inAsyncCall: state is UserProfileLoading,

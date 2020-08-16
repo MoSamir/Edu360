@@ -43,11 +43,10 @@ class _AllCoursesState extends State<AllCourses> {
               onChanged: (GradeViewModel gradeId) {
                 setState(() {
                   selectedGrade = gradeId;
-
                   List<CourseViewModel> filteredCourses = widget.courses.where((element) => element.targetClasses[0].getGradeName(context) == gradeId.getGradeName(context)).toList();
 
                   fieldCourses = widget.courses == null ? List():
-                  filteredCourses = widget.courses.where((element) => BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.contains(element) == false).toList();
+                  filteredCourses = filteredCourses.where((element) => BlocProvider.of<AppDataBloc>(context).userDataBloc.coursesBloc.userSubscribedCourses.contains(element) == false).toList();
                   coursesList.sink.add(filteredCourses);
                 });
               },

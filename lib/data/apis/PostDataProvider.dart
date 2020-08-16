@@ -211,4 +211,22 @@ class PostDataProvider{
 
 
 
+  static Future<ResponseViewModel<bool> > deletePost(int postId) async {
+    UserViewModel userVm = await Repository.getUser();
+    String userToken = userVm.userToken;
+    ResponseViewModel deletePostResponse = await NetworkUtilities.handleDeleteRequest(methodURL: '${NetworkUtilities.getFullURL(method: URL.POST_DELETE_POST)}$postId',  requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (responseJson){
+      return true ;
+    });
+
+    return ResponseViewModel<bool>(
+      errorViewModel: deletePostResponse.errorViewModel,
+      isSuccess: deletePostResponse.isSuccess,
+      responseData: deletePostResponse.responseData,
+    );
+  }
+
+  static ({int postId}) {}
+
+
+
 }
