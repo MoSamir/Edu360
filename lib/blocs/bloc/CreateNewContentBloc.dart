@@ -36,30 +36,44 @@ class CreateNewContentBloc extends Bloc<CreateNewContentEvents , CreateNewConten
   }
 
   Stream<CreateNewContentStates> _handlePostCreation(CreatePost event) async*{
-
     yield PostCreationLoading();
-    ResponseViewModel<void> createPostResponse;
-    ResponseViewModel<List<String>> uploadFilesResponse;
-    if(event.postViewModel.contentType == ContentType.TEXT_POST){
-      createPostResponse = await Repository.createPost(userPost : event.postViewModel);
-    } else{
-      if(event.postDocuments!=null && event.postDocuments.length > 0)
-        uploadFilesResponse = await Repository.uploadPostFiles(event.postDocuments);
-      if(uploadFilesResponse == null || uploadFilesResponse.isSuccess){
-        print("Upload File Success");
-        createPostResponse = await Repository.createPostWithMedia(userPost : event.postViewModel , postFilesPath : uploadFilesResponse.responseData);
-      } else {
-        yield PostCreationFailed(failedEvent: event , error: uploadFilesResponse.errorViewModel);
+    if(event.postDocuments!=null && event.postDocuments.length > 0){
+      yield* _handleMediaPostCreation(event);
+      return;
+    } else {
+      yield* _handleTextPostCreation(event);
+      return;
+    }
+  }
+
+  Stream<CreateNewContentStates> _handleMediaPostCreation(CreatePost event) async*{
+
+    ResponseViewModel<List<String>> uploadFilesResponse = await Repository.uploadPostFiles(event.postDocuments);
+    if(event.postDocuments.length > 0 &&  uploadFilesResponse.isSuccess){
+      ResponseViewModel<void> createPostResponse = await Repository.createPostWithMedia(userPost : event.postViewModel , postFilesPath : uploadFilesResponse.responseData);
+      if(createPostResponse.isSuccess){
+        yield PostCreationSuccess();
         return ;
       }
+      else {
+        yield PostCreationFailed(failedEvent: event , error: createPostResponse.errorViewModel);
+        return ;
+      }
+    } else {
+      yield PostCreationFailed(failedEvent: event , error: uploadFilesResponse.errorViewModel);
+      return ;
     }
+  }
+  Stream<CreateNewContentStates> _handleTextPostCreation(CreatePost event) async*{
+    ResponseViewModel<void> createPostResponse = await Repository.createPost(userPost : event.postViewModel);
     if(createPostResponse.isSuccess){
       yield PostCreationSuccess();
       return ;
-    } else {
+    }
+    else {
       yield PostCreationFailed(failedEvent: event , error: createPostResponse.errorViewModel);
       return ;
     }
-
   }
+
 }

@@ -13,6 +13,7 @@ import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduFormField.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:edu360/utilities/Validators.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,8 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'NetworkErrorView.dart';
 
 class CreatePostCard extends StatefulWidget {
+  final Function onFinish , onCancel;
+  CreatePostCard({this.onFinish, this.onCancel});
   @override
   _CreatePostCardState createState() => _CreatePostCardState();
 }
@@ -34,6 +37,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
   CreateNewContentBloc newPostBloc ;
   List<File> postFiles = List<File>();
   GlobalKey<FormState> postFormKey = GlobalKey();
+
 
   @override
   void initState() {
@@ -54,7 +58,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
       listener: (context, state){
         print(state);
         if (state is PostCreationFailed) {
-          if (state.error.errorCode == HttpStatus.requestTimeout) {
+          if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
             showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -83,10 +87,15 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 textColor: Colors.white,
                 fontSize: 16.0
             );
+            widget.onFinish(success: false);
+            Navigator.of(context).pop();
           }
         }
         else if(state is PostCreationSuccess){
-          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+          widget.onFinish(success: true);
+          Navigator.of(context).pop();
         }
       },
       builder: (context, state){
@@ -109,9 +118,10 @@ class _CreatePostCardState extends State<CreatePostCard> {
                               decoration: BoxDecoration(
                                 color: AppColors.mainThemeColor,
                                 borderRadius: BorderRadius.circular(20),
-                                image: DecorationImage(
-                                  image: NetworkImage(loggedInUser.profileImagePath??""),
-                                ),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: loggedInUser.profileImagePath , fit: BoxFit.cover,),
                               ),
                             ),
                             SizedBox(width: 10,),
@@ -123,7 +133,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                         ),
                         IconButton(
                           icon: Icon(Icons.close),
-                          onPressed: (){},
+                          onPressed: widget.onCancel,
                         ),
                       ],
                     ),
@@ -134,18 +144,18 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
-                          child: EduButton(
-                            borderColor: AppColors.mainThemeColor,
-                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
-                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
-                              picVideoFile();
-                              return ;
-                            },
-                            title: LocalKeys.MEDIA,
-                          ),
-                        ),
-                        SizedBox(width: 10,),
+//                        Expanded(
+//                          child: EduButton(
+//                            borderColor: AppColors.mainThemeColor,
+//                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
+//                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
+//                              picVideoFile();
+//                              return ;
+//                            },
+//                            title: LocalKeys.MEDIA,
+//                          ),
+//                        ),
+//                        SizedBox(width: 10,),
                         Expanded(
                           child: EduButton(
                             borderColor: AppColors.mainThemeColor,
@@ -205,7 +215,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 ),
               ),
               fillColor: AppColors.white,
-              hintText: LocalKeys.ADD_POST_DESCRIPTION,
+              hintText: (LocalKeys.ADD_POST_DESCRIPTION).tr(),
               hintStyle: Styles.baseTextStyle.copyWith(
                 color: AppColors.registrationTextPlaceholderColor,
               ),
@@ -333,19 +343,19 @@ class _CreatePostCardState extends State<CreatePostCard> {
   }
 
 
-  picVideoFile() async{
-    try{
-      FilePicker.getFile(
-        type: FileType.video).then((value){
-        if(value!= null){
-          postFiles.add(value);
-          setState(() {});
-        }
-      });
-    } catch(exception){
-      print("Exception while picking file => $exception");
-    }
-  }
+//  picVideoFile() async{
+//    try{
+//      FilePicker.getFile(
+//        type: FileType.video).then((value){
+//        if(value!= null){
+//          postFiles.add(value);
+//          setState(() {});
+//        }
+//      });
+//    } catch(exception){
+//      print("Exception while picking file => $exception");
+//    }
+//  }
 
   void _createPost() {
     if(postFormKey.currentState.validate()) {

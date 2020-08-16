@@ -1,11 +1,13 @@
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
+import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
-import 'CourseQuestion.dart';
+import 'LessonQuizScreen.dart';
 class CoursePayNow extends StatefulWidget {
   @override
   _CoursePayNowState createState() => _CoursePayNowState();
@@ -194,16 +196,18 @@ class _CoursePayNowState extends State<CoursePayNow> {
             ],
           ),
           EduAppBar(
-            backgroundColor: AppColors.mainThemeColor,
-
-            icon: IconData(0xE800,fontFamily:'AppIcon',),
-          actions: <Widget>[
-
-              Image(image: AssetImage(Resources.COMMENT_IMAGE ),color: Colors.white,),
-            ],
             logoWidth: MediaQuery.of(context).size.width / 3,
             logoHeight: 20,
-          ),
+            autoImplyLeading: true,
+            backgroundColor: AppColors.mainThemeColor,
+            icon: Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),
+            actions: <Widget>[
+//              Image(
+//                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+//                color: Colors.white,
+//              ),
+            ],
+          )
         ],
       ),
     );
@@ -243,6 +247,6 @@ class _CoursePayNowState extends State<CoursePayNow> {
     );
   }
   void _navigateToCoursePayNow() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> CourseQuestion()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> LessonQuizScreen()));
   }
 }

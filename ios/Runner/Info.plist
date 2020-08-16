@@ -48,5 +48,13 @@
     </array>
 
 
+    <key>NSCameraUsageDescription</key>
+    	<string>Ref360 needs permission to capture image from your gallery</string>
+    	<key>NSMicrophoneUsageDescription</key>
+    	<string>Ref360 needs permission to capture image from your gallery</string>
+    	<key>NSPhotoLibraryUsageDescription</key>
+    	<string>Ref360 needs permission to capture image from your gallery</string>
+
+
 </dict>
 </plist>

@@ -20,8 +20,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import 'WallScreen.dart';
-
 
 class CompleteYourProfileScreen extends StatefulWidget {
 
@@ -81,7 +79,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> BlocProvider.value(value: _bloc , child: VerificationScreen(),)));
             }
             else if (state is RegistrationFailed) {
-              if (state.error.errorCode == HttpStatus.requestTimeout) {
+              if (state.error.errorCode == HttpStatus.requestTimeout || state.error.errorCode == HttpStatus.badGateway) {
                 showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -117,7 +115,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
             return ModalProgressHUD(
               inAsyncCall: state is RegistrationPageLoading,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 8 , vertical: 20),
                 child: Form(
                   key: _globalKey,
                   child: Column(
@@ -125,7 +123,8 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Image.asset(Resources.BLUE_LOGO_IMAGE , width: 100, height: 100, fit: BoxFit.contain,),
+                      SizedBox(height: 10,),
+                      Image.asset(Resources.BLUE_LOGO_IMAGE , width: 70, height: 70, fit: BoxFit.contain,),
                       Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -160,7 +159,8 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                                               fit: BoxFit.fill,
                                               image: FileImage(userImage),
                                             ),
-                                          ),) : Icon(Icons.account_circle , color: AppColors.mainThemeColor, size: 100,)),
+                                          ),
+                                        ) : Icon(Icons.account_circle , color: AppColors.mainThemeColor, size: 100,)),
                                         Padding(
                                           padding: const EdgeInsetsDirectional.only(end: 50 , bottom: 10),
                                           child: Align(alignment: AlignmentDirectional.bottomCenter, child: Icon(Icons.add_circle , size: 30, color: AppColors.backgroundColor,),),
@@ -185,7 +185,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                               SizedBox(height: 10,),
                               GestureDetector(
                                 onTap: ()async{
-                                  print("Ko");
+
                                   await _openCalendar(context);
                                 },
                                 child: Container(

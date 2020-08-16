@@ -1,9 +1,9 @@
 name: edu360
 description: A new Flutter application.
-
+authors: ['Mohamed Samir Abbas']
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.2+10
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -23,6 +23,17 @@ dependencies:
   fluttertoast: 4.0.0
   shared_preferences: 0.5.7+1
   flutter_svg:
+  flutter_launcher_icons: 0.7.5
+  rxdart: 0.24.1
+  pdftron_flutter:
+    git:
+      url: git://github.com/PDFTron/pdftron-flutter.git
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_icon.png"
 
 
 dev_dependencies:
@@ -31,20 +42,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
   assets:
     - assets/
-    - assets/fonts/
     - assets/locales/
     - assets/images/
-
-  fonts:
-    - family: Segoe UI
-      fonts:
-        - asset: assets/fonts/Segoe UI.ttf
-        - asset: assets/fonts/Segoe UI Italic.ttf
-          style: italic
-        - asset: assets/fonts/Segoe UI Bold.ttf
-    - family: AppIcon
-      fonts:
-        - asset: assets/fonts/applacation.ttf
+    - assets/images/flags/
+    - assets/fonts/

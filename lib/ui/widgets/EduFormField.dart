@@ -7,7 +7,7 @@ class EduFormField extends StatefulWidget {
   final String placeHolder ;
   final TextEditingController fieldController ;
   final FocusNode focusNode , nextFocusNode;
-  final bool obscureField , autoValidate , filled;
+  final bool obscureField , autoValidate , filled , forceLTR;
   final Function validatorFn;
   final TextInputAction afterSubmitKeyboardAction;
   final Widget trailingWidget , leadingWidget;
@@ -29,7 +29,8 @@ class EduFormField extends StatefulWidget {
       this.validatorFn,
       this.afterSubmitKeyboardAction,
       this.trailingWidget,
-      this.leadingWidget});
+      this.leadingWidget,
+      this.forceLTR});
 }
 
 class _EduFormFieldState extends State<EduFormField> {
@@ -37,7 +38,7 @@ class _EduFormFieldState extends State<EduFormField> {
   String placeHolder ;
   TextEditingController fieldController ;
   FocusNode focusNode , nextFocusNode;
-  bool obscureField , autoValidate , filled;
+  bool obscureField , autoValidate , filled , forceLTR;
   Function validatorFn;
   TextInputAction afterSubmitKeyboardAction;
    Widget trailingWidget , leadingWidget;
@@ -57,6 +58,7 @@ class _EduFormFieldState extends State<EduFormField> {
     afterSubmitKeyboardAction = widget.afterSubmitKeyboardAction;
     trailingWidget = widget.trailingWidget;
     leadingWidget = widget.leadingWidget;
+    forceLTR = widget.forceLTR;
   }
 
 
@@ -64,6 +66,7 @@ class _EduFormFieldState extends State<EduFormField> {
   Widget build(BuildContext context) {
     return getFormField(
       filled: filled,
+      forceLTR: forceLTR,
       afterSubmitKeyboardAction: afterSubmitKeyboardAction,
       autoValidate: autoValidate,
       fieldController: fieldController,
@@ -80,11 +83,14 @@ class _EduFormFieldState extends State<EduFormField> {
 
 
   Widget getFormField({String placeHolder , TextEditingController fieldController , FocusNode focusNode , bool obscureField, bool autoValidate,
-    FocusNode nextFocusNode , Function validatorFn, TextInputAction afterSubmitKeyboardAction , Widget trailingWidget  , Widget leadingWidget , bool filled}){
+    FocusNode nextFocusNode , Function validatorFn, TextInputAction afterSubmitKeyboardAction , Widget trailingWidget  , Widget leadingWidget , bool filled, bool forceLTR}){
 
-    return TextFormField(
+    if(forceLTR ?? false)
+      return TextFormField(
+      textAlign: TextAlign.start,
       controller: fieldController ,
       focusNode: focusNode ,
+      textDirection: TextDirection.ltr,
       obscureText:  obscureField ?? false,
       onEditingComplete: (){
         if(nextFocusNode != null){
@@ -107,11 +113,45 @@ class _EduFormFieldState extends State<EduFormField> {
         ),
         fillColor: AppColors.white,
         hintText: placeHolder ?? '',
+        alignLabelWithHint: true,
         hintStyle: Styles.baseTextStyle.copyWith(
           color: AppColors.registrationTextPlaceholderColor,
         ),
       ),
     );
+    else
+      return TextFormField(
+        textAlign: TextAlign.start,
+        controller: fieldController ,
+        focusNode: focusNode ,
+        obscureText:  obscureField ?? false,
+        onEditingComplete: (){
+          if(nextFocusNode != null){
+            FocusScope.of(context).requestFocus(nextFocusNode);
+          }
+        },
+        textInputAction: afterSubmitKeyboardAction ?? TextInputAction.done,
+        validator: validatorFn ?? (text)=> null,
+        autovalidate: autoValidate ?? false,
+        decoration: InputDecoration(
+          suffix: trailingWidget ?? Container(height: 0, width: 0,),
+          prefix: leadingWidget ?? Container(height: 0, width: 0,),
+          filled: filled ?? true,
+          isDense: true,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(
+              color: Colors.transparent,
+            ),
+          ),
+          fillColor: AppColors.white,
+          hintText: placeHolder ?? '',
+          alignLabelWithHint: true,
+          hintStyle: Styles.baseTextStyle.copyWith(
+            color: AppColors.registrationTextPlaceholderColor,
+          ),
+        ),
+      );
   }
 
 

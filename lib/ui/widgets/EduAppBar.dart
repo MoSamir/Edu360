@@ -1,3 +1,5 @@
+
+import 'package:edu360/ui/screens/explore_pages/HomePage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +8,11 @@ import 'package:flutter/services.dart';
 class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   final String title ;
-  final bool centerTitle , autoImplyLeading;
+  final bool centerTitle , autoImplyLeading ;
   final List<Widget> actions;
   final Color backgroundColor ;
   final Function onIconPressed ;
-  final IconData icon;
+  final Widget icon;
   final double logoWidth;
   final double logoHeight;
 
@@ -20,54 +22,67 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
 
+    double appBarHeight = kToolbarHeight  , appBarContent = kToolbarHeight;
+    if(icon != null) {
+      appBarHeight = kToolbarHeight + 50;
+      appBarContent = kToolbarHeight + 30 ;
+    }
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarBrightness: Brightness.dark,
       statusBarColor: Colors.black,
       statusBarIconBrightness: Brightness.dark
     ));
     return PreferredSize(
-      child: Container(
-        height: kToolbarHeight + 50,
-        child: Stack(
-          children: <Widget>[
-            SizedBox(height: kToolbarHeight + 30, child: AppBar(
-              title: Text(title ?? '' , textScaleFactor: 1,),
-              centerTitle: centerTitle ?? false,
-              elevation: 2,
-              actions: actions ?? [],
-              automaticallyImplyLeading: autoImplyLeading ?? true,
-              backgroundColor: backgroundColor ?? Colors.white,
-
-            ),),
-            icon != null ? Positioned(
-              height: 50,
-              width: 50,
-              top: kToolbarHeight,
-              left: (MediaQuery.of(context).size.width * .5) - 25,
-              child: GestureDetector(
-                onTap: onIconPressed ?? (){},
-                child: Material(
-                  shadowColor: AppColors.backgroundColor,
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                  child: Container(child: Icon(icon , color: AppColors.mainThemeColor, size: 50,), decoration: BoxDecoration(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                  ), ),
+      child: SafeArea(
+        child: Container(
+          height: appBarHeight,
+          child: Stack(
+            children: <Widget>[
+              SizedBox(height: appBarContent , child: AppBar(
+                title: Text(title ?? '' , textScaleFactor: 1,),
+                centerTitle: centerTitle ?? false,
+                elevation: 2,
+                actions: actions ?? [],
+                automaticallyImplyLeading: autoImplyLeading ?? false,
+                backgroundColor: backgroundColor ?? Colors.white,
+              ),),
+              icon != null ? Positioned(
+                height: 50,
+                width: 50,
+                top: kToolbarHeight,
+                left: (MediaQuery.of(context).size.width * .5) - 25,
+                child: GestureDetector(
+                  onTap: onIconPressed ?? (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                  },
+                  child: Material(
+                    elevation: 3,
+                    shadowColor: AppColors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    child: Container(
+                      child: icon,
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                      color: AppColors.white,
+                      shape: BoxShape.circle,
+                    ), ),
+                  ),
                 ),
-              ),
-            ) : Container(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15,),
-              child: Align(alignment: AlignmentDirectional.centerStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width / 2, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
-            )
-          ],
+              ) : Container(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: autoImplyLeading?? false ? 50: 15, vertical: 20),
+                child: Align(alignment: AlignmentDirectional.topStart, child: Image.asset(Resources.REF360_IMAGE , width: logoWidth ?? MediaQuery.of(context).size.width * .25, height: logoHeight ?? 40, alignment: AlignmentDirectional.centerStart, fit: BoxFit.contain,),),
+              )
+            ],
+          ),
         ),
       ),
-      preferredSize: Size.fromHeight(kToolbarHeight + 50),
+      preferredSize: Size.fromHeight(appBarHeight),
     );
   }
 
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight + 50);
+  Size get preferredSize => icon != null ? Size.fromHeight(kToolbarHeight + 50) : Size.fromHeight(kToolbarHeight);
 }

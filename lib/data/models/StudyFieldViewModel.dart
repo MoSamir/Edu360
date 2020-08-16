@@ -1,8 +1,23 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
+import 'package:edu360/utilities/Constants.dart';
+import 'package:flutter/cupertino.dart';
 
 class StudyFieldViewModel {
   String studyFieldNameAr, studyFieldNameEn , studyFieldDescAr , studyFieldDescEn ,  imagePath;
   int studyFieldId ;
+
+
+
+
+  getStudyFieldName(BuildContext context){
+   return EasyLocalization.of(context).locale.languageCode == "en" ? studyFieldNameEn : studyFieldNameAr ;
+  }
+  getStudyFieldDescription(BuildContext context){
+    return EasyLocalization.of(context).locale.languageCode == "en" ? studyFieldDescEn : studyFieldDescAr ;
+  }
+
+
 
 
   @override
@@ -36,20 +51,12 @@ class StudyFieldViewModel {
     List<StudyFieldViewModel> studyFields = List();
     if(studyFieldsListJson!=null && studyFieldsListJson is List){
       for(int i = 0 ; i < studyFieldsListJson.length ; i++){
-        studyFields.add(StudyFieldViewModel.fromJson(studyFieldsListJson[i]));
+        studyFields.add(StudyFieldViewModel.fromGetAllJson(studyFieldsListJson[i]));
       }
     }
     return studyFields;
   }
-
-  static StudyFieldViewModel fromJson(studyFieldJson) {
-
-
-print("Study Field Parse => ${studyFieldJson[ApiParseKeys.FIELD_OF_STUDY_ID]}");
-print(studyFieldJson);
-print("----------------------");
-
-
+  static StudyFieldViewModel fromGetAllJson(studyFieldJson) {
     return StudyFieldViewModel(
       studyFieldDescAr: studyFieldJson[ApiParseKeys.DESCRIPTION_AR],
       studyFieldDescEn: studyFieldJson[ApiParseKeys.DESCRIPTION_EN],
@@ -58,6 +65,18 @@ print("----------------------");
       studyFieldId: studyFieldJson[ApiParseKeys.FIELD_OF_STUDY_ID],
     );
   }
+
+
+  static StudyFieldViewModel fromUserJson(studyFieldJson) {
+    return StudyFieldViewModel(
+      studyFieldDescAr: studyFieldJson[ApiParseKeys.DESCRIPTION_AR],
+      studyFieldDescEn: studyFieldJson[ApiParseKeys.DESCRIPTION_EN],
+      studyFieldNameAr: studyFieldJson[ApiParseKeys.NAME_AR],
+      studyFieldNameEn: studyFieldJson[ApiParseKeys.NAME_EN],
+      studyFieldId: studyFieldJson[ApiParseKeys.FIELD_OF_STUDY_ID],
+    );
+  }
+
 
 
 

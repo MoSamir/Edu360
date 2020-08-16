@@ -67,73 +67,78 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               color: AppColors.mainThemeColor,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(top: 100, left: 30 , right: 30) ,
               child: SingleChildScrollView(
                 child: Form(
                   key: _formGlobalKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      Image.asset(Resources.WHITE_LOGO_IMAGE , height: 50,),
-                      SizedBox(height: 20,),
-                      SizedBox(height: MediaQuery.of(context).size.height * .15, child: Center(child: Text(LocalKeys.REGISTRATION_MESSAGE, textScaleFactor: 1, textAlign:TextAlign.center , style: Styles.baseTextStyle,).tr(),),),
-                      EduFormField(placeHolder: (LocalKeys.EMAIL).tr() , fieldController: _usernameController
-                          , focusNode: _usernameNode , nextFocusNode: _passwordNode ,
-                          trailingWidget: GestureDetector(
-                              onTap: _openEmailHintDialog
-                              ,child: Container(width: 25, height: 25, child: Center(child: Text('?',textScaleFactor: 1),),  decoration: BoxDecoration(shape: BoxShape.circle , color: AppColors.canaryColor),)),
-                          validatorFn: Validator.mailValidator ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: false),
-                      SizedBox(height: 10,),
-                      EduFormField(placeHolder: (LocalKeys.PASSWORD).tr() , fieldController: _passwordController
-                          , focusNode: _passwordNode , nextFocusNode: _passwordConfirmationNode ,
-                          validatorFn: Validator.requiredField ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: true),
-                      SizedBox(height: 10,),
-                      EduFormField(placeHolder: (LocalKeys.CONFIRM_PASSWORD).tr() , fieldController: _confirmPasswordController
-                          , focusNode: _passwordConfirmationNode , autoValidate: true,
-                          validatorFn: (passwordConfirmation){
-                            return passwordConfirmation == _passwordController.text ? null : (LocalKeys.CONFIRM_PASSWORD_ERROR).tr();
-                          } ,  afterSubmitKeyboardAction: TextInputAction.done , obscureField: true),
-                      SizedBox(height: 10,),
-                      getFieldsOfStudySpinner(),
-                      SizedBox(height: 10,),
-                      getFilesList(),
-                      SizedBox(height: 30,),
-                      GestureDetector(
-                        onTap: (){
-                          if(_formGlobalKey.currentState.validate() && uploadedDocuments!=null && uploadedDocuments.length > 0) {
-                            print("${user.userFieldOfStudy}");
-                            user = UserViewModel(
-                              userFieldOfStudy: user.userFieldOfStudy,
-                              userEmail: _usernameController.text,
-                              userPassword: _passwordController.text,
-                            );
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) =>
-                                    BlocProvider.value(
-                                      value: _registrationBloc,
-                                      child: CompleteYourProfileScreen(
-                                        user: user,
-                                        userDocuments: uploadedDocuments,),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 60, left: 30 , right: 30) ,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Image.asset(Resources.WHITE_LOGO_IMAGE , height: 50,),
+                        SizedBox(height: 10,),
+                        SizedBox(height: MediaQuery.of(context).size.height * .15, child: Center(child: Text(LocalKeys.REGISTRATION_MESSAGE, textScaleFactor: 1, textAlign:TextAlign.center , style: Styles.baseTextStyle,).tr(),),),
+                        EduFormField(placeHolder: (LocalKeys.EMAIL).tr() , fieldController: _usernameController
+                            , focusNode: _usernameNode , nextFocusNode: _passwordNode , forceLTR: true ,
+                            trailingWidget: GestureDetector(
+                                onTap: _openEmailHintDialog
+                                ,child: Container(width: 25, height: 25, child: Center(child: Text('?',textScaleFactor: 1),),  decoration: BoxDecoration(shape: BoxShape.circle , color: AppColors.canaryColor),)),
+                            validatorFn: Validator.mailValidator ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: false),
+                        SizedBox(height: 10,),
+                        EduFormField(placeHolder: (LocalKeys.PASSWORD).tr() , fieldController: _passwordController
+                            , focusNode: _passwordNode , nextFocusNode: _passwordConfirmationNode ,
+                            validatorFn: Validator.requiredField ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: true),
+                        SizedBox(height: 10,),
+                        EduFormField(placeHolder: (LocalKeys.CONFIRM_PASSWORD).tr() , fieldController: _confirmPasswordController
+                            , focusNode: _passwordConfirmationNode , autoValidate: true,
+                            validatorFn: (passwordConfirmation){
+                              return passwordConfirmation == _passwordController.text ? null : (LocalKeys.CONFIRM_PASSWORD_ERROR).tr();
+                            } ,  afterSubmitKeyboardAction: TextInputAction.done , obscureField: true),
+                        SizedBox(height: 10,),
+                        getFieldsOfStudySpinner(),
+                        SizedBox(height: 10,),
+                        Visibility(
+                          replacement: Container(width: 0, height: 0,),
+                          visible: false,
+                          child: getFilesList(),
+                        ),
+                        SizedBox(height: 30,),
+                        GestureDetector(
+                          onTap: (){
+                            if(_formGlobalKey.currentState.validate() /*&& uploadedDocuments!=null && uploadedDocuments.length > 0*/) {
+                              user = UserViewModel(
+                                userFieldOfStudy: user.userFieldOfStudy,
+                                userEmail: _usernameController.text,
+                                userPassword: _passwordController.text,
+                              );
+                              Navigator.of(context).push(
+                                  MaterialPageRoute(builder: (context) =>
+                                      BlocProvider.value(
+                                        value: _registrationBloc,
+                                        child: CompleteYourProfileScreen(
+                                          user: user,
+                                          userDocuments: uploadedDocuments,),
 
-                                    )));
-                          }
-                        },
-                        child: Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(LocalKeys.SIGN_UP , textScaleFactor: 1 ,style: Styles.baseTextStyle.copyWith(
-                              color: AppColors.mainThemeColor,
-                            ),).tr(),
+                                      )));
+                            }
+                          },
+                          child: Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Center(
+                              child: Text(LocalKeys.SIGN_UP , textScaleFactor: 1 ,style: Styles.baseTextStyle.copyWith(
+                                color: AppColors.mainThemeColor,
+                              ),).tr(),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: 20,),
-                    ],
+                        SizedBox(height: 20,),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -293,7 +298,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               return DropdownMenuItem<StudyFieldViewModel>(
                 value: studyField,
                 child: Text(
-                  studyField.studyFieldNameEn,
+                  studyField.getStudyFieldName(context),
                   softWrap: true,
                   overflow: TextOverflow.ellipsis,
                   textScaleFactor: 1,
