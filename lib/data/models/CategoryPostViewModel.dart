@@ -5,5 +5,4 @@ class CategoryPostViewModel {
   StudyFieldViewModel studyField ;
   List<PostViewModel> fieldPosts ;
   CategoryPostViewModel({this.studyField , this.fieldPosts});
-
 }

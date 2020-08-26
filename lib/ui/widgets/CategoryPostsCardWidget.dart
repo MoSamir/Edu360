@@ -23,7 +23,7 @@ class _CategoryPostsCardWidgetState extends State<CategoryPostsCardWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(widget.category.studyField.studyFieldNameEn , style: Styles.baseTextStyle.copyWith(
+            Text(widget.category.studyField.getStudyFieldName(context) , style: Styles.baseTextStyle.copyWith(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: AppColors.mainThemeColor,

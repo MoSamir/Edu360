@@ -1,5 +1,6 @@
 import 'package:edu360/data/models/NotificationViewModel.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 
 class NotificationCard extends StatelessWidget {
@@ -28,13 +29,11 @@ class NotificationCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppColors.mainThemeColor,
-                    image: DecorationImage(
-                      image: NetworkImage(notificationViewModel.notificationURL),
-                    ),
                   ),
-                  child: notificationViewModel.notificationURL == null ? Center(child: Text(notificationViewModel.notificationBody[0] , style: Styles.baseTextStyle.copyWith(
-                    color: AppColors.white,
-                  ),) ,) :  Container()),
+                  child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: notificationViewModel.notificationURL, fit: BoxFit.cover,),
+              ),),
                 SizedBox(width: 5,),
                 Expanded(
                   child: Text( notificationViewModel.notificationBody ?? 'this is testing notification hello world i need you to speak up for me please please please please please , hello world i need you to speak up for me please please please please please ', style: Styles.baseTextStyle.copyWith(

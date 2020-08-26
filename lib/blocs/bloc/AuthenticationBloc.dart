@@ -74,7 +74,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
   Stream<AuthenticationStates> _logoutUser(event) async*{
 
    ResponseViewModel responseViewModel = await Repository.logout( userId: currentUser.userId.toString());
-   if(responseViewModel.isSuccess){
+   if(responseViewModel.isSuccess || responseViewModel.errorViewModel.errorCode == 401){
      currentUser = UserViewModel.fromAnonymousUser();
      await Repository.clearCache();
      yield UserAuthenticated(

@@ -77,10 +77,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 EduFormField(
                                   afterSubmitKeyboardAction: TextInputAction.next,
                                   autoValidate: false,
+                                  forceLTR: true ,
                                   focusNode: _userEmailFocusNode,
                                   nextFocusNode: _userPasswordFocusNode,
                                   fieldController: _userEmailController,
-                                  placeHolder: LocalKeys.EMAIL,
+                                  placeHolder: (LocalKeys.EMAIL).tr(),
                                   obscureField: false,
                                   validatorFn: Validator.mailValidator,
                                 ),
@@ -88,9 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 EduFormField(
                                   afterSubmitKeyboardAction: TextInputAction.done,
                                   autoValidate: false,
+                                  forceLTR: true ,
                                   focusNode: _userPasswordFocusNode,
                                   fieldController: _userPasswordController,
-                                  placeHolder: LocalKeys.PASSWORD,
+                                  placeHolder: (LocalKeys.PASSWORD).tr(),
                                   obscureField: true,
                                   validatorFn: Validator.requiredField,
                                 ),
@@ -114,13 +116,17 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         listener: (context , state){
           if (state is AuthenticationFailed) {
-            if (state.error.errorCode == HttpStatus.requestTimeout) {
+            if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
                   barrierDismissible: false,
                   builder: (context) {
                     return NetworkErrorView();
                   });
+              Future.delayed(Duration(seconds: 2), () {
+                Navigator.pop(context);
+              });
+
             }
             else if(state.error.errorCode == HttpStatus.serviceUnavailable){
               Fluttertoast.showToast(

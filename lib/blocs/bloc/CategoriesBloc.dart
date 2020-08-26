@@ -1,6 +1,5 @@
 import 'package:edu360/Repository.dart';
 import 'package:edu360/blocs/events/CategoriesEvents.dart';
-import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/blocs/states/CategoriesStates.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/models/CategoryPostViewModel.dart';

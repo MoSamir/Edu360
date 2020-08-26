@@ -75,7 +75,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
         },
         listener: (context, state){
           if (state is RegistrationFailed) {
-            if (state.error.errorCode == HttpStatus.requestTimeout) {
+            if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
                   barrierDismissible: false,

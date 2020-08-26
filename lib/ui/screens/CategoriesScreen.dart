@@ -48,7 +48,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     SizedBox(height: 5,),
-                    Text(e.studyField.studyFieldNameEn, style: Styles.baseTextStyle.copyWith(
+                    Text(e.studyField.getStudyFieldName(context), style: Styles.baseTextStyle.copyWith(
                       color: AppColors.mainThemeColor,
                     ),),
                   ],

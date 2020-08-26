@@ -6,6 +6,15 @@ class LikePost extends PostEvents{
   final PostViewModel postViewModel;
   LikePost({this.postViewModel});
 }
+
+class DeletePost extends PostEvents{
+  final PostViewModel postViewModel;
+  DeletePost({this.postViewModel});
+}
+
+
+
+
 class UnLikePost extends PostEvents{
   final PostViewModel postViewModel;
   UnLikePost({this.postViewModel});
@@ -33,9 +42,6 @@ class AddObjection extends PostEvents{
 }
 class FetchPostComments extends PostEvents{
   final PostViewModel postModel;
-  FetchPostComments({this.postModel});
-}
-class PostLoaded extends PostEvents{
-  final PostViewModel postViewModel;
-  PostLoaded({this.postViewModel});
+  final bool silentLoad;
+  FetchPostComments({this.postModel , this.silentLoad});
 }

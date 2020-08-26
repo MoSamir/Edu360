@@ -1,3 +1,4 @@
+import 'package:edu360/ui/screens/CoursesScreen.dart';
 import 'package:edu360/ui/screens/CategoriesScreen.dart';
 import 'package:edu360/ui/screens/ExploreScreen.dart';
 import 'package:edu360/ui/screens/FeedsScreen.dart';
@@ -7,12 +8,17 @@ import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
-import 'CourseName.dart';
+import 'CourseOverviewScreen.dart';
 import 'CreatePostScreen.dart';
 import 'NotificationsScreen.dart';
 
 class TabsHolderScreen extends StatefulWidget {
+
+  int index = 0;
+  TabsHolderScreen({this.index});
+
   @override
   _TabsHolderScreenState createState() => _TabsHolderScreenState();
 }
@@ -20,11 +26,11 @@ class TabsHolderScreen extends StatefulWidget {
 class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
    void _onPostCreated({bool success}){
-    currentVisiblePageIndex = success ? 1 : 0 ;
+    currentVisiblePageIndex = success ? 2 : 0 ;
     setState(() {});
   }
 
-  void _moveToScreen(SCREEN screen){
+  void moveToScreen(SCREEN screen){
      switch (screen){
        case SCREEN.WALL_SCREEN :
          currentVisiblePageIndex = 0 ;
@@ -48,17 +54,19 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
   List<Widget> screens = [];
   List<BottomNavigationBarItem> barTabs = [];
-  static int currentVisiblePageIndex  = 0 ;
+  static int currentVisiblePageIndex  ;
 
 
   @override
   void initState() {
+    currentVisiblePageIndex = widget.index ?? 0 ;
+
     super.initState();
     screens = [
-      FeedsScreen(_onPostCreated , _moveToScreen),
-      NotificationsScreen(_moveToScreen),
-      ProfileScreen(_moveToScreen),
-      CourseName(),
+      FeedsScreen(_onPostCreated , moveToScreen),
+      NotificationsScreen(moveToScreen),
+      ProfileScreen(moveToScreen),
+      CoursesScreen(),
     ];
 
     barTabs = [
@@ -91,7 +99,6 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-
         items: barTabs,
         unselectedItemColor: Colors.grey,
         type: BottomNavigationBarType.fixed,
@@ -112,11 +119,17 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
             child: screens[currentVisiblePageIndex],
           ),
           EduAppBar(
-            logoWidth: MediaQuery.of(context).size.width * 0.25,
-            icon: Image.asset(Resources.WHITE_LOGO_IMAGE) , //ImageIcon( , color: AppColors.white, size: 25,),
-            onIconPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ExploreScreen()));
-            },
+            backgroundColor: AppColors.mainThemeColor,
+            icon:  Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),//SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
+            actions: <Widget>[
+//              Image(
+//                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
+//                color: Colors.white,
+//              ),
+            ],
+            logoWidth: MediaQuery.of(context).size.width / 3,
+            logoHeight: 20,
+            autoImplyLeading: false,
           ),
         ],
       ),

@@ -29,11 +29,10 @@ class EduCircleAvatar extends StatelessWidget {
                       width: 70,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: DecorationImage(
-                          image: userModel.profileImagePath != null && userModel.profileImagePath.length > 0 ? NetworkImage(
-                            userModel.profileImagePath,
-                        ) : AssetImage(Resources.USER_PLACEHOLDER_IMAGE),
-                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(35),
+                        child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: userModel.profileImagePath, fit: BoxFit.cover,),
                       ),
                     ),
                     Visibility(
@@ -45,7 +44,7 @@ class EduCircleAvatar extends StatelessWidget {
                       child: Column(
                         children: <Widget>[
                           Text(userModel.userFullName ?? "Username"),
-                          Text(userModel.userFieldOfStudy != null ? userModel.userFieldOfStudy.studyFieldNameEn : "English Literal" , style: TextStyle(
+                          Text(userModel.userFieldOfStudy != null ? userModel.userFieldOfStudy.getStudyFieldName(context) : "English Literal" , style: TextStyle(
                             fontSize: 13,
                           ),),
                         ],

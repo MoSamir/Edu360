@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu360/Repository.dart';
+import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/models/CommentViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
@@ -17,9 +18,7 @@ class PostDataProvider{
 
   static Future<ResponseViewModel<List<String>>> uploadPostFiles(List<File> tobeUploadedFiles) async {
     List<MultipartFile> files = List();
-
     String userToken = (await Repository.getUser()).userToken;
-
     for (int i = 0; i < tobeUploadedFiles.length; i++) {
       String fileName = tobeUploadedFiles[i]
           .path
@@ -35,15 +34,8 @@ class PostDataProvider{
     ResponseViewModel uploadFiles = await NetworkUtilities.handleFilesUploading(
         formData: formData,
         requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),
-        methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_POST_FILES),
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_FILES),
         parserFunction: (responseJson) {
-
-          print("Upload Authrized Files Res =>");
-          print(responseJson);
-          print('-------------------------------');
-
-
-
           try{
             List<String> urls = List<String>();
             for(int i = 0 ; i <responseJson.length ; i++)
@@ -149,9 +141,9 @@ class PostDataProvider{
 
     Map<String,dynamic> postData = {
       "Comment" : comment.commentText,
-      "PosID": postId,
+      "PostID": postId,
       "InteractionCommentTypeID": 0,
-      "ParentPostCommentID" : 0,
+      "ParentPostCommentID" : null,
     };
 
     ResponseViewModel newPostResponse = await NetworkUtilities.handlePostRequest(methodURL: NetworkUtilities.getFullURL(method: URL.POST_ADD_COMMENT),acceptJson: true ,requestBody: postData ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (responseJson){});
@@ -165,15 +157,11 @@ class PostDataProvider{
     UserViewModel userVm = await Repository.getUser();
     String userToken = userVm.userToken;
 
-
-
     Map<String,dynamic> postData = {
       "Comment" : comment.commentText,
-      "PosID": postId,
+      "PostID": postId,
       "InteractionCommentTypeID": 1,
     };
-
-
 
     ResponseViewModel newPostResponse = await NetworkUtilities.handlePostRequest(methodURL: NetworkUtilities.getFullURL(method: URL.POST_ADD_OBJECTION),acceptJson: true ,requestBody: postData ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (responseJson){});
     return ResponseViewModel<void>(
@@ -199,6 +187,45 @@ class PostDataProvider{
       responseData: newPostResponse.responseData,
     );
   }
+
+  static Future<ResponseViewModel<PostViewModel>> loadPostComments(PostViewModel post)async {
+
+    UserViewModel userVm = await Repository.getUser();
+    String userToken = userVm.userToken;
+    Map<String,dynamic> postData = {
+      "PostID" : post.postId,
+      "PageSize":100,
+      "PageNumber":1
+    };
+
+    ResponseViewModel getPostComments = await NetworkUtilities.handlePostRequest(methodURL: NetworkUtilities.getFullURL(method: URL.POST_RETRIEVE_POST_COMMENTS),acceptJson: true ,requestBody: postData ,requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (commentsJson){
+      return PostViewModel.fromFullPost(commentsJson['data'][0]["postMobvM"] , commentsJson['data'][0]["postCommentMobVM"]);
+    });
+
+    return ResponseViewModel<PostViewModel>(
+      isSuccess: getPostComments.isSuccess,
+      errorViewModel: getPostComments.errorViewModel,
+      responseData: getPostComments.responseData,
+    );
+  }
+
+
+
+  static Future<ResponseViewModel<bool> > deletePost(int postId) async {
+    UserViewModel userVm = await Repository.getUser();
+    String userToken = userVm.userToken;
+    ResponseViewModel deletePostResponse = await NetworkUtilities.handleDeleteRequest(methodURL: '${NetworkUtilities.getFullURL(method: URL.POST_DELETE_POST)}$postId',  requestHeaders: NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer $userToken'}),  parserFunction: (responseJson){
+      return true ;
+    });
+
+    return ResponseViewModel<bool>(
+      errorViewModel: deletePostResponse.errorViewModel,
+      isSuccess: deletePostResponse.isSuccess,
+      responseData: deletePostResponse.responseData,
+    );
+  }
+
+  static ({int postId}) {}
 
 
 

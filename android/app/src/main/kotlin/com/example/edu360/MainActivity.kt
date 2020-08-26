@@ -1,4 +1,4 @@
-package com.example.edu360
+package com.ref.ref360
 
 import io.flutter.embedding.android.FlutterActivity
 

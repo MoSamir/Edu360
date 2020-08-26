@@ -42,11 +42,32 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: AppColors.backgroundColor,
-      child: BlocConsumer(
+      child: Center(
+        child: PlaceHolderWidget(
+          placeHolder: Text((LocalKeys.COMING_SOON).tr() , style: Styles.studyTextStyle,),
+        ),
+      ),
+    );
+  }
+
+  _loadMoreNotifications() {
+    if (_notificationScrollController.offset <
+        (_notificationScrollController.position.maxScrollExtent - 50) &&
+        notificationsBloc.state is NotificationsLoadingState == false) {
+      notificationsBloc.add(LoadNotifications());
+      return;
+    }
+  }
+
+
+
+}
+/*
+BlocConsumer(
         listener: (context, state){
 
           if (state is NotificationsLoadingFailed) {
-            if (state.error.errorCode == HttpStatus.requestTimeout) {
+            if (state.error.errorCode == HttpStatus.requestTimeout|| state.error.errorCode == HttpStatus.badGateway) {
               showDialog(
                   context: context,
                   barrierDismissible: false,
@@ -99,18 +120,4 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           }
         },
       ),
-    );
-  }
-
-  _loadMoreNotifications() {
-    if (_notificationScrollController.offset <
-        (_notificationScrollController.position.maxScrollExtent - 50) &&
-        notificationsBloc.state is NotificationsLoadingState == false) {
-      notificationsBloc.add(LoadNotifications());
-      return;
-    }
-  }
-
-
-
-}
+ */

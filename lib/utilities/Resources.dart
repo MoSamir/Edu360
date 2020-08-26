@@ -10,9 +10,22 @@ class Resources{
   static const String CONNECTION_ERROR_IMAGE = "assets/images/connection_error.png";
   static const String USER_PLACEHOLDER_IMAGE = "assets/images/user_placeholder.png";
   static const String USER_PROFILE_IMAGE = "assets/images/user_profile.png";
+  static const String USER_PROFILE2_IMAGE = "assets/images/user_profile2.png";
   static const String SETTINGS_IMAGE = "assets/images/settings.png";
   static const String REF360_IMAGE = "assets/images/ref360.png";
+
+  static const String COMMENT_SVG_IMAGE = "assets/images/comment.svg";
+  static const String POST_PAGE_COMMENT_SVG_IMAGE = "assets/images/single_post_comment.svg";
+  static const String APPBAR_MESSAGE_IMAGE = "assets/images/message_icon.png";
+  static const String COMPONENT_IMAGE = "assets/images/Component.png";
+  static const String ICON_1_IMAGE = "assets/images/icon_1.png";
+  //static const String COMMENT_CON_IMAGE = "assets/images/comment_con.png";
+  //static const String COMMENT_CON_SVG_IMAGE = "assets/images/comment.png";
+  static const String OBJECTION_IMAGE = "assets/images/objection.png";
   static const String COMMENT_IMAGE = "assets/images/comment.png";
+  //static const String COMMENT_ERROR_SVG_IMAGE = "assets/images/comment_error.svg";
+  static const String SHARE_IMAGE = "assets/images/share.png";
+  static const String LOGO_IMAGE_SVG = "assets/images/logo_profile.svg";
 
   //--------------------- Appbar Icons ------------------------------
 
@@ -29,6 +42,9 @@ class Resources{
   static const String COURSES_ICON_ACTIVE = "assets/images/active_courses.png";
 
 
+  //------------------ FLAG ICONS ---------------------------------------------
+  static const String ARABIC_LOCALE_FLAG = "assets/images/flags/ar.png";
+  static const String ENGLISH_LOCALE_FLAG = "assets/images/flags/en.png";
 
   //-------------------- FONTS ----------------------------------
   static const String FONT_FAMILY_NAME = "Segoe UI";
