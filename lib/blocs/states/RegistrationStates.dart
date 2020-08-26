@@ -4,6 +4,8 @@ import 'package:edu360/blocs/events/RegistrationEvents.dart';
 abstract class RegistrationStates {}
 
 
+class WaitingPhoneAuthenticationComplete extends RegistrationStates{}
+
 class RegistrationPageInitiated extends RegistrationStates{}
 
 class RegistrationPendingVerification extends RegistrationStates{}

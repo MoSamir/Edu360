@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:edu360/Repository.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
+import 'package:edu360/data/models/ErrorViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
@@ -7,11 +10,16 @@ import 'package:edu360/utilities/Constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:edu360/blocs/events/RegistrationEvents.dart';
 import 'package:edu360/blocs/states/RegistrationStates.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
   @override
   RegistrationStates get initialState => RegistrationPageLoading();
   UserViewModel tobeRegistered = UserViewModel();
+  File userImage ;
+  List<File> userUploadedDocuments ;
   List<StudyFieldViewModel> userStudyFields = List();
+  String authenticationCode ;
 
   @override
   Stream<RegistrationStates> mapEventToState(RegistrationEvents event) async*{
@@ -30,14 +38,24 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
       yield* _handleFieldsOfStudyLoading(event);
       return ;
     }
-
-
     if(event is RegisterUserWithCredentials){
       yield* _handleUserRegistration(event);
       return ;
-    } else if (event is VerifyUserInformation){
+    }
+    else if (event is VerifyUserInformation){
       yield* _handleUserVerification(event);
       return;
+    }
+    else if(event is RequestPhoneVerification){
+      yield* _handleUserAuthentication(event);
+      return ;
+    }
+    else if(event is VerifyUserPhoneNumber){
+      yield* _handlePhoneNumberAuthentication(event);
+      return;
+    } else if(event is MoveToState){
+      yield event.targetState;
+      return ;
     }
   }
 
@@ -70,7 +88,7 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
 
    if(registerUserResponse.isSuccess) {
      tobeRegistered.userId = registerUserResponse.responseData;
-     yield RegistrationPendingVerification();
+     yield RegistrationSuccess();
      return ;
    }
    else {
@@ -91,7 +109,6 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
       return ;
     }
   }
-
   Stream<RegistrationStates> _handleFieldsOfStudyLoading(LoadFieldsOfStudy event) async*{
     ResponseViewModel<List<StudyFieldViewModel>> fieldsOfStudyList = await Repository.getFieldsOfStudy();
     if(fieldsOfStudyList.isSuccess){
@@ -102,9 +119,54 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
       yield RegistrationFailed(failedEvent: event,error: fieldsOfStudyList.errorViewModel);
       return ;
     }
-
-
-
   }
+  Stream<RegistrationStates> _handleUserAuthentication(RequestPhoneVerification event) async*{
+    yield RegistrationPageLoading();
+
+    await Repository.requestPhoneAuthentication(phoneNumber: '${event.phoneNo}' , onTimeout: onTimeout , onAuthCompleted: onAuthComplete , onAuthFail: onAuthFailure , onCodeSent: onCodeSent);
+    return;
+  }
+  Stream<RegistrationStates> _handlePhoneNumberAuthentication(VerifyUserPhoneNumber event) async*{
+    ResponseViewModel<bool> verificationResult = await Repository.verifyPhoneCode(code : event.phoneCode , authId: authenticationCode);
+    if(verificationResult.isSuccess){
+      this.add(RegisterUserWithCredentials(profileImage: userImage , userUploadedDocuments: userUploadedDocuments ?? List() , userViewModel: tobeRegistered));
+      return ;
+    } else {
+      yield RegistrationFailed(
+        error: verificationResult.errorViewModel,
+        failedEvent: event,
+      );
+    }
+  }
+
+
+  //-------------------------- Authentication Callbacks ----------------------------------
+
+
+  void onAuthFailure(FirebaseAuthException authError) {
+    print("On Auth Fail => ${authError.message}");
+    add(MoveToState(targetState : RegistrationFailed(error : ErrorViewModel(
+      errorCode: 503,
+      errorMessage: authError.message,
+    ))));
+  }
+  void onAuthComplete(AuthCredential authCredentials){
+    print("On Auth Completed");
+    this.add(RegisterUserWithCredentials(profileImage: userImage , userUploadedDocuments: userUploadedDocuments ?? List(), userViewModel: tobeRegistered));
+    return ;
+  }
+  void onTimeout(String authId){
+    authenticationCode = authId;
+    return ;
+  }
+  void onCodeSent(String authId){
+    print("On Code Sent");
+    authenticationCode = authId;
+    add(MoveToState(targetState: WaitingPhoneAuthenticationComplete()));
+    return;
+  }
+
+
+
 
 }

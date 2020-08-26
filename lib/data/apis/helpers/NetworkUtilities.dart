@@ -228,8 +228,14 @@ class NetworkUtilities {
     ResponseViewModel postResponse ;
     try{
       var uploadResponse = await Dio().post(
-        NetworkUtilities.getFullURL(method: URL.POST_UPLOAD_FILES),options: Options(
-      ) ,data: formData, onSendProgress: (int progress, int total){
+        methodURL,
+          options: Options(
+            headers: requestHeaders,
+      ) ,data: formData,
+
+
+
+          onSendProgress: (int progress, int total){
           print('$progress of $total sent');
       });
 

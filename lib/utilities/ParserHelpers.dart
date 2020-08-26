@@ -4,6 +4,10 @@ import 'package:edu360/data/apis/helpers/URL.dart';
 class ParserHelper {
 
   static String parseURL(String url){
+
+    url.replaceFirst('[','');
+    url.replaceFirst(']', '');
+
     if(url == null) return url;
 
     if(url.contains(URL.BASE_URL)) return url ;

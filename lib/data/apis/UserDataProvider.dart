@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/Repository.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
@@ -13,6 +14,9 @@ import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/utilities/Constants.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
+import 'package:edu360/utilities/ParserHelpers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserDataProvider {
@@ -55,9 +59,6 @@ class UserDataProvider {
             return List<String>();
           }
         });
-
-
-
     return ResponseViewModel<List<String>>(
       responseData: uploadFiles.responseData,
       isSuccess: uploadFiles.isSuccess,
@@ -422,5 +423,93 @@ class UserDataProvider {
     isSuccess: getUserPostsResponse.isSuccess,
     errorViewModel: getUserPostsResponse.errorViewModel,
     );
+  }
+
+  static Future<ResponseViewModel<bool>> updateProfileImage(File userImage) async{
+    UserViewModel loggedInUser = await Repository.getUser();
+    String fileName = userImage.path.split("/")[userImage.path.split("/").length - 1];
+    MultipartFile imageAsMultipartFile = MultipartFile.fromFileSync(userImage.path, filename: fileName);
+    Map filesMap = Map<String,dynamic>();
+    filesMap.putIfAbsent("profileImagePath", () => imageAsMultipartFile);
+    filesMap.putIfAbsent("UserID", () => loggedInUser.userId);
+
+    FormData formData = FormData.fromMap(filesMap);
+
+    ResponseViewModel uploadFiles = await NetworkUtilities.handleFilesUploading(
+        formData: formData,
+        requestHeaders: NetworkUtilities.getHeaders(customHeaders:  NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer ${loggedInUser.userToken}'})),
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPDATE_PROFILE_IMAGE),
+        parserFunction: (responseJson) {
+          try{
+            if(responseJson is List){
+              return ParserHelper.parseURL(responseJson[0].toString());
+            } else {
+                return responseJson[0].toString();
+            }
+          }catch(exception){
+            print("Exception Happened While parsing URLs => $exception");
+            return List<String>();
+          }
+        });
+    return ResponseViewModel<bool>(
+      responseData: uploadFiles.isSuccess,
+      isSuccess: uploadFiles.isSuccess,
+      errorViewModel: uploadFiles.errorViewModel,
+    );
+  }
+
+  static requestPhoneAuth({String phoneNumber, Function onTimeout, Function onAuthComplete, Function onAuthFail, Function onCodeSent}) {
+
+    FirebaseAuth.instance.verifyPhoneNumber(phoneNumber: phoneNumber, verificationCompleted: (AuthCredential credentials){
+      onAuthComplete(credentials);
+      return;
+    }, verificationFailed: (FirebaseAuthException exception){
+      onAuthFail(exception);
+      return;
+    }, codeSent: (String tokenId , int foreResend){
+      onCodeSent(tokenId);
+      return ;
+    }, codeAutoRetrievalTimeout: (String tokenId){
+      onTimeout(tokenId);
+      return;
+    });
+
+
+  }
+
+  static Future<ResponseViewModel<bool>> verifyPhoneCode(String code , String authenticationId) async{
+
+    final AuthCredential credential = PhoneAuthProvider.credential(
+      verificationId: authenticationId,
+      smsCode: code,
+    );
+
+    try{
+      final User user = (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+      return ResponseViewModel<bool>(
+        isSuccess: user != null,
+        responseData: user != null,
+        errorViewModel: user == null ? ErrorViewModel(
+          errorMessage: (LocalKeys.INVALID_AUTH_CODE).tr(),
+        ) : null,
+      );
+    } catch(exception){
+
+      String errorMessage = "";
+      if(exception.contains('firebase_auth/invalid-verification-code')){
+        errorMessage = (LocalKeys.INVALID_AUTH_CODE).tr();
+      } else if(exception.contains('auth/too-many-requests')){
+        errorMessage = (LocalKeys.PHONE_NUMBER_IS_BLOCKED).tr();
+      } else {
+        errorMessage = (LocalKeys.INVALID_PHONE_NUMBER).tr();
+      }
+      return ResponseViewModel<bool>(
+        isSuccess: false,
+        responseData: null,
+        errorViewModel: ErrorViewModel(
+          errorMessage: errorMessage,
+        ),
+      );
+    }
   }
 }

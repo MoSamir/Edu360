@@ -8,6 +8,7 @@ class UserViewModel {
   DateTime userBirthDay;
   bool contentCreator , isFollowingLoggedInUser;
   StudyFieldViewModel userFieldOfStudy ;
+  double userRate = 5.0;
 
   static List<UserViewModel> fromListJson(List<dynamic> usersJson){
     List<UserViewModel> users = List();
@@ -22,6 +23,7 @@ class UserViewModel {
   UserViewModel({
       this.userFullName,
       this.userEmail,
+      this.userRate,
       this.contentCreator,
       this.profileImagePath,
       this.userMobileNumber,

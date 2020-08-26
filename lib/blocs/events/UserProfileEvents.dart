@@ -1,3 +1,5 @@
+import 'dart:io';
+
 abstract class UserProfileEvents {}
 
 class LoadUserProfile extends UserProfileEvents{
@@ -19,4 +21,10 @@ class FollowUser extends UserProfileEvents{
 class LoadOtherUsersProfile extends UserProfileEvents{
   final int userId ;
   LoadOtherUsersProfile({this.userId});
+}
+
+class UpdateProfileImage extends UserProfileEvents {
+  final File userProfileImage;
+  final int nextPageIndex;
+  UpdateProfileImage({this.userProfileImage, this.nextPageIndex});
 }

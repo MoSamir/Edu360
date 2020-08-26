@@ -4,11 +4,8 @@ import 'package:edu360/blocs/events/CoursesEvents.dart';
 import 'package:edu360/blocs/events/SingleCourseEvents.dart';
 import 'package:edu360/blocs/states/SingleCourseStates.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
-import 'package:edu360/ui/screens/CourseLessonsScreen.dart';
 import 'package:edu360/ui/screens/TabHolderScreen.dart';
-import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
-import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
@@ -27,7 +24,6 @@ class SingleCourseScreen extends StatefulWidget {
 }
 
 class _SingleCourseScreenState extends State<SingleCourseScreen> {
-
 
   SingleCourseBloc _singleCourseBloc ;
 

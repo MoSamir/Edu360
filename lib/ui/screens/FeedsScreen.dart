@@ -2,6 +2,7 @@ import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/HomePostsBloc.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/states/HomePostsStates.dart';
+import 'package:edu360/blocs/states/UserProfileStates.dart';
 
 import 'package:edu360/ui/UIHelper.dart';
 import 'package:edu360/ui/screens/CreatePostScreen.dart';
@@ -28,6 +29,21 @@ class FeedsScreen extends StatefulWidget {
 class _FeedsScreenState extends State<FeedsScreen> {
 
   HomePostsBloc homeBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    try{
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.listen((state) {
+        if(state is ProfileImageUpdated){
+          setState(() {});
+        }
+      });
+    } catch(exception){}
+
+
+  }
 
   @override
   Widget build(BuildContext context) {

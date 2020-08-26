@@ -23,6 +23,7 @@ class ProfileDocumentCard extends StatelessWidget {
 
     Color bgColor  = postModel.postFilesPath[0].endsWith(".pdf") ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor;
     return GestureDetector(
+
       key: _cardKey,
       onTap: onPostClick ?? (){},
       onLongPress: (){

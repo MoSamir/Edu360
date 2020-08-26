@@ -13,6 +13,7 @@ import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:edu360/utilities/Validators.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -75,7 +76,7 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
         backgroundColor: AppColors.backgroundColor,
         body: BlocConsumer(
           listener: (context , state){
-            if(state is RegistrationPendingVerification){
+            if(state is WaitingPhoneAuthenticationComplete){
               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> BlocProvider.value(value: _bloc , child: VerificationScreen(),)));
             }
             else if (state is RegistrationFailed) {
@@ -212,8 +213,11 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
                               userFieldOfStudy: widget.user.userFieldOfStudy,
                               userAge: (DateTime.now().difference(user.userBirthDay).inDays / 365).floor(),userBirthDay: user.userBirthDay,userEducation: _educationController.text ,userEmail: user.userEmail,userFullName: '${_firstNameController.text} ${_lastNameController.text}',userPassword: user.userPassword,userMobileNumber: user.userMobileNumber
                           );
+
+                          _bloc.tobeRegistered = tobeRegistered;
+
                           if(_globalKey.currentState.validate() && tobeRegistered.isValid()){
-                            _bloc.add(RegisterUserWithCredentials(userUploadedDocuments: widget.userDocuments , profileImage: userImage , userViewModel: tobeRegistered));
+                            _bloc.add(RequestPhoneVerification(phoneNo: widget.user.userMobileNumber));
                           }
                         },
                         child: Container(
@@ -250,19 +254,68 @@ class _CompleteYourProfileScreenState extends State<CompleteYourProfileScreen> {
       setState(() {});
     } catch(exception){}
   }
-
    _openCalendar(context) async{
-    print('hello world');
-    final DateTime picked = await showDatePicker(
-        context: context,
+      DateTime picked = DateTime.now();
 
-      builder: (BuildContext context, Widget child) {
-        return child;
-      },
-        initialDate: DateTime(DateTime.now().year-1 , 1),
-        firstDate: DateTime(DateTime.now().year-100, 1),
-        lastDate: DateTime(DateTime.now().year-1 , 1) ,
-    );
+     if(Platform.isAndroid){
+       picked = await showDatePicker(
+         context: context,
+         locale: EasyLocalization.of(context).locale,
+         initialEntryMode: DatePickerEntryMode.calendar,
+         builder: (BuildContext context, Widget child) {
+           return child;
+         },
+         initialDate: DateTime(DateTime.now().year-1 , 1),
+         firstDate: DateTime(DateTime.now().year-100, 1),
+         lastDate: DateTime(DateTime.now().year-1 , 1) ,
+       );
+     } else if(Platform.isIOS){
+       picked = await showModalBottomSheet(context: context , builder: (context)=> SizedBox(
+         height: 190,
+         width: MediaQuery.of(context).size.width,
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           crossAxisAlignment: CrossAxisAlignment.stretch,
+           children: <Widget>[
+             SizedBox(height: 8,),
+             Padding(
+               padding: const EdgeInsets.symmetric(horizontal: 12.0),
+               child: SizedBox(height: 25, child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: <Widget>[
+                   FlatButton(
+                     child: Text(LocalKeys.CONFIRM_LABEL).tr(),
+                     onPressed: (){
+                       Navigator.pop(context,picked);
+                     },
+                   ),
+                   FlatButton(
+                     child: Text(LocalKeys.CANCEL_LABEL).tr(),
+                     onPressed: (){
+                       Navigator.pop(context,null);
+                     },
+                   ),
+                 ],
+               ),),
+             ),
+             SizedBox(height: 5,),
+             SizedBox(
+               height: 150,
+               child: CupertinoDatePicker(
+                 initialDateTime: DateTime.now(),
+                 minimumDate: DateTime.now().subtract(Duration(days: 365 * 100)),
+                 maximumDate: DateTime.now(),
+                 minuteInterval: 1,
+                 mode: CupertinoDatePickerMode.date,
+                 onDateTimeChanged: (DateTime dateTime) {
+                   picked = dateTime;
+                 },
+               ),
+             ),
+           ],
+         ),
+       ));
+     }
     if (picked != null && picked != DateTime.now() && picked.isBefore(DateTime.now())){
       _birthDayController.text = "${picked.day}/${picked.month}/${picked.year}";
       user.userBirthDay = picked;

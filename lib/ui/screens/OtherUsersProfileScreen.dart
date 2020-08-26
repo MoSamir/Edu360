@@ -63,11 +63,20 @@ class _OtherUsersProfileScreenState extends State<OtherUsersProfileScreen> with 
         listener: (context, state){
           if(state is UserProfileLoaded){
             BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            if(state is UserProfileLoaded){
+                if(bloc.userViewModel != null && bloc.userViewModel.userFieldOfStudy != null){
+                  bloc.userViewModel.userFieldOfStudy = BlocProvider.of<AppDataBloc>(context).systemStudyFields.firstWhere((element) => element.studyFieldId == bloc.userViewModel.userFieldOfStudy.studyFieldId);
+                }
+              try{
+              }catch(exception){}
+            }
           }
         },
         builder: (context, state){
           return ModalProgressHUD(
             inAsyncCall: state is UserProfileLoading,
+            color: Colors.transparent,
+            progressIndicator: Container(width: 0, height: 0,),
             child: bloc.userViewModel != null ? SingleChildScrollView(
               padding: EdgeInsets.all(0),
               child: Column(

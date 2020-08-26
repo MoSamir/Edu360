@@ -255,4 +255,30 @@ class Repository {
 
 
 
+  static Future<ResponseViewModel<bool>> updateProfileImage({File profileImage}) async{
+    ResponseViewModel<bool> updatePicture = await UserDataProvider.updateProfileImage(profileImage);
+    return updatePicture;
+  }
+
+  static Future<void> requestPhoneAuthentication({String phoneNumber , Function onCodeSent , Function onTimeout , Function onAuthFail , Function onAuthCompleted}) async{
+    ResponseViewModel<void> phoneAuthResponse = await UserDataProvider.requestPhoneAuth(
+      phoneNumber: phoneNumber,
+      onAuthComplete: onAuthCompleted,
+      onAuthFail : onAuthFail,
+      onCodeSent : onCodeSent,
+      onTimeout: onTimeout,
+    );
+
+
+    return phoneAuthResponse;
+  }
+
+  static Future<ResponseViewModel<bool>> verifyPhoneCode({String code , String authId}) async{
+
+    return UserDataProvider.verifyPhoneCode(code , authId);
+
+  }
+
+
+
 }

@@ -51,62 +51,64 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return Scaffold(
       extendBody: false,
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomPadding: true,
       body: BlocConsumer(
         builder: (context, state){
           return ModalProgressHUD(
             inAsyncCall: state is AuthenticationLoading,
-            child: Container(
-              color: AppColors.mainThemeColor,
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Form(
-                key: _loginFormKey,
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: screenPadding),
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Image.asset(Resources.WHITE_LOGO_IMAGE , height: 80,),
-                                SizedBox(height: 30,),
-                                EduFormField(
-                                  afterSubmitKeyboardAction: TextInputAction.next,
-                                  autoValidate: false,
-                                  forceLTR: true ,
-                                  focusNode: _userEmailFocusNode,
-                                  nextFocusNode: _userPasswordFocusNode,
-                                  fieldController: _userEmailController,
-                                  placeHolder: (LocalKeys.EMAIL).tr(),
-                                  obscureField: false,
-                                  validatorFn: Validator.mailValidator,
-                                ),
-                                SizedBox(height: 10,),
-                                EduFormField(
-                                  afterSubmitKeyboardAction: TextInputAction.done,
-                                  autoValidate: false,
-                                  forceLTR: true ,
-                                  focusNode: _userPasswordFocusNode,
-                                  fieldController: _userPasswordController,
-                                  placeHolder: (LocalKeys.PASSWORD).tr(),
-                                  obscureField: true,
-                                  validatorFn: Validator.requiredField,
-                                ),
-                                SizedBox(height: 20,),
-                              ],
+            child: SingleChildScrollView(
+              child: Container(
+                color: AppColors.mainThemeColor,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Form(
+                  key: _loginFormKey,
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: screenPadding),
+                      child: Column(
+                        children: <Widget>[
+                          Expanded(
+                            child: Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Image.asset(Resources.WHITE_LOGO_IMAGE , height: 80,),
+                                  SizedBox(height: 30,),
+                                  EduFormField(
+                                    afterSubmitKeyboardAction: TextInputAction.next,
+                                    autoValidate: false,
+                                    forceLTR: true ,
+                                    focusNode: _userEmailFocusNode,
+                                    nextFocusNode: _userPasswordFocusNode,
+                                    fieldController: _userEmailController,
+                                    placeHolder: (LocalKeys.EMAIL).tr(),
+                                    obscureField: false,
+                                    validatorFn: Validator.mailValidator,
+                                  ),
+                                  SizedBox(height: 10,),
+                                  EduFormField(
+                                    afterSubmitKeyboardAction: TextInputAction.done,
+                                    autoValidate: false,
+                                    forceLTR: true ,
+                                    focusNode: _userPasswordFocusNode,
+                                    fieldController: _userPasswordController,
+                                    placeHolder: (LocalKeys.PASSWORD).tr(),
+                                    obscureField: true,
+                                    validatorFn: Validator.requiredField,
+                                  ),
+                                  SizedBox(height: 20,),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        EduButton(
-                          onPressed: _loginButtonPressed,
-                          title: LocalKeys.LOGIN,
-                        ),
-                        SizedBox(height: 20,),
-                      ],
+                          EduButton(
+                            onPressed: _loginButtonPressed,
+                            title: LocalKeys.LOGIN,
+                          ),
+                          SizedBox(height: 20,),
+                        ],
+                      ),
                     ),
                   ),
                 ),

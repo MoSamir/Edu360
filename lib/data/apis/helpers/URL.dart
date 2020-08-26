@@ -1,12 +1,11 @@
 import 'package:edu360/utilities/Constants.dart';
 
 class URL{
-  static const String BASE_URL = "http://www.ref360.net:2000"; // server
-//  static const String BASE_URL = "http://ebd7d1285efb.ngrok.io"; // local
-//  static const String BASE_URL = "http://161.97.87.130:2001"; // testing
+//  static const String BASE_URL = "http://www.ref360.net:2000"; // server
+//  static const String BASE_URL = "http://aeb67a340aa1.ngrok.io"; // local
+  static const String BASE_URL = "http://161.97.87.130:2001"; // testing
   static const String ENGLISH_API_URL = "$BASE_URL/api/";
   static const String ARABIC_API_URL = "$BASE_URL/ar-EG/api/";
-
 
   static const String POST_CREATE_USER = "User/CreateUser";
   static const String POST_UPLOAD_FILES = "User/UploadFiles";

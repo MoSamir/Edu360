@@ -11,9 +11,6 @@ import 'package:rxdart/rxdart.dart';
 
 class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
 
-
-
-
   UserViewModel userViewModel ;
 
   BehaviorSubject<bool> followStream = BehaviorSubject<bool>();
@@ -50,6 +47,10 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
     else if(event is UnfollowUser){
         yield* _handleUnFollowUser(event);
         return ;
+    }
+    else if(event is UpdateProfileImage){
+      yield* _handleProfileImageChanging(event);
+      return ;
     }
 
 
@@ -135,5 +136,18 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
   Future<Function> close() {
     followStream.close();
     return super.close();
+  }
+
+  Stream<UserProfileStates>  _handleProfileImageChanging(UpdateProfileImage event) async*{
+    yield UserProfileLoading();
+    ResponseViewModel<bool> updateProfileImage = await Repository.updateProfileImage(profileImage: event.userProfileImage);
+    if(updateProfileImage.isSuccess){
+      yield ProfileImageUpdated(nextPageIndex: event.nextPageIndex);
+      add(LoadUserProfile());
+      return ;
+    } else {
+      yield UserProfileLoaded();
+      return ;
+    }
   }
 }

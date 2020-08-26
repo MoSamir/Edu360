@@ -13,6 +13,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:edu360/blocs/bloc/RegistrationBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:international_phone_input/international_phone_input.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'CompleteYourProfileScreen.dart';
@@ -24,11 +25,20 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
 
   GlobalKey<FormState> _formGlobalKey = GlobalKey<FormState>();
-  TextEditingController _usernameController , _passwordController , _confirmPasswordController ;
-  FocusNode  _usernameNode, _passwordNode , _passwordConfirmationNode ;
+  TextEditingController _usernameController , _passwordController , _userPhoneController, _confirmPasswordController ;
+  FocusNode  _usernameNode, _passwordNode , _passwordConfirmationNode , _userPhoneNode;
   List<File> uploadedDocuments  = List();
   RegistrationBloc _registrationBloc = RegistrationBloc();
   UserViewModel user = UserViewModel();
+  String phoneNumber;
+  String phoneIsoCode = '+20';
+
+  void onPhoneNumberChange(String number, String internationalizedPhoneNumber, String isoCode) {
+    setState(() {
+      phoneNumber = internationalizedPhoneNumber;
+      phoneIsoCode = isoCode;
+    });
+  }
 
   @override
   void initState() {
@@ -42,15 +52,17 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _usernameController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
+    _userPhoneController = TextEditingController();
+    _userPhoneNode = FocusNode();
     _usernameNode = FocusNode();
     _passwordNode = FocusNode();
     _passwordConfirmationNode = FocusNode();
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: BlocConsumer(
         listener: (context, state){
           if(state is RegistrationPageInitiated){
@@ -68,6 +80,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Form(
                   key: _formGlobalKey,
                   child: Padding(
@@ -79,12 +92,49 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         Image.asset(Resources.WHITE_LOGO_IMAGE , height: 50,),
                         SizedBox(height: 10,),
                         SizedBox(height: MediaQuery.of(context).size.height * .15, child: Center(child: Text(LocalKeys.REGISTRATION_MESSAGE, textScaleFactor: 1, textAlign:TextAlign.center , style: Styles.baseTextStyle,).tr(),),),
+                        InternationalPhoneInput(
+                          showCountryFlags: true,
+                            errorStyle: Styles.baseTextStyle.copyWith(
+                              color: AppColors.redBackgroundColor,
+                            ),
+                            onPhoneNumberChange: onPhoneNumberChange,
+                            initialPhoneNumber: phoneNumber,
+                            initialSelection: phoneIsoCode,
+                            enabledCountries: ['+20'],
+                          errorText: (LocalKeys.INVALID_PHONE_NUMBER).tr(),
+                          showCountryCodes: true,
+                          decoration: InputDecoration(
+                            filled:  true,
+                            isDense: true,
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(
+                                color: AppColors.redBackgroundColor,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(8)),
+                              borderSide: BorderSide(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                            fillColor: AppColors.white,
+                            hintText: (LocalKeys.PHONE_NUMBER).tr(),
+                            alignLabelWithHint: true,
+                            hintStyle: Styles.baseTextStyle.copyWith(
+                              color: AppColors.registrationTextPlaceholderColor,
+                            ),
+                          ),
+                        ),
+
+
+                        SizedBox(height: 10,),
                         EduFormField(placeHolder: (LocalKeys.EMAIL).tr() , fieldController: _usernameController
                             , focusNode: _usernameNode , nextFocusNode: _passwordNode , forceLTR: true ,
                             trailingWidget: GestureDetector(
                                 onTap: _openEmailHintDialog
                                 ,child: Container(width: 25, height: 25, child: Center(child: Text('?',textScaleFactor: 1),),  decoration: BoxDecoration(shape: BoxShape.circle , color: AppColors.canaryColor),)),
-                            validatorFn: Validator.mailValidator ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: false),
+                               afterSubmitKeyboardAction: TextInputAction.next , obscureField: false),
                         SizedBox(height: 10,),
                         EduFormField(placeHolder: (LocalKeys.PASSWORD).tr() , fieldController: _passwordController
                             , focusNode: _passwordNode , nextFocusNode: _passwordConfirmationNode ,
@@ -106,10 +156,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         SizedBox(height: 30,),
                         GestureDetector(
                           onTap: (){
-                            if(_formGlobalKey.currentState.validate() /*&& uploadedDocuments!=null && uploadedDocuments.length > 0*/) {
+                            if(_formGlobalKey.currentState.validate()  && phoneNumber != null /*&& uploadedDocuments!=null && uploadedDocuments.length > 0*/) {
                               user = UserViewModel(
+                                userMobileNumber: phoneNumber,
                                 userFieldOfStudy: user.userFieldOfStudy,
-                                userEmail: _usernameController.text,
+                                userEmail: _usernameController.text ?? '',
                                 userPassword: _passwordController.text,
                               );
                               Navigator.of(context).push(

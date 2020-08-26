@@ -16,7 +16,6 @@ class UserDataBloc extends Bloc<UserDataEvents , UserDataStates>{
   AuthenticationBloc authenticationBloc = AuthenticationBloc() ;
   UserProfileBloc userProfileBloc = UserProfileBloc();
   HomePostsBloc homePostsBloc = HomePostsBloc();
-
   UserSubscribedCoursesBloc coursesBloc = UserSubscribedCoursesBloc();
 
 

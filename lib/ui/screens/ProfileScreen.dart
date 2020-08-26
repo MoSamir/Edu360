@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/UserProfileBloc.dart';
 import 'package:edu360/blocs/events/AuthenticationEvents.dart';
@@ -19,8 +21,11 @@ import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import 'TabHolderScreen.dart';
 class ProfileScreen extends StatefulWidget {
 
   final Function moveToScreen;
@@ -38,6 +43,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   TabController tabController;
   UserViewModel user;
   int currentTabIndex = 0 ;
+
   @override
   void initState() {
     super.initState();
@@ -48,74 +54,90 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     );
     currentLocale = Constants.CURRENT_LOCALE;
 
-    BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.listen((state) {
-      if(state is UserAuthenticated){
-        if(BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.isAnonymous()){
-          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> LandingScreen()), (route) => false);
+    try{
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.listen((state) {
+        if(state is ProfileImageUpdated){
+          setState(() {});
         }
-      }
-    });
+      });
+    } catch(exception){}
+
+
+    try{
+      BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.listen((state) {
+        if(state is UserAuthenticated){
+          if(BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.isAnonymous()){
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> LandingScreen()), (route) => false);
+          }
+        }
+      });
+    } catch(exception){}
   }
   @override
   Widget build(BuildContext context) {
-    print('assets/${Constants.CURRENT_LOCALE}.png');
     user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
-    return BlocConsumer(
-      bloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc,
-      listener: (context, state){},
-      builder: (context, state){
-        return ModalProgressHUD(
-          inAsyncCall: state is UserProfileLoading,
-          child: SingleChildScrollView(
-            padding: EdgeInsets.all(0),
-            child: Column(
-              children: <Widget>[
-                SizedBox(height: 15,),
-                ProfileScreenHeader(
-                  user: user,
-                  isMe: true,
-                  isMyFriend: true,
-                  onFollowClicked: (){},
-                ),
-                Material(
-                  elevation: 5,
-                  color: Colors.white,
-                  child: Container(
-                    height: 70,
-                    child: Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * .5,
-                        child: TabBar(
-                          indicator: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6),),
-                          isScrollable: false,
-                          labelColor: Colors.white,
-                          unselectedLabelColor: Colors.transparent,
-                          tabs: getTaps(),
-                          labelPadding: EdgeInsets.all(0),
-                          indicatorPadding: EdgeInsets.all(0),
-                          controller: tabController,
-                          onTap: (selectedIndex) {
-                            currentTabIndex = selectedIndex;
-                            setState(() {});
-                          },
-                          indicatorWeight: 2,
-                          indicatorSize: TabBarIndicatorSize.tab,
+    print(user.profileImagePath);
+    return Container(
+      color: AppColors.backgroundColor,
+      child: BlocConsumer(
+        bloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc,
+        listener: (context, state){},
+        builder: (context, state){
+          return ModalProgressHUD(
+            inAsyncCall: state is UserProfileLoading,
+            child: SingleChildScrollView(
+              padding: EdgeInsets.all(0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 15,),
+                  ProfileScreenHeader(
+                    user: user,
+                    userProfileImage: TabsHolderScreen.profileImage,
+                    isMe: true,
+                    isMyFriend: true,
+                    onEditProfileImageClicked: _changeUserProfileImage,
+                    onFollowClicked: (){},
+                  ),
+                  Material(
+                    elevation: 5,
+                    color: Colors.white,
+                    child: Container(
+                      height: 70,
+                      child: Center(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * .5,
+                          child: TabBar(
+                            indicator: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),),
+                            isScrollable: false,
+                            labelColor: Colors.white,
+                            unselectedLabelColor: Colors.transparent,
+                            tabs: getTaps(),
+                            labelPadding: EdgeInsets.all(0),
+                            indicatorPadding: EdgeInsets.all(0),
+                            controller: tabController,
+                            onTap: (selectedIndex) {
+                              currentTabIndex = selectedIndex;
+                              setState(() {});
+                            },
+                            indicatorWeight: 2,
+                            indicatorSize: TabBarIndicatorSize.tab,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 5,),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
-                  child: getPostsView(currentTabIndex),
-                ),
-              ],
+                  SizedBox(height: 5,),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0 , vertical: 0),
+                    child: getPostsView(currentTabIndex),
+                  ),
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
   getTaps() {
@@ -132,6 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     }
     return itemsList;
   }
+
   getPostsView(int currentTabIndex) {
     UserProfileBloc bloc = BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc;
     if(currentTabIndex == 0){
@@ -225,9 +248,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     }
     else {
      return Container(
-         color: AppColors.white,
+         color: AppColors.backgroundColor,
          width: MediaQuery.of(context).size.width,
-         height: MediaQuery.of(context).size.height ,
          child: Column(
            mainAxisAlignment: MainAxisAlignment.start,
            crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,12 +273,22 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
              Padding(
                padding: EdgeInsets.symmetric(horizontal: 8),
                child: FlatButton(
+                 padding: EdgeInsets.all(0),
                  onPressed: (){
                    BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(Logout());
                  },
-                 child: Text((LocalKeys.LOGOUT).tr()),
+                 child: Text((LocalKeys.LOGOUT).tr() , textAlign: TextAlign.start,),
                ),
-             )
+             ),
+             Padding(
+               padding: const EdgeInsets.symmetric(vertical:8.0),
+               child: Center(
+                 child: Text('v1.0.5' , textAlign: TextAlign.center, style: TextStyle(
+                   color: Colors.grey,
+                 ),),
+               ),
+             ),
+
            ],
          ),);
          //PlaceHolderWidget(placeHolder: Text('Edit Profile coming soon')));
@@ -348,4 +380,57 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     );
   }
 
+
+  void _changeUserProfileImage() async{
+
+    final picker = ImagePicker();
+     showBottomSheet(context: context, builder: (context) => Material(
+       elevation: 5,
+       color: AppColors.mainThemeColor,
+       borderRadius: BorderRadiusDirectional.only(
+         topStart: Radius.circular(16),
+         topEnd: Radius.circular(16),
+       ),
+       child: Row(
+         mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.camera_alt),
+            color: AppColors.white,
+            onPressed: ()async{
+              final pickedFile = await picker.getImage(source: ImageSource.camera , imageQuality: 70);
+              if(pickedFile != null) {
+                TabsHolderScreen.profileImage =  File(pickedFile.path);
+                setState(() {});
+              }
+              Navigator.of(context).pop();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.filter),
+            color: AppColors.white,
+            onPressed: ()async{
+              final pickedFile = await picker.getImage(source: ImageSource.gallery  , imageQuality: 70 );
+              if(pickedFile != null) {
+                TabsHolderScreen.profileImage =  File(pickedFile.path);
+                setState(() {});
+              }
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+    ),
+     ) , elevation: 2 , backgroundColor: AppColors.mainThemeColor);
+  }
+  @override
+  void deactivate() {
+    print("Deactivate Called");
+    super.deactivate();
+  }
+
+  @override
+  void didUpdateWidget(ProfileScreen oldWidget) {
+    print("Did Update Widget");
+    super.didUpdateWidget(oldWidget);
+  }
 }

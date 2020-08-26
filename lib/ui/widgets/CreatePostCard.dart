@@ -144,18 +144,18 @@ class _CreatePostCardState extends State<CreatePostCard> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-//                        Expanded(
-//                          child: EduButton(
-//                            borderColor: AppColors.mainThemeColor,
-//                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
-//                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
-//                              picVideoFile();
-//                              return ;
-//                            },
-//                            title: LocalKeys.MEDIA,
-//                          ),
-//                        ),
-//                        SizedBox(width: 10,),
+                        Expanded(
+                          child: EduButton(
+                            borderColor: AppColors.mainThemeColor,
+                            onPressed: newPostBloc.newPost.contentType == ContentType.FILE_POST? null : (){
+                              newPostBloc.newPost.contentType = ContentType.VIDEO_POST;
+                              pickImageFile();
+                              return ;
+                            },
+                            title: LocalKeys.MEDIA,
+                          ),
+                        ),
+                        SizedBox(width: 10,),
                         Expanded(
                           child: EduButton(
                             borderColor: AppColors.mainThemeColor,
@@ -296,7 +296,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                   ),
                 ),
                 fillColor: AppColors.white,
-                hintText: LocalKeys.ADD_POST_DESCRIPTION,
+                hintText: (LocalKeys.ADD_POST_DESCRIPTION).tr(),
                 hintStyle: Styles.baseTextStyle.copyWith(
                   color: AppColors.registrationTextPlaceholderColor,
                 ),
@@ -343,19 +343,18 @@ class _CreatePostCardState extends State<CreatePostCard> {
   }
 
 
-//  picVideoFile() async{
-//    try{
-//      FilePicker.getFile(
-//        type: FileType.video).then((value){
-//        if(value!= null){
-//          postFiles.add(value);
-//          setState(() {});
-//        }
-//      });
-//    } catch(exception){
-//      print("Exception while picking file => $exception");
-//    }
-//  }
+  pickImageFile() async{
+    try{
+      FilePicker.getFile(type: FileType.image).then((value){
+        if(value!= null){
+          postFiles.add(value);
+          setState(() {});
+        }
+      });
+    } catch(exception){
+      print("Exception while picking file => $exception");
+    }
+  }
 
   void _createPost() {
     if(postFormKey.currentState.validate()) {
@@ -387,7 +386,7 @@ class _CreatePostCardState extends State<CreatePostCard> {
                 ),
               ),
               fillColor: AppColors.white,
-              hintText: LocalKeys.ADD_POST_DESCRIPTION,
+              hintText: (LocalKeys.ADD_POST_DESCRIPTION).tr(),
               hintStyle: Styles.baseTextStyle.copyWith(
                 color: AppColors.registrationTextPlaceholderColor,
               ),

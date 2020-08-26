@@ -115,6 +115,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
   }
   _verifyUser() {
     if(_verificationCodeFormKey.currentState.validate())
-    _registrationBloc.add(VerifyUserInformation(verificationCode: _verificationCodeController.text.trim()));
+    _registrationBloc.add(VerifyUserPhoneNumber(phoneCode: _verificationCodeController.text.trim()));
   }
 }

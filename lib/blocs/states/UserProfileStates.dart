@@ -14,3 +14,10 @@ class UserProfileLoadingFailed extends UserProfileStates{
   UserProfileLoadingFailed({this.failureEvent , this.error});
 
 }
+
+class ProfileImageUpdated extends UserProfileStates{
+
+  final int nextPageIndex;
+  ProfileImageUpdated({this.nextPageIndex});
+
+}

@@ -1,29 +1,38 @@
+import 'dart:io';
+
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import 'package:edu360/blocs/events/AuthenticationEvents.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
+import 'package:edu360/blocs/events/UserProfileEvents.dart';
+import 'package:edu360/blocs/states/UserProfileStates.dart';
 import 'package:edu360/ui/screens/CoursesScreen.dart';
-import 'package:edu360/ui/screens/CategoriesScreen.dart';
-import 'package:edu360/ui/screens/ExploreScreen.dart';
 import 'package:edu360/ui/screens/FeedsScreen.dart';
 import 'package:edu360/ui/screens/ProfileScreen.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import 'CourseOverviewScreen.dart';
-import 'CreatePostScreen.dart';
 import 'NotificationsScreen.dart';
 
 class TabsHolderScreen extends StatefulWidget {
 
   int index = 0;
   TabsHolderScreen({this.index});
+  static File profileImage ;
 
   @override
   _TabsHolderScreenState createState() => _TabsHolderScreenState();
 }
 
 class _TabsHolderScreenState extends State<TabsHolderScreen> {
+
 
    void _onPostCreated({bool success}){
     currentVisiblePageIndex = success ? 2 : 0 ;
@@ -97,42 +106,112 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: barTabs,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentVisiblePageIndex,
-        selectedItemColor: AppColors.black,
-        iconSize: 25,
-        selectedFontSize: 0,
-        onTap: (selectedIndex){
-          currentVisiblePageIndex = selectedIndex;
-          setState(() {});
-        },
-      ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            color: AppColors.backgroundColor,
-            margin: EdgeInsets.only(top: kToolbarHeight + 30),
-            child: screens[currentVisiblePageIndex],
-          ),
-          EduAppBar(
-            backgroundColor: AppColors.mainThemeColor,
-            icon:  Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),//SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
-            actions: <Widget>[
+    return BlocConsumer(
+      listener: (context, state){
+        if(state is ProfileImageUpdated){
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(AuthenticateUser());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>TabsHolderScreen(index: state.nextPageIndex,)));
+//          setState(() {});
+//          currentVisiblePageIndex = state.nextPageIndex;
+          TabsHolderScreen.profileImage = null ;
+        }
+      },
+      builder: (context, state){
+        return ModalProgressHUD(
+          inAsyncCall: state is UserProfileLoading,
+          progressIndicator: Container(width: 0, height: 0,),
+          child: Scaffold(
+            bottomNavigationBar: BottomNavigationBar(
+              items: barTabs,
+              unselectedItemColor: Colors.grey,
+              type: BottomNavigationBarType.fixed,
+              currentIndex: currentVisiblePageIndex,
+              selectedItemColor: AppColors.black,
+              iconSize: 25,
+              selectedFontSize: 0,
+              onTap: (selectedIndex) async{
+                if(currentVisiblePageIndex == 2){ // profile screen
+                  if(TabsHolderScreen.profileImage != null){
+                    bool confirmedChanges = await showDialog(context: context, barrierDismissible: true ,builder: (context) => AlertDialog(
+                      elevation: 2,
+                      actions: <Widget>[
+                        FlatButton(
+                          color: AppColors.mainThemeColor,
+                          child: Text((LocalKeys.CONFIRM_LABEL).tr() , style: TextStyle(
+                            color: AppColors.white,
+                          ),),
+                        onPressed: (){
+                            Navigator.pop(context , true);
+                        },
+                        ),
+                        FlatButton(
+                          color: AppColors.redBackgroundColor,
+                          child: Text((LocalKeys.CANCEL_LABEL).tr() , style: TextStyle(
+                            color: AppColors.white,
+                          ),),
+                          onPressed: (){
+                            Navigator.pop(context , false);
+                          },
+                        ),
+                      ],
+                      content: Container(
+                        height: 25,
+                        child: Center(
+                          child: Text((LocalKeys.SET_IMAGE_MESSAGE).tr() , textAlign: TextAlign.center,),
+                        ),
+                      ),
+                      title: Text((LocalKeys.CONFIRM_CHANGES_HEADER).tr(), textAlign: TextAlign.center , style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),),
+                    ));
+                    if(confirmedChanges){
+                      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(UpdateProfileImage(userProfileImage: TabsHolderScreen.profileImage , nextPageIndex : selectedIndex));
+                    } else {
+                      TabsHolderScreen.profileImage = null ;
+                      currentVisiblePageIndex = selectedIndex;
+                      setState(() {});
+                    }
+                  }
+                  else {
+                    TabsHolderScreen.profileImage = null ;
+                    currentVisiblePageIndex = selectedIndex;
+                    setState(() {});
+                  }
+                }
+                else {
+                  TabsHolderScreen.profileImage = null ;
+                  currentVisiblePageIndex = selectedIndex;
+                  setState(() {});
+                }
+              },
+            ),
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  color: AppColors.backgroundColor,
+                  margin: EdgeInsets.only(top: kToolbarHeight + 30),
+                  child: screens[currentVisiblePageIndex],
+                ),
+                EduAppBar(
+                  backgroundColor: AppColors.mainThemeColor,
+                  icon:  Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),//SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
+                  actions: <Widget>[
 //              Image(
 //                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
 //                color: Colors.white,
 //              ),
-            ],
-            logoWidth: MediaQuery.of(context).size.width / 3,
-            logoHeight: 20,
-            autoImplyLeading: false,
+                  ],
+                  logoWidth: MediaQuery.of(context).size.width / 3,
+                  logoHeight: 20,
+                  autoImplyLeading: false,
+                ),
+              ],
+            ),
           ),
-        ],
-      ),
+        );
+      },
+      bloc: BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc,
     );
   }
 }

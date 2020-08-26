@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "431188190968",
+    "firebase_url": "https://ref360-f6f80.firebaseio.com",
+    "project_id": "ref360-f6f80",
+    "storage_bucket": "ref360-f6f80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:431188190968:android:7fc21da402f6cdcf4bbd0d",
+        "android_client_info": {
+          "package_name": "com.ref.ref360"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "431188190968-94cbuiai2897i50sdn4j6eqdb75lnjjq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3CVDEjRTxqVHPT9vt0lvOGoDZRftCgQo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "431188190968-94cbuiai2897i50sdn4j6eqdb75lnjjq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

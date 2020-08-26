@@ -24,6 +24,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      key: GlobalKey(),
       onTap: widget.onPostClick ?? (){},
       child: Padding(
         padding: const EdgeInsets.only(top: 4 , right: 0 , left: 4 , bottom: 4),

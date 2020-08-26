@@ -9,6 +9,7 @@ class LocalKeys{
   static const String REQUIRED_FIELD = "REQUIRED_FIELD";
   static const String CONFIRM_PASSWORD = "CONFIRM_PASSWORD";
   static const String PASSWORD = "PASSWORD";
+  static const String PHONE_NUMBER = "PHONE_NUMBER";
 
   static const String INVALID_MAIL = "INVALID_MAIL";
   static const String INVALID_PHONE = "INVALID_PHONE";
@@ -20,6 +21,12 @@ class LocalKeys{
   static const String REGISTRATION_MESSAGE = "REGISTRATION_MESSAGE";
   static const String  PLEASE_UPLOAD_DOCUMENTS = "PLEASE_UPLOAD_DOCUMENTS";
   static const String  FIELD_OF_STUDY = "FIELD_OF_STUDY";
+  static const String  INVALID_AUTH_CODE = "INVALID_AUTH_CODE";
+  static const String  PHONE_NUMBER_IS_BLOCKED = "PHONE_NUMBER_IS_BLOCKED";
+  static const String  INVALID_PHONE_NUMBER = "INVALID_PHONE_NUMBER";
+
+
+
 
 
  //--------------------------------GENERAL -----------------------------------
@@ -47,7 +54,8 @@ class LocalKeys{
   static const String BIRTHDAY = "BIRTHDAY";
   static const String LAST_NAME = "LAST_NAME";
   static const String FIRST_NAME = "FIRST_NAME";
-
+  static const String CANCEL_LABEL = "CANCEL_LABEL";
+  static const String CONFIRM_LABEL = "CONFIRM_LABEL";
 
   //------------------------ VERIFICATION SCREEN -------------------------------
 
@@ -154,6 +162,23 @@ class LocalKeys{
 
   static const String AR = "عربي";
   static const String EN = "English";
+
+
+ //------------------------------------ EDIT PROFILE IMAGE ----------------------
+
+  static const String SET_IMAGE_MESSAGE = "SET_IMAGE_MESSAGE";
+  static const String CONFIRM_CHANGES_HEADER = "CONFIRM_CHANGES_HEADER";
+
+
+
+
+
+
+
+
+
+
+
 
 
 

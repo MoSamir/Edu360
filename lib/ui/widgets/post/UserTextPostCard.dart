@@ -37,6 +37,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
   Widget build(BuildContext context) {
     print(widget.postModel.toString());
     return GestureDetector(
+      key: GlobalKey(),
       onTap: widget.onPostClick ?? (){},
       child: Padding(
         padding: const EdgeInsets.all(4.0),

@@ -74,5 +74,13 @@
   "TYPE_YOUR_COMMENT"  : "شارك رأيك .. ",
   "COMING_SOON" : "قريبا",
   "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "الدوره لم تبدأ او لا يوجد محتوي حاليا",
-  "DELETE_LABEL": "حذف"
+  "DELETE_LABEL": "حذف",
+  "CANCEL_LABEL": "الغاء",
+  "CONFIRM_LABEL" : "تاكيد",
+  "SET_IMAGE_MESSAGE": "هل ترغب في حفظ التغييرات ؟",
+  "CONFIRM_CHANGES_HEADER": "تعديلات غير محفوظه !",
+  "PHONE_NUMBER": "رقم الهاتف",
+  "INVALID_AUTH_CODE": "رمز التأكيد غير صحيح",
+  "PHONE_NUMBER_IS_BLOCKED": "لقد تخطيت العدد المسموجح به لتسجيل بهذا الرقم يرجي المحاوله بعد قليل",
+  "INVALID_PHONE_NUMBER": "هذا الرقم غير صحيح"
 }

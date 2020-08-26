@@ -74,5 +74,13 @@
   "TYPE_YOUR_COMMENT"  : "Type your comment here..",
   "COMING_SOON" : "Coming Soon",
   "COURSE_NOT_START_OR_NO_LESSONS_YET_ERROR": "Course has no lessons \n or no lessons yet",
-  "DELETE_LABEL": "Delete"
+  "DELETE_LABEL": "Delete",
+  "CANCEL_LABEL": "Cancel",
+  "CONFIRM_LABEL" : "Confirm",
+  "SET_IMAGE_MESSAGE": "You want save changes ?",
+  "CONFIRM_CHANGES_HEADER": "Unsaved changes",
+  "PHONE_NUMBER": "Phone number",
+  "INVALID_AUTH_CODE": "Invalid authentication code",
+  "PHONE_NUMBER_IS_BLOCKED": "This number has tried to many times , please try again in while",
+  "INVALID_PHONE_NUMBER": "This number is invalid , please try different number"
 }
