@@ -67,7 +67,7 @@ class _SingleCourseScreenState extends State<SingleCourseScreen> {
                                   decoration: BoxDecoration(
                                     color: AppColors.mainThemeColor.withOpacity(.8),
                                     image: DecorationImage(
-                                      image: widget.courseModel.courseImage != null && widget.courseModel.courseImage.length > 0 ? NetworkImage(widget.courseModel.courseImage)  : AssetImage(Resources.USER_PROFILE_IMAGE),
+                                      image: widget.courseModel.courseImage != null && widget.courseModel.courseImage.length > 0 ? NetworkImage(widget.courseModel.courseImage , headers: {'Cache-Control' : 'no-cache'})  : AssetImage(Resources.USER_PROFILE_IMAGE),
                                       fit: BoxFit.cover,
                                     ),
                                   ),

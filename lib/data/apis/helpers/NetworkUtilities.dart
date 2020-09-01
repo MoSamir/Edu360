@@ -318,8 +318,11 @@ class NetworkUtilities {
     debugPrint('Response => ${response.toString()}');
     debugPrint('---------------------------------------------------');
   }
-  static String getFullURL({String method}) {
+  static String getFullURL({String method, bool withLocale}) {
+    if(withLocale == null || withLocale == true)
     return Constants.CURRENT_LOCALE == "ar" ?  URL.ARABIC_API_URL + method : URL.ENGLISH_API_URL + method;
+    else
+     return URL.BASE_URL + "/api/" + method;
   }
   static ResponseViewModel handleServerError(http.Response serverResponse) {
     if(json.decode(serverResponse.body) is List && json.decode(serverResponse.body).length > 0){

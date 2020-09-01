@@ -1,5 +1,14 @@
 class LocalKeys{
 
+
+  //----------------------- RESET PASSWORD SCREEN ------------------------
+
+
+  static const String RESET_PASSWORD_FOR = "RESET_PASSWORD_FOR";
+  static const String RESET_PASSWORD = "RESET_PASSWORD";
+
+
+
   // ---------------------- PRE LOGIN HOME PAGE --------------------------
   static const String SIGN_UP = "SIGN_UP";
   static const String SIGN_UP_TIPS = "SIGN_UP_TIPS";
@@ -66,6 +75,8 @@ class LocalKeys{
 
   //-------------------- Login Screen ------------------------------------------
   static const String LOGIN = "LOGIN";
+  static const String FORGET_PASSWORD = "FORGET_PASSWORD";
+
 
 
   //------------- Profile Screen -----------------------------------------------
@@ -166,8 +177,27 @@ class LocalKeys{
 
  //------------------------------------ EDIT PROFILE IMAGE ----------------------
 
+
   static const String SET_IMAGE_MESSAGE = "SET_IMAGE_MESSAGE";
   static const String CONFIRM_CHANGES_HEADER = "CONFIRM_CHANGES_HEADER";
+
+
+  //------------------------------- CONTACT US SCREEN -------------------------
+
+  static const String CONTACT_US = "CONTACT_US";
+
+  static const String SEND_LABEL = "SEND_LABEL";
+  static const String USER_NAME = "USER_NAME";
+
+  static const String ISSUE_TITLE = "ISSUE_TITLE";
+
+  static const String ISSUE_BODY = "ISSUE_BODY";
+  static const String BACK_LABEL = "BACK_LABEL";
+  static const String SUCCESS_COMPLAINT_MESSAGE = "SUCCESS_COMPLAINT_MESSAGE";
+  static const String ERROR_COMPLAINT_MESSAGE = "ERROR_COMPLAINT_MESSAGE";
+
+
+
 
 
 

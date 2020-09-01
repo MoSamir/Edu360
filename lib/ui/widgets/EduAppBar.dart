@@ -27,11 +27,11 @@ class EduAppBar extends StatelessWidget implements PreferredSizeWidget{
       appBarHeight = kToolbarHeight + 50;
       appBarContent = kToolbarHeight + 30 ;
     }
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarBrightness: Brightness.dark,
-      statusBarColor: Colors.black,
-      statusBarIconBrightness: Brightness.dark
-    ));
+//    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+//      statusBarBrightness: Brightness.dark,
+//      statusBarColor: Colors.black,
+//      statusBarIconBrightness: Brightness.dark
+//    ));
     return PreferredSize(
       child: SafeArea(
         child: Container(

@@ -3,7 +3,7 @@ import 'package:edu360/data/apis/helpers/URL.dart';
 import 'package:edu360/utilities/ParserHelpers.dart';
 import 'StudyFieldViewModel.dart';
 class UserViewModel {
-  String userFullName  ,userEmail , userMobileNumber , userEducation  , userPassword ,  userToken , profileImagePath ;
+  String userFullName  ,userEmail , userMobileNumber , userEducation  , userPassword ,  userToken , profileImagePath , profileCoverImagePath;
   int userAge, userId;
   DateTime userBirthDay;
   bool contentCreator , isFollowingLoggedInUser;
@@ -24,6 +24,7 @@ class UserViewModel {
       this.userFullName,
       this.userEmail,
       this.userRate,
+      this.profileCoverImagePath,
       this.contentCreator,
       this.profileImagePath,
       this.userMobileNumber,
@@ -36,16 +37,20 @@ class UserViewModel {
       this.userBirthDay,
       this.userFieldOfStudy});
 
+
   @override
   String toString() {
-    return 'UserViewModel{userFullName: $userFullName, userEmail: $userEmail, userMobileNumber: $userMobileNumber, userEducation: $userEducation, userPassword: $userPassword, userToken: $userToken, profileImagePath: $profileImagePath, userAge: $userAge, userId: $userId, userBirthDay: $userBirthDay, contentCreator: $contentCreator, userFieldOfStudy: $userFieldOfStudy, userFiles: $userFiles}';
+    return 'UserViewModel{userFullName: $userFullName, userEmail: $userEmail, userMobileNumber: $userMobileNumber, userEducation: $userEducation, userPassword: $userPassword, userToken: $userToken, profileImagePath: $profileImagePath, profileCoverImagePath: $profileCoverImagePath, userAge: $userAge, userId: $userId, userBirthDay: $userBirthDay, contentCreator: $contentCreator, isFollowingLoggedInUser: $isFollowingLoggedInUser, userFieldOfStudy: $userFieldOfStudy, userRate: $userRate, userFiles: $userFiles}';
   }
 
   List<String> userFiles = List();
   static UserViewModel fromAnonymousUser() {
-    return UserViewModel();
+    return UserViewModel(
+      userId: -1,
+    );
   }
   static UserViewModel fromJson(Map<String,dynamic> userJson) {
+
 
     Map<String,dynamic> userInformation = Map();
     if(userJson.containsKey(ApiParseKeys.USER_DATA))
@@ -59,6 +64,7 @@ class UserViewModel {
       contentCreator : userInformation[ApiParseKeys.USER_TYPE] != 0,
       userFullName: userInformation[ApiParseKeys.USER_FULL_NAME],
       profileImagePath: ParserHelper.parseURL(userInformation[ApiParseKeys.USER_PROFILE_IMAGE].toString()) ?? '',
+      profileCoverImagePath: ParserHelper.parseURL(userInformation[ApiParseKeys.USER_COVER_IMAGE].toString()) ?? '',
       userAge: userInformation[ApiParseKeys.USER_AGE] ?? 0,
       userBirthDay: userInformation[ApiParseKeys.USER_BIRTHDAY] != null ? DateTime.parse(userInformation[ApiParseKeys.USER_BIRTHDAY]) : DateTime.now(),
       userId: userInformation[ApiParseKeys.ID],
@@ -72,6 +78,7 @@ class UserViewModel {
   }
   Map<String,dynamic> toJson(){
     Map<String, dynamic> userInformation = {
+      ApiParseKeys.USER_COVER_IMAGE : profileCoverImagePath,
       ApiParseKeys.USER_MAIL: userEmail ,
        ApiParseKeys.USER_MOBILE : userMobileNumber,
       ApiParseKeys.USER_TYPE : contentCreator == true ? 1 : 0,
@@ -89,13 +96,23 @@ class UserViewModel {
     };
   }
   bool isValid() {
+
+    print("Full name ==> ${userFullName!= null && userFullName.isNotEmpty}");
+    print("Education ==> ${userEducation !=null && userEducation .isNotEmpty}");
+    print("Password ==> ${userPassword!=null && userPassword .isNotEmpty}");
+    print("Password ==> ${userBirthDay != null}");
+    print("StudyField ==> ${userFieldOfStudy != null}");
+    print("userEmail or PhoneNumber ==> ${(userEmail!= null &&  userEmail.isNotEmpty || userMobileNumber!=null && userMobileNumber.isNotEmpty)}");
+
+
+
     return userFullName!= null && userFullName.isNotEmpty &&
-        userEmail!= null &&  userEmail.isNotEmpty &&
+        (userEmail!= null &&  userEmail.isNotEmpty || userMobileNumber!=null && userMobileNumber.isNotEmpty) &&
         //profileImagePath!=null && profileImagePath.isNotEmpty &&
         //userMobileNumber!=null && userMobileNumber.isNotEmpty &&
-        userEducation !=null && userEducation .isNotEmpty &&
+        //userEducation !=null && userEducation .isNotEmpty &&
         userPassword!=null && userPassword .isNotEmpty &&
-        userAge > 0 &&
+        //userAge > 0 &&
         userBirthDay != null &&
         userFieldOfStudy != null ;
   }
@@ -116,8 +133,6 @@ class UserViewModel {
   }
 
   bool isAnonymous() {
-    return (userId == null || userEmail == null || userEmail.isEmpty);
+    return (userId == -1 || (userEmail == null || userEmail.isEmpty && userMobileNumber == null || userMobileNumber .isEmpty));
   }
-
-
 }

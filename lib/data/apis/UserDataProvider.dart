@@ -6,6 +6,7 @@ import 'package:edu360/Repository.dart';
 import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:edu360/data/models/IssueModel.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
 import 'package:edu360/data/models/GradeViewModel.dart';
@@ -95,13 +96,6 @@ class UserDataProvider {
     );
   }
 
-
-
-
-
-
-
-
   static Future<ResponseViewModel<void>> verifyUser(
       String userId, String userVerification) async {
     var json = {
@@ -180,6 +174,13 @@ class UserDataProvider {
     SharedPreferences mSharedPreference = await SharedPreferences.getInstance();
     mSharedPreference.setString(Constants.SHARED_PREFERENCE_USER_TOKEN_KEY, userToken);
   }
+
+
+  static void saveUserPassword(String userPassword) async{
+    SharedPreferences mSharedPreference = await SharedPreferences.getInstance();
+    mSharedPreference.setString(Constants.SHARED_PREFERENCE_USER_PASSWORD, userPassword);
+  }
+
 
   static getUserToken()async{
     SharedPreferences mSharedPreference = await SharedPreferences.getInstance();
@@ -289,7 +290,6 @@ class UserDataProvider {
       errorViewModel: getUserPostsResponse.errorViewModel,
     );
   }
-
 
   static Future<ResponseViewModel<List<PostViewModel>>> loadHomePagePosts() async{
     UserViewModel user = await getUser();
@@ -493,23 +493,159 @@ class UserDataProvider {
           errorMessage: (LocalKeys.INVALID_AUTH_CODE).tr(),
         ) : null,
       );
-    } catch(exception){
+    } catch(authException){
+
+      FirebaseAuthException outerException = authException as FirebaseAuthException;
+
+      print("Exception => ${outerException.code}");
 
       String errorMessage = "";
-      if(exception.contains('firebase_auth/invalid-verification-code')){
-        errorMessage = (LocalKeys.INVALID_AUTH_CODE).tr();
-      } else if(exception.contains('auth/too-many-requests')){
-        errorMessage = (LocalKeys.PHONE_NUMBER_IS_BLOCKED).tr();
-      } else {
-        errorMessage = (LocalKeys.INVALID_PHONE_NUMBER).tr();
+      try{
+        if(outerException.code.contains('invalid-verification-code')){
+          errorMessage = (LocalKeys.INVALID_AUTH_CODE).tr();
+        }
+        else if(outerException.code.contains('too-many-requests')){
+          errorMessage = (LocalKeys.PHONE_NUMBER_IS_BLOCKED).tr();
+        }
+        else {
+          errorMessage = (LocalKeys.INVALID_PHONE_NUMBER).tr();
+        }
+      } catch(innerException){
+        print("Exception-1 $outerException");
+        print("Exception-2 $innerException");
       }
+
+      print("Error Message => $errorMessage");
+
       return ResponseViewModel<bool>(
         isSuccess: false,
         responseData: null,
         errorViewModel: ErrorViewModel(
+          errorCode: 320,
           errorMessage: errorMessage,
         ),
       );
     }
   }
+
+  static Future<ResponseViewModel<bool>> contactUs(IssueModel userIssue) async{
+
+    Map<String , dynamic> requestBody = {
+      'FullName' : userIssue.issuerName,
+      'Email' : userIssue.issuerMail,
+      'Mobile' : userIssue.issuerPhoneNumber,
+      'Subject' : userIssue.issueTitle,
+      'Message' : userIssue.issueBody,
+    };
+
+
+    ResponseViewModel contactUsResponse = await NetworkUtilities.handlePostRequest(
+        acceptJson: true,
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_CONTACT_US , withLocale : false),
+        requestHeaders: NetworkUtilities.getHeaders(),
+        requestBody: requestBody,
+        parserFunction: (jsonResponse) {
+          return true ;
+        });
+
+
+    return ResponseViewModel<bool>(
+      responseData: contactUsResponse.isSuccess,
+      isSuccess: contactUsResponse.isSuccess,
+      errorViewModel: contactUsResponse.errorViewModel,
+    );
+
+  }
+
+  static Future<ResponseViewModel<bool>> updateCoverPhoto(File userImage) async{
+    UserViewModel loggedInUser = await Repository.getUser();
+    String fileName = userImage.path.split("/")[userImage.path.split("/").length - 1];
+    MultipartFile imageAsMultipartFile = MultipartFile.fromFileSync(userImage.path, filename: fileName);
+    Map filesMap = Map<String,dynamic>();
+    filesMap.putIfAbsent("CoverImagePath", () => imageAsMultipartFile);
+    filesMap.putIfAbsent("UserID", () => loggedInUser.userId);
+    FormData formData = FormData.fromMap(filesMap);
+
+    ResponseViewModel uploadFiles = await NetworkUtilities.handleFilesUploading(
+        formData: formData,
+        requestHeaders: NetworkUtilities.getHeaders(customHeaders:  NetworkUtilities.getHeaders(customHeaders: {'Authorization' : 'Bearer ${loggedInUser.userToken}'})),
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_UPDATE_COVER_IMAGE),
+        parserFunction: (responseJson) {
+          print("Response Json from cover uploading $responseJson");
+
+          try{
+            if(responseJson is List){
+              return ParserHelper.parseURL(responseJson[0].toString());
+            } else {
+              return responseJson[0].toString();
+            }
+          }catch(exception){
+            print("Exception Happened While parsing URLs => $exception");
+            return List<String>();
+          }
+        });
+    return ResponseViewModel<bool>(
+      responseData: uploadFiles.isSuccess,
+      isSuccess: uploadFiles.isSuccess,
+      errorViewModel: uploadFiles.errorViewModel,
+    );
+  }
+
+  static getUserPassword() async{
+    SharedPreferences mSharedPreference = await SharedPreferences.getInstance();
+    return mSharedPreference.getString(Constants.SHARED_PREFERENCE_USER_PASSWORD);
+  }
+
+  static Future<ResponseViewModel<bool>>forgetPassword(String userMail) async{
+
+
+    Map<String , dynamic> requestBody = {
+      'Email' : userMail,
+    };
+    ResponseViewModel contactUsResponse = await NetworkUtilities.handlePostRequest(
+        acceptJson: true,
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_FORGET_PASSWORD , withLocale : true),
+        requestHeaders: NetworkUtilities.getHeaders(),
+        requestBody: requestBody,
+        parserFunction: (jsonResponse) {
+          return true ;
+        });
+    return ResponseViewModel<bool>(
+      responseData: contactUsResponse.isSuccess,
+      isSuccess: contactUsResponse.isSuccess,
+      errorViewModel: contactUsResponse.errorViewModel,
+    );
+
+
+  }
+
+
+  static Future<ResponseViewModel<bool>> resetPassword(String userMail , String userCode , String password) async{
+
+
+    Map<String , dynamic> requestBody = {
+      'Email' : userMail,
+      "VerificationCode": int.parse(userCode),
+      "Password": password,
+    };
+    ResponseViewModel contactUsResponse = await NetworkUtilities.handlePostRequest(
+        acceptJson: true,
+        methodURL: NetworkUtilities.getFullURL(method: URL.POST_RESET_PASSWORD , withLocale : false),
+        requestHeaders: NetworkUtilities.getHeaders(),
+        requestBody: requestBody,
+        parserFunction: (jsonResponse) {
+          return true ;
+        });
+    return ResponseViewModel<bool>(
+      responseData: contactUsResponse.isSuccess,
+      isSuccess: contactUsResponse.isSuccess,
+      errorViewModel: contactUsResponse.errorViewModel,
+    );
+
+
+  }
+
+
+
+
 }

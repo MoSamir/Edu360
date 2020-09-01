@@ -22,6 +22,15 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: <Widget>[
+        EduButton(
+          title: LocalKeys.NextQuestion,
+          onPressed: _navigateToCourseQuestion,
+          bgColor: AppColors.mainThemeColor,
+          style: Styles.studyTextStyle,
+          cornerRadius: 0,
+        ),
+      ],
       backgroundColor: AppColors.backgroundColor,
       appBar: EduAppBar(
         autoImplyLeading: true,
@@ -30,116 +39,53 @@ class _LessonQuizScreenState extends State<LessonQuizScreen> {
         logoHeight: 20,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: ListView(
-                children: <Widget>[
-                  Visibility(
-                    visible: false,
-                    replacement: Container(width: 0, height: 0,),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                            padding: EdgeInsets.only(left: 7, right: 7),
-                            decoration: BoxDecoration(
-                              color: AppColors.mainThemeColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Counter: 00:00:00',
-                              style: Styles.studyTextStyle,
-                            )),
-                        Container(
-                            padding: EdgeInsets.only(left: 7, right: 7),
-                            decoration: BoxDecoration(
-                              color: AppColors.canaryColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Pause',
-                              style: Styles.studyTextStyle,
-                            )),
-                        Container(
-                            padding: EdgeInsets.only(left: 7, right: 7),
-                            decoration: BoxDecoration(
-                              color: AppColors.redBackgroundColor,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Cancel',
-                              style: Styles.studyTextStyle,
-                            )),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Question ${currentQuestionIndex+1} ',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 20, color: AppColors.mainThemeColor),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: widget.questions.length,
-                    itemBuilder: (context , index) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: TextFormField(
-                            maxLines: 7,
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.all(10),
-                              hintText: widget.questions[index].questionBody,
-                              hintStyle: TextStyle(
-                                  fontSize: 20, color: AppColors.mainThemeColor),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        ListView.builder(
-                            physics:  NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: widget.questions[index].questionAnswers.length,
-                            itemBuilder: (context , answerIndex){
-                              return InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      answerId = answerIndex;
-                                    });
-                                  },
-                                  child: answerBody(widget.questions[index].questionAnswers[answerIndex] ,answerIndex));
-                            })
-                      ],
-                    );
-                  } ,)
-                ],
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Question ${currentQuestionIndex+1} ',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                fontSize: 20, color: AppColors.mainThemeColor),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: TextFormField(
+              maxLines: 7,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(10),
+                hintText: widget.questions[currentQuestionIndex].questionBody,
+                hintStyle: TextStyle(
+                    fontSize: 20, color: AppColors.mainThemeColor),
               ),
             ),
           ),
-          EduButton(
-            title: LocalKeys.NextQuestion,
-            onPressed: _navigateToCourseQuestion,
-            bgColor: AppColors.mainThemeColor,
-            style: Styles.studyTextStyle,
-            cornerRadius: 0,
+          SizedBox(
+            height: 30,
           ),
+          ListView.builder(
+              physics:  NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: widget.questions[currentQuestionIndex].questionAnswers.length,
+              itemBuilder: (context , answerIndex){
+                return InkWell(
+                    onTap: (){
+                      setState(() {
+                        answerId = answerIndex;
+                      });
+                    },
+                    child: answerBody(widget.questions[currentQuestionIndex].questionAnswers[answerIndex] ,answerIndex));
+              }),
         ],
       ),
     );

@@ -23,7 +23,7 @@ class CourseCard extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              course.courseImage ?? '',
+              course.courseImage ?? '', headers: {'Cache-Control' : 'no-cache'}
             ),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(AppColors.black.withOpacity(.5), BlendMode.darken),

@@ -29,6 +29,7 @@ class ApiParseKeys {
   static const String USER_EDUCATION = "education";
   static const String USER_MOBILE = "mobile";
   static const String USER_TYPE = "userType";
+  static const String USER_COVER_IMAGE = "coverImagePath";
 
 
   //------------------------LOAD POSTS -----------------------------------

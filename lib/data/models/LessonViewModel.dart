@@ -35,11 +35,6 @@ class LessonViewModel {
 
   static LessonViewModel fromJson(lessonJson) {
 
-
-    print("***************************************************************");
-    print(lessonJson);
-    print("***************************************************************");
-
     List<String> flashCards = List();
     for(int i = 0 ; i < 5 ; i++){
       if(lessonJson['${ApiParseKeys.LESSON_FLASH_CARD}${i+1}'] !=null){

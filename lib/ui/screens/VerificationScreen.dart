@@ -1,11 +1,14 @@
 import 'dart:io';
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/RegistrationBloc.dart';
+import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/events/RegistrationEvents.dart';
 import 'package:edu360/blocs/states/RegistrationStates.dart';
 import 'package:edu360/ui/screens/TabHolderScreen.dart';
 import 'package:edu360/ui/widgets/EduButton.dart';
 import 'package:edu360/ui/widgets/EduFormField.dart';
 import 'package:edu360/ui/widgets/NetworkErrorView.dart';
+import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:edu360/utilities/Resources.dart';
 import 'package:edu360/utilities/Validators.dart';
@@ -14,6 +17,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+import 'ContactUsScreen.dart';
 class VerificationScreen extends StatefulWidget {
   @override
   _VerificationScreenState createState() => _VerificationScreenState();
@@ -30,6 +35,17 @@ class _VerificationScreenState extends State<VerificationScreen> {
     final double screenPadding =  24;
     _registrationBloc = BlocProvider.of<RegistrationBloc>(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.mainThemeColor,
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.error_outline , color: AppColors.redBackgroundColor, size: 25,),
+            onPressed: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ContactUsScreen()));
+            },
+          ),
+        ],
+      ),
       body: BlocConsumer(
         bloc: _registrationBloc,
         builder: (context, state){
@@ -82,6 +98,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   builder: (context) {
                     return NetworkErrorView();
                   });
+
+              Future.delayed(Duration(seconds: 2), () {
+                Navigator.pop(context);
+              });
             }
             else if(state.error.errorCode == HttpStatus.serviceUnavailable){
               Fluttertoast.showToast(
@@ -107,6 +127,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
             }
           }
           else if(state is RegistrationSuccess){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(LoginUser(userEmail: state.userName , userPassword: state.userPassword));
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> TabsHolderScreen()), (route) => false);
           }
         },

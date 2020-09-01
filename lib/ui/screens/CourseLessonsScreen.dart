@@ -128,14 +128,17 @@ class _CourseLessonsScreenState extends State<CourseLessonsScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                course.courseStartTime.isAfter(DateTime.now()) ?  Expanded(child: Center(child: PlaceHolderWidget(placeHolder: Text(LocalKeys.COURSE_NOT_STARTED_YET).tr(),))) :course.courseLessons.length > 0 ?
+//                course.courseStartTime.isAfter(DateTime.now()) || course.courseLessons.length == 0 ?
+//                Expanded(child: Center(child: PlaceHolderWidget(placeHolder: Text(LocalKeys.COURSE_NOT_STARTED_YET).tr(),))) :
+                course.courseLessons.length > 0 ?
                 ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: course.courseLessons.length,
                     itemBuilder: (context, index) {
                       return singleLessonView(course.courseLessons[index]);
-                    }) : Expanded(child: Center(child: PlaceHolderWidget(placeHolder: Text(LocalKeys.COURSE_HAS_NO_LESSONS).tr(),))),
+                    }) :
+                Expanded(child: Center(child: PlaceHolderWidget(placeHolder: Text(LocalKeys.COURSE_HAS_NO_LESSONS).tr(),))),
               ],
             ),
           );

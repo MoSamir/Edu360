@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:edu360/Repository.dart';
-import 'package:edu360/data/apis/helpers/ApiParseKeys.dart';
 import 'package:edu360/data/models/CommentViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
@@ -12,9 +11,6 @@ import 'helpers/NetworkUtilities.dart';
 import 'helpers/URL.dart';
 
 class PostDataProvider{
-
-
-
 
   static Future<ResponseViewModel<List<String>>> uploadPostFiles(List<File> tobeUploadedFiles) async {
     List<MultipartFile> files = List();
@@ -86,7 +82,6 @@ class PostDataProvider{
       responseData: newPostResponse.responseData,
     );
   }
-
 
   static Future<ResponseViewModel<void> > likePost(int postId) async {
     UserViewModel userVm = await Repository.getUser();
@@ -208,9 +203,6 @@ class PostDataProvider{
       responseData: getPostComments.responseData,
     );
   }
-
-
-
   static Future<ResponseViewModel<bool> > deletePost(int postId) async {
     UserViewModel userVm = await Repository.getUser();
     String userToken = userVm.userToken;
@@ -224,9 +216,5 @@ class PostDataProvider{
       responseData: deletePostResponse.responseData,
     );
   }
-
-  static ({int postId}) {}
-
-
 
 }

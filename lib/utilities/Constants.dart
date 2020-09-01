@@ -8,6 +8,9 @@ class Constants {
   );
   static const String SHARED_PREFERENCE_USER_TOKEN_KEY = "Edu_user_TokenKey_shared_pref";
   static const String SHARED_PREFERENCE_USER_KEY = "Edu_user_userKey_shared_pref";
+  static const String SHARED_PREFERENCE_USER_PASSWORD = "Edu_user_Password_shared_pref";
+
   static  String CURRENT_LOCALE = "ar-EG/";
+
 
 }

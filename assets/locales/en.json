@@ -12,7 +12,7 @@
   "CONFIRM_PASSWORD_ERROR": "Passwords doesn't match",
   "REQUIRED_FIELD": "Required field",
   "YOU_HAVE_TO_VERIFY": "You will have to verify!",
-  "WHAT_YOU_HAVE_TO_VERIFY": "We will send you a link through\n your preferred mean of communication, \nClick on it and it will bring you back to us.",
+  "WHAT_YOU_HAVE_TO_VERIFY": "We will send you verification code\n in case you forget your password , to resit it",
   "REGISTRATION_MESSAGE": "Fill your info. It will take only seconds",
   "SERVER_UNREACHABLE": "Unable to communicate with server right now, please try again later",
   "COMPLETE_YOUR_PROFILE": "Just Few Seconds",
@@ -82,5 +82,16 @@
   "PHONE_NUMBER": "Phone number",
   "INVALID_AUTH_CODE": "Invalid authentication code",
   "PHONE_NUMBER_IS_BLOCKED": "This number has tried to many times , please try again in while",
-  "INVALID_PHONE_NUMBER": "This number is invalid , please try different number"
+  "INVALID_PHONE_NUMBER": "This number is invalid , please try different number",
+  "CONTACT_US": "Contact us",
+  "SEND_LABEL" : "Send",
+  "USER_NAME": "Full name",
+  "ISSUE_TITLE": "Issue subject",
+  "ISSUE_BODY": "Your issue details ...",
+  "BACK_LABEL": "Back",
+  "SUCCESS_COMPLAINT_MESSAGE": "We received your issue and processing it , we will get back to you as soon as we can",
+  "ERROR_COMPLAINT_MESSAGE": "Something went wrong , we are sorry for bothering , please try again in while",
+  "FORGET_PASSWORD": "Forget password",
+  "RESET_PASSWORD_FOR": "Reset password for\n {}",
+  "RESET_PASSWORD": "Reset"
 }

@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/Repository.dart';
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
@@ -7,6 +7,7 @@ import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
 import 'package:edu360/utilities/Constants.dart';
+import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:edu360/blocs/events/RegistrationEvents.dart';
 import 'package:edu360/blocs/states/RegistrationStates.dart';
@@ -70,7 +71,6 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
       for(int i = 0 ; i < uploadFilesResponse.responseData.length ; i++) {
         print(uploadFilesResponse.responseData[i].contains(".jpg"));
         print(uploadFilesResponse.responseData.length);
-
         if (uploadFilesResponse.responseData[i].contains(".jpg") ||
             uploadFilesResponse.responseData[i].contains(".png") ||
             uploadFilesResponse.responseData[i].contains(".jpeg")) {
@@ -79,16 +79,17 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
       }
         uploadFilesResponse.responseData.remove(tobeRegistered.profileImagePath);
         tobeRegistered.userFiles = uploadFilesResponse.responseData;
-
     } else {
       yield RegistrationFailed(failedEvent: event,error: uploadFilesResponse.errorViewModel);
       return ;
     }
+
+    print("Hello Now I'm registering You ");
     ResponseViewModel<int> registerUserResponse = await Repository.registerUser(tobeRegistered , event.profileImage);
 
    if(registerUserResponse.isSuccess) {
      tobeRegistered.userId = registerUserResponse.responseData;
-     yield RegistrationSuccess();
+     yield RegistrationSuccess(tobeRegistered.userEmail , tobeRegistered.userPassword);
      return ;
    }
    else {
@@ -100,9 +101,7 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
     yield RegistrationPageLoading();
     ResponseViewModel<void> verifyUserResponse = await Repository.verifyUser(userID: tobeRegistered.userId.toString() , userVerificationCode: event.verificationCode);
     if(verifyUserResponse.isSuccess){
-      ResponseViewModel<UserViewModel> user = await Repository.login(userPassword: tobeRegistered.userPassword , userMail: tobeRegistered.userEmail);
-      await Repository.saveUser(user.responseData);
-      yield RegistrationSuccess();
+      yield RegistrationSuccess(tobeRegistered.userEmail , tobeRegistered.userPassword);
       return ;
     } else {
       yield RegistrationFailed(failedEvent: event,error: verifyUserResponse.errorViewModel);
@@ -122,7 +121,6 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
   }
   Stream<RegistrationStates> _handleUserAuthentication(RequestPhoneVerification event) async*{
     yield RegistrationPageLoading();
-
     await Repository.requestPhoneAuthentication(phoneNumber: '${event.phoneNo}' , onTimeout: onTimeout , onAuthCompleted: onAuthComplete , onAuthFail: onAuthFailure , onCodeSent: onCodeSent);
     return;
   }
@@ -144,10 +142,25 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
 
 
   void onAuthFailure(FirebaseAuthException authError) {
-    print("On Auth Fail => ${authError.message}");
+
+
+    String errorMessage ;
+
+    if(authError.code.contains('invalid-verification-code')){
+      errorMessage = (LocalKeys.INVALID_AUTH_CODE).tr();
+    }
+    else if(authError.code.contains('too-many-requests')){
+      errorMessage = (LocalKeys.PHONE_NUMBER_IS_BLOCKED).tr();
+    }
+    else {
+      errorMessage = (LocalKeys.INVALID_PHONE_NUMBER).tr();
+    }
+
+
+
     add(MoveToState(targetState : RegistrationFailed(error : ErrorViewModel(
       errorCode: 503,
-      errorMessage: authError.message,
+      errorMessage: errorMessage ?? authError.code,
     ))));
   }
   void onAuthComplete(AuthCredential authCredentials){

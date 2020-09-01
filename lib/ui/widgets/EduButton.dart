@@ -32,7 +32,7 @@ class _EduButtonState extends State<EduButton> {
         color: widget.bgColor ?? Colors.white,
         onPressed: widget.onPressed,
         child: Text(widget.title ?? ''  , style: widget.style ?? Styles.baseTextStyle.copyWith(
-          color: AppColors.mainThemeColor,
+          color: widget.bgColor != null ? widget.bgColor == AppColors.mainThemeColor ? AppColors.white : AppColors.mainThemeColor :AppColors.mainThemeColor,
           fontSize: 16,
         ), textScaleFactor: 1,).tr(),
       ),

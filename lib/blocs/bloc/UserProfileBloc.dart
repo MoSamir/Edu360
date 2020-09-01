@@ -139,9 +139,27 @@ class UserProfileBloc extends Bloc<UserProfileEvents , UserProfileStates>{
   }
 
   Stream<UserProfileStates>  _handleProfileImageChanging(UpdateProfileImage event) async*{
+
     yield UserProfileLoading();
-    ResponseViewModel<bool> updateProfileImage = await Repository.updateProfileImage(profileImage: event.userProfileImage);
-    if(updateProfileImage.isSuccess){
+
+    List<Future<ResponseViewModel>> apis = List();
+    if(event.userProfileImage != null)
+      apis.add(Repository.updateProfileImage(profileImage: event.userProfileImage));
+
+    if(event.userCoverImage != null)
+      apis.add(Repository.updateCoverImage(profileImage: event.userCoverImage));
+    List<ResponseViewModel> responses = await Future.wait(apis);
+
+    bool isSuccess = true ;
+    try {
+      for (int i = 0; i < responses.length; i++) {
+        isSuccess = (responses[i].isSuccess && isSuccess);
+      }
+    } catch(exception){
+      print("Exception accured after Update => $exception");
+    }
+
+    if(isSuccess){
       yield ProfileImageUpdated(nextPageIndex: event.nextPageIndex);
       add(LoadUserProfile());
       return ;

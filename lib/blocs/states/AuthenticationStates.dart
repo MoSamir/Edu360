@@ -25,3 +25,9 @@ class AuthenticationFailed extends AuthenticationStates {
 
 }
 
+
+class UserForgottenPasswordState extends AuthenticationStates{
+  final String userMail;
+  UserForgottenPasswordState({this.userMail});
+
+}

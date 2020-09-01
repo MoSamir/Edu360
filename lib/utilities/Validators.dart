@@ -21,11 +21,22 @@ static String phoneValidator(String phoneNumber){
   if(isEmptyCheck != null){
     return isEmptyCheck;
   }
+
+  if(phoneNumber[0] == '0'){
     String preFix = phoneNumber.substring(0,3);
     int phoneNumberLength = phoneNumber.length ;
     bool validPreFix = preFix == '011' || preFix == '010' || preFix == '012' || preFix == '015';
     bool validPhoneLength = phoneNumberLength == 11;
     return (validPreFix && validPhoneLength) ? null : (LocalKeys.INVALID_PHONE).tr();
+  } else {
+    String preFix = phoneNumber.substring(0,2);
+    int phoneNumberLength = phoneNumber.length ;
+    bool validPreFix = preFix == '11' || preFix == '10' || preFix == '12' || preFix == '15';
+    bool validPhoneLength = phoneNumberLength == 10;
+    return (validPreFix && validPhoneLength) ? null : (LocalKeys.INVALID_PHONE).tr();
+  }
+
+
 }
 
 static String requiredField(String text){

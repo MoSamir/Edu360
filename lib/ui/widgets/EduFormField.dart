@@ -9,6 +9,7 @@ class EduFormField extends StatefulWidget {
   final FocusNode focusNode , nextFocusNode;
   final bool obscureField , autoValidate , filled , forceLTR;
   final Function validatorFn;
+  final int maxLines ;
   final TextInputAction afterSubmitKeyboardAction;
   final Widget trailingWidget , leadingWidget;
 
@@ -23,6 +24,7 @@ class EduFormField extends StatefulWidget {
       this.placeHolder,
       this.fieldController,
       this.focusNode,
+    this.maxLines,
       this.nextFocusNode,
       this.obscureField,
       this.autoValidate,
@@ -42,6 +44,7 @@ class _EduFormFieldState extends State<EduFormField> {
   Function validatorFn;
   TextInputAction afterSubmitKeyboardAction;
    Widget trailingWidget , leadingWidget;
+   int maxLines ;
 
 
   @override
@@ -59,6 +62,7 @@ class _EduFormFieldState extends State<EduFormField> {
     trailingWidget = widget.trailingWidget;
     leadingWidget = widget.leadingWidget;
     forceLTR = widget.forceLTR;
+    maxLines = widget.maxLines;
   }
 
 
@@ -66,6 +70,7 @@ class _EduFormFieldState extends State<EduFormField> {
   Widget build(BuildContext context) {
     return getFormField(
       filled: filled,
+      maxLines:maxLines,
       forceLTR: forceLTR,
       afterSubmitKeyboardAction: afterSubmitKeyboardAction,
       autoValidate: autoValidate,
@@ -77,16 +82,18 @@ class _EduFormFieldState extends State<EduFormField> {
       trailingWidget: trailingWidget,
       leadingWidget : leadingWidget,
       validatorFn: validatorFn,
+
     );
   }
 
 
 
   Widget getFormField({String placeHolder , TextEditingController fieldController , FocusNode focusNode , bool obscureField, bool autoValidate,
-    FocusNode nextFocusNode , Function validatorFn, TextInputAction afterSubmitKeyboardAction , Widget trailingWidget  , Widget leadingWidget , bool filled, bool forceLTR}){
+    FocusNode nextFocusNode , Function validatorFn, TextInputAction afterSubmitKeyboardAction , Widget trailingWidget  , Widget leadingWidget , bool filled, bool forceLTR, int maxLines}){
 
     if(forceLTR ?? false)
       return TextFormField(
+      maxLines: maxLines ?? 1,
       textAlign: TextAlign.start,
       controller: fieldController ,
       focusNode: focusNode ,
@@ -121,6 +128,7 @@ class _EduFormFieldState extends State<EduFormField> {
     );
     else
       return TextFormField(
+        maxLines: maxLines ?? 1,
         textAlign: TextAlign.start,
         controller: fieldController ,
         focusNode: focusNode ,

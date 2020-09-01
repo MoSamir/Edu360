@@ -35,9 +35,14 @@ class AppDataBloc extends Bloc<AppDataEvents , AppDataStates>{
         error: Constants.CONNECTION_TIMEOUT,
       );
       return ;
-    } else if(event is LoadApplicationConstantData){
+    }
+    else if(event is LoadApplicationConstantData){
       yield* _handleLoadingAppData(event);
       return;
+    }
+    else if(event is SubmitIssue){
+      yield* _handleIssueCreation(event);
+      return ;
     }
   }
 
@@ -54,5 +59,17 @@ class AppDataBloc extends Bloc<AppDataEvents , AppDataStates>{
     if(studyFieldsResponse.isSuccess)
       systemStudyFields = studyFieldsResponse.responseData;
 
+  }
+
+  Stream<AppDataStates> _handleIssueCreation(SubmitIssue event) async*{
+    yield IssueCreationLoading();
+    ResponseViewModel<bool> issueCreationResult = await Repository.contactUs(issue: event.userIssue);
+    if(issueCreationResult.isSuccess){
+      yield IssueCreationSuccess();
+      return ;
+    } else {
+      yield IssueCreationFailed(error: issueCreationResult.errorViewModel , failureEvent: event);
+      return ;
+    }
   }
 }

@@ -13,6 +13,7 @@ class URL{
   static const String POST_LOGIN = "User/Login";
   static const String GET_LOGOUT = "User/Logout";
   static const String POST_UPDATE_PROFILE_IMAGE = "User/UpdateProfileImage";
+  static const String POST_UPDATE_COVER_IMAGE = "User/UpdateCoverImage";
   static const String POST_UPDATE_PROFILE = "User/UpdateUserProfile";
   static const String POST_PEOPLE_WITH_STUDY_FIELD = "User/GetAllPeopleWithStudyField";
   static const String GET_RETRIEVE_FIELDS_OF_STUDY = "FieldOfStudy/GetAll";
@@ -40,4 +41,9 @@ class URL{
   static const String POST_COMPLETE_LESSON = "Lesson/CompleteLesson";
   static const String POST_RETRIEVE_POST_COMMENTS = "Post/GetPostComments/";
   static const String POST_DELETE_POST = "Post/DeletePost?id=";
+  static const String POST_CONTACT_US = "ContactUs/AddNew";
+  static const String POST_FORGET_PASSWORD = "User/ForgotPassword";
+  static const String POST_RESET_PASSWORD = "User/ResetPassword";
+
+
 }

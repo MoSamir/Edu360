@@ -6,6 +6,7 @@ import 'package:edu360/data/models/CategoryPostViewModel.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
 import 'package:edu360/data/models/GradeViewModel.dart';
+import 'package:edu360/data/models/IssueModel.dart';
 import 'package:edu360/data/models/LessonViewModel.dart';
 import 'package:edu360/data/models/NotificationViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
@@ -22,8 +23,14 @@ class Repository {
     await UserDataProvider.saveUser(user);
   }
   static saveEncryptedPassword(String userPassword) async {
-    await Future.delayed(Duration(seconds: 2),()=>{});
+    UserDataProvider.saveUserPassword(userPassword);
   }
+
+  static getUserPassword() async {
+    return await UserDataProvider.getUserPassword();
+  }
+
+
   static Future<UserViewModel> getUser() async {
     return await UserDataProvider.getUser();
   }
@@ -59,6 +66,15 @@ class Repository {
     var createPostResponse = await PostDataProvider.createUserPost(userPost);
     return createPostResponse;
   }
+
+
+  static Future<ResponseViewModel<UserViewModel>> refreshUser() async{
+    String userPassword = await UserDataProvider.getUserPassword();
+    UserViewModel user = (await UserDataProvider.getUser());
+    String userMail = user.userEmail ?? user.userMobileNumber;
+    return await UserDataProvider.login(userMail, userPassword);
+  }
+
 
   static likePost({int postId}) async{
     var createPostResponse = await PostDataProvider.likePost(postId);
@@ -268,15 +284,30 @@ class Repository {
       onCodeSent : onCodeSent,
       onTimeout: onTimeout,
     );
-
-
     return phoneAuthResponse;
   }
 
   static Future<ResponseViewModel<bool>> verifyPhoneCode({String code , String authId}) async{
-
     return UserDataProvider.verifyPhoneCode(code , authId);
+  }
 
+  static Future<ResponseViewModel<bool>> contactUs({IssueModel issue}) async{
+    return UserDataProvider.contactUs(issue);
+  }
+
+  static Future<ResponseViewModel<bool>> updateCoverImage({File profileImage}) async{
+    ResponseViewModel<bool> updatePicture = await UserDataProvider.updateCoverPhoto(profileImage);
+    return updatePicture;
+  }
+
+  static Future<ResponseViewModel<bool>> forgetPassword({String userMail}) async{
+    ResponseViewModel<bool> forgetPasswordResponse = await UserDataProvider.forgetPassword(userMail);
+    return forgetPasswordResponse;
+  }
+
+  static Future<ResponseViewModel<bool>> resetPassword({userMail, userPassCode, newPassword}) async{
+    ResponseViewModel<bool> forgetPasswordResponse = await UserDataProvider.resetPassword(userMail , userPassCode , newPassword);
+    return forgetPasswordResponse;
   }
 
 

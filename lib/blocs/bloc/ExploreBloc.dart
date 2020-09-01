@@ -50,6 +50,16 @@ class ExploreBloc extends Bloc<ExploreEvents,ExploreStates>{
      courses = responses[2].isSuccess?  responses[2].responseData :courses = null;
      posts = responses[3].isSuccess ?  responses[3].responseData : null;
 
+
+
+     if(courses != null)
+     for(int i = 0 ; i < courses.length ; i++){
+       Repository.getCourseInformation(courseId: courses[i].courseId).then((ResponseViewModel<CourseViewModel> value) => {
+         print("Course Name => ${courses[i].courseId} => ${courses[i].instructorName} => ${value.responseData.courseLessons.length} ")
+       });
+     }
+
+
     yield ExploreScreenLoaded();
   }
 }

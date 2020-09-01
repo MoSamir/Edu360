@@ -24,7 +24,8 @@ class LoadOtherUsersProfile extends UserProfileEvents{
 }
 
 class UpdateProfileImage extends UserProfileEvents {
-  final File userProfileImage;
+  final File userProfileImage , userCoverImage;
   final int nextPageIndex;
-  UpdateProfileImage({this.userProfileImage, this.nextPageIndex});
+
+  UpdateProfileImage({this.userProfileImage, this.nextPageIndex, this.userCoverImage});
 }

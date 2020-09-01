@@ -53,18 +53,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         length:4,
     );
     currentLocale = Constants.CURRENT_LOCALE;
-
-    try{
-      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.listen((state) {
-        if(state is ProfileImageUpdated){
-          setState(() {});
-        }
-      });
-    } catch(exception){}
-
-
     try{
       BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.listen((state) {
+
+        print("Profile State => $state");
+
         if(state is UserAuthenticated){
           if(BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.isAnonymous()){
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> LandingScreen()), (route) => false);
@@ -73,10 +66,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
       });
     } catch(exception){}
   }
+
   @override
   Widget build(BuildContext context) {
+
     user = BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser;
-    print(user.profileImagePath);
     return Container(
       color: AppColors.backgroundColor,
       child: BlocConsumer(
@@ -93,9 +87,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                   ProfileScreenHeader(
                     user: user,
                     userProfileImage: TabsHolderScreen.profileImage,
+                    userCoverFileImage: TabsHolderScreen.coverImage,
                     isMe: true,
                     isMyFriend: true,
                     onEditProfileImageClicked: _changeUserProfileImage,
+                    onEditProfileCoverImageClicked: _changeUserProfileCoverImage,
                     onFollowClicked: (){},
                   ),
                   Material(
@@ -283,12 +279,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
              Padding(
                padding: const EdgeInsets.symmetric(vertical:8.0),
                child: Center(
-                 child: Text('v1.0.5' , textAlign: TextAlign.center, style: TextStyle(
+                 child: Text('v1.0.8' , textAlign: TextAlign.center, style: TextStyle(
                    color: Colors.grey,
                  ),),
                ),
              ),
-
            ],
          ),);
          //PlaceHolderWidget(placeHolder: Text('Edit Profile coming soon')));
@@ -422,6 +417,50 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
     ),
      ) , elevation: 2 , backgroundColor: AppColors.mainThemeColor);
   }
+
+  void _changeUserProfileCoverImage() async{
+
+    final picker = ImagePicker();
+    showBottomSheet(context: context, builder: (context) => Material(
+      elevation: 5,
+      color: AppColors.mainThemeColor,
+      borderRadius: BorderRadiusDirectional.only(
+        topStart: Radius.circular(16),
+        topEnd: Radius.circular(16),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.camera_alt),
+            color: AppColors.white,
+            onPressed: ()async{
+              final pickedFile = await picker.getImage(source: ImageSource.camera , imageQuality: 70);
+              if(pickedFile != null) {
+                TabsHolderScreen.coverImage =  File(pickedFile.path);
+                setState(() {});
+              }
+              Navigator.of(context).pop();
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.filter),
+            color: AppColors.white,
+            onPressed: ()async{
+              final pickedFile = await picker.getImage(source: ImageSource.gallery  , imageQuality: 70 );
+              if(pickedFile != null) {
+                TabsHolderScreen.coverImage =  File(pickedFile.path);
+                setState(() {});
+              }
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ),
+    ) , elevation: 2 , backgroundColor: AppColors.mainThemeColor);
+  }
+
+
   @override
   void deactivate() {
     print("Deactivate Called");

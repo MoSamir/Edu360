@@ -1,3 +1,4 @@
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/events/RegistrationEvents.dart';
 import 'package:edu360/blocs/states/RegistrationStates.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
@@ -13,10 +14,12 @@ import 'package:file_picker/file_picker.dart';
 import 'package:edu360/blocs/bloc/RegistrationBloc.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:international_phone_input/international_phone_input.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'CompleteYourProfileScreen.dart';
+import 'ContactUsScreen.dart';
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -30,12 +33,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   List<File> uploadedDocuments  = List();
   RegistrationBloc _registrationBloc = RegistrationBloc();
   UserViewModel user = UserViewModel();
-  String phoneNumber;
+  String phoneNumber , internationalPhoneNumber;
   String phoneIsoCode = '+20';
 
   void onPhoneNumberChange(String number, String internationalizedPhoneNumber, String isoCode) {
     setState(() {
-      phoneNumber = internationalizedPhoneNumber;
+      phoneNumber = number;
+      internationalPhoneNumber = internationalizedPhoneNumber;
       phoneIsoCode = isoCode;
     });
   }
@@ -81,116 +85,148 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               width: MediaQuery.of(context).size.width,
               child: SingleChildScrollView(
                 physics: AlwaysScrollableScrollPhysics(),
-                child: Form(
-                  key: _formGlobalKey,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60, left: 30 , right: 30) ,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.max,
-                      children: <Widget>[
-                        Image.asset(Resources.WHITE_LOGO_IMAGE , height: 50,),
-                        SizedBox(height: 10,),
-                        SizedBox(height: MediaQuery.of(context).size.height * .15, child: Center(child: Text(LocalKeys.REGISTRATION_MESSAGE, textScaleFactor: 1, textAlign:TextAlign.center , style: Styles.baseTextStyle,).tr(),),),
-                        InternationalPhoneInput(
-                          showCountryFlags: true,
-                            errorStyle: Styles.baseTextStyle.copyWith(
-                              color: AppColors.redBackgroundColor,
-                            ),
-                            onPhoneNumberChange: onPhoneNumberChange,
-                            initialPhoneNumber: phoneNumber,
-                            initialSelection: phoneIsoCode,
-                            enabledCountries: ['+20'],
-                          errorText: (LocalKeys.INVALID_PHONE_NUMBER).tr(),
-                          showCountryCodes: true,
-                          decoration: InputDecoration(
-                            filled:  true,
-                            isDense: true,
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(
-                                color: AppColors.redBackgroundColor,
+                child: Stack(
+                  children: <Widget>[
+                    Form(
+                      key: _formGlobalKey,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 80, left: 30 , right: 30) ,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.max,
+                          children: <Widget>[
+                            Image.asset(Resources.WHITE_LOGO_IMAGE , height: 50,),
+                            SizedBox(height: 10,),
+                            SizedBox(height: MediaQuery.of(context).size.height * .12, child: Center(child: Text(LocalKeys.REGISTRATION_MESSAGE, textScaleFactor: 1, textAlign:TextAlign.center , style: Styles.baseTextStyle,).tr(),),),
+                            InternationalPhoneInput(
+                              showCountryFlags: true,
+                                errorStyle: Styles.baseTextStyle.copyWith(
+                                  color: AppColors.redBackgroundColor,
+                                ),
+                                onPhoneNumberChange: onPhoneNumberChange,
+                                initialPhoneNumber: phoneNumber,
+                                initialSelection: phoneIsoCode,
+                                enabledCountries: ['+20'],
+                              errorText: (LocalKeys.INVALID_PHONE_NUMBER).tr(),
+                              showCountryCodes: true,
+                              decoration: InputDecoration(
+                                filled:  true,
+                                isDense: true,
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                    color: AppColors.redBackgroundColor,
+                                  ),
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  borderSide: BorderSide(
+                                    color: Colors.transparent,
+                                  ),
+                                ),
+                                fillColor: AppColors.white,
+                                hintText: (LocalKeys.PHONE_NUMBER).tr(),
+                                alignLabelWithHint: true,
+                                hintStyle: Styles.baseTextStyle.copyWith(
+                                  color: AppColors.registrationTextPlaceholderColor,
+                                ),
                               ),
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(8)),
-                              borderSide: BorderSide(
-                                color: Colors.transparent,
+                            SizedBox(height: 10,),
+                            EduFormField(placeHolder: (LocalKeys.EMAIL).tr() , fieldController: _usernameController
+                                , focusNode: _usernameNode , nextFocusNode: _passwordNode , forceLTR: true ,
+                                trailingWidget: GestureDetector(
+                                    onTap: _openEmailHintDialog
+                                    ,child: Container(width: 25, height: 25, child: Center(child: Text('?',textScaleFactor: 1),),  decoration: BoxDecoration(shape: BoxShape.circle , color: AppColors.canaryColor),)),
+                                   afterSubmitKeyboardAction: TextInputAction.next , obscureField: false),
+                            SizedBox(height: 10,),
+                            EduFormField(placeHolder: (LocalKeys.PASSWORD).tr() , fieldController: _passwordController
+                                , focusNode: _passwordNode , nextFocusNode: _passwordConfirmationNode ,
+                                validatorFn: Validator.requiredField ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: true),
+                            SizedBox(height: 10,),
+                            EduFormField(placeHolder: (LocalKeys.CONFIRM_PASSWORD).tr() , fieldController: _confirmPasswordController
+                                , focusNode: _passwordConfirmationNode , autoValidate: true,
+                                validatorFn: (passwordConfirmation){
+                                  return passwordConfirmation == _passwordController.text ? null : (LocalKeys.CONFIRM_PASSWORD_ERROR).tr();
+                                } ,  afterSubmitKeyboardAction: TextInputAction.done , obscureField: true),
+                            SizedBox(height: 10,),
+                            getFieldsOfStudySpinner(),
+                            SizedBox(height: 10,),
+                            Visibility(
+                              replacement: Container(width: 0, height: 0,),
+                              visible: false,
+                              child: getFilesList(),
+                            ),
+                            SizedBox(height: 30,),
+                            GestureDetector(
+                              onTap: (){
+                                if(_formGlobalKey.currentState.validate()  && (phoneNumber != null && phoneNumber.length > 0) /*&& uploadedDocuments!=null && uploadedDocuments.length > 0*/) {
+                                  user = UserViewModel(
+                                    userMobileNumber: phoneNumber,
+                                    userFieldOfStudy: user.userFieldOfStudy,
+                                    userEmail: _usernameController.text ?? '',
+                                    userPassword: _passwordController.text,
+                                  );
+
+
+
+                                  Navigator.of(context).push(
+                                      MaterialPageRoute(builder: (context) =>
+                                          BlocProvider.value(
+                                            value: _registrationBloc,
+                                            child: CompleteYourProfileScreen(
+                                              fullNumber: internationalPhoneNumber,
+                                              user: user,
+                                              userDocuments: uploadedDocuments,),
+
+                                          )));
+                                }
+                                else if(phoneNumber == null || phoneNumber.length == 0){
+                                  Fluttertoast.showToast(
+                                      msg: (LocalKeys.INVALID_PHONE_NUMBER).tr(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.red,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0
+                                  );
+
+                                  return ;
+                                }
+                              },
+                              child: Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(LocalKeys.SIGN_UP , textScaleFactor: 1 ,style: Styles.baseTextStyle.copyWith(
+                                    color: AppColors.mainThemeColor,
+                                  ),).tr(),
+                                ),
                               ),
                             ),
-                            fillColor: AppColors.white,
-                            hintText: (LocalKeys.PHONE_NUMBER).tr(),
-                            alignLabelWithHint: true,
-                            hintStyle: Styles.baseTextStyle.copyWith(
-                              color: AppColors.registrationTextPlaceholderColor,
-                            ),
-                          ),
+                            SizedBox(height: 20,),
+                          ],
                         ),
+                      ),
+                    ),
+                    AppBar(
+                      elevation: 0,
+                      backgroundColor: AppColors.mainThemeColor,
+                      actions: <Widget>[
+                        IconButton(
+                          icon: Icon(Icons.error_outline , color: AppColors.redBackgroundColor, size: 25,),
+                          onPressed: (){
 
-
-                        SizedBox(height: 10,),
-                        EduFormField(placeHolder: (LocalKeys.EMAIL).tr() , fieldController: _usernameController
-                            , focusNode: _usernameNode , nextFocusNode: _passwordNode , forceLTR: true ,
-                            trailingWidget: GestureDetector(
-                                onTap: _openEmailHintDialog
-                                ,child: Container(width: 25, height: 25, child: Center(child: Text('?',textScaleFactor: 1),),  decoration: BoxDecoration(shape: BoxShape.circle , color: AppColors.canaryColor),)),
-                               afterSubmitKeyboardAction: TextInputAction.next , obscureField: false),
-                        SizedBox(height: 10,),
-                        EduFormField(placeHolder: (LocalKeys.PASSWORD).tr() , fieldController: _passwordController
-                            , focusNode: _passwordNode , nextFocusNode: _passwordConfirmationNode ,
-                            validatorFn: Validator.requiredField ,  afterSubmitKeyboardAction: TextInputAction.next , obscureField: true),
-                        SizedBox(height: 10,),
-                        EduFormField(placeHolder: (LocalKeys.CONFIRM_PASSWORD).tr() , fieldController: _confirmPasswordController
-                            , focusNode: _passwordConfirmationNode , autoValidate: true,
-                            validatorFn: (passwordConfirmation){
-                              return passwordConfirmation == _passwordController.text ? null : (LocalKeys.CONFIRM_PASSWORD_ERROR).tr();
-                            } ,  afterSubmitKeyboardAction: TextInputAction.done , obscureField: true),
-                        SizedBox(height: 10,),
-                        getFieldsOfStudySpinner(),
-                        SizedBox(height: 10,),
-                        Visibility(
-                          replacement: Container(width: 0, height: 0,),
-                          visible: false,
-                          child: getFilesList(),
-                        ),
-                        SizedBox(height: 30,),
-                        GestureDetector(
-                          onTap: (){
-                            if(_formGlobalKey.currentState.validate()  && phoneNumber != null /*&& uploadedDocuments!=null && uploadedDocuments.length > 0*/) {
-                              user = UserViewModel(
-                                userMobileNumber: phoneNumber,
-                                userFieldOfStudy: user.userFieldOfStudy,
-                                userEmail: _usernameController.text ?? '',
-                                userPassword: _passwordController.text,
-                              );
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) =>
-                                      BlocProvider.value(
-                                        value: _registrationBloc,
-                                        child: CompleteYourProfileScreen(
-                                          user: user,
-                                          userDocuments: uploadedDocuments,),
-
-                                      )));
-                            }
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ContactUsScreen()));
                           },
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Center(
-                              child: Text(LocalKeys.SIGN_UP , textScaleFactor: 1 ,style: Styles.baseTextStyle.copyWith(
-                                color: AppColors.mainThemeColor,
-                              ),).tr(),
-                            ),
-                          ),
                         ),
-                        SizedBox(height: 20,),
                       ],
                     ),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -339,7 +375,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
           value: user.userFieldOfStudy,
           onChanged: (StudyFieldViewModel studyFieldViewModel) {
-            print("User Selected Field Of study");
             user.userFieldOfStudy = studyFieldViewModel;
             setState(() {});
           },

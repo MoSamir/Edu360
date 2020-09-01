@@ -17,7 +17,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
   @override
   Stream<AuthenticationStates> mapEventToState(AuthenticationEvents event) async*{
     bool isUserConnected = await NetworkUtilities.isConnected();
-
     if(isUserConnected == false){
       yield AuthenticationFailed(
         failedEvent: event,
@@ -37,6 +36,18 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
       yield* _logoutUser(event);
       return;
     }
+    else if(event is UpdateUserInformation){
+     yield* _reloadUser(event);
+     return ;
+    }
+    else if(event is ForgetPassword){
+      yield* _handleForgetPasswordFirstStep(event);
+      return ;
+    }
+    else if(event is ResetPassword){
+      yield* _handlePasswordReset(event);
+      return ;
+    }
   }
 
   Stream<AuthenticationStates> _checkIfUserLoggedIn() async*{
@@ -45,7 +56,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
     await Future.delayed(Duration(seconds: 3),()=>{});
     UserViewModel loggedInUser = await Repository.getUser();
     currentUser = loggedInUser;
-    if(currentUser.userId == null || currentUser.userId.toString().length == 0){
+    if(currentUser.isAnonymous()){
       yield UserNotInitialized();
       return ;
     } else {
@@ -60,17 +71,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
     if(apiResponse.isSuccess){
       await Repository.saveUser(apiResponse.responseData);
       await Repository.saveEncryptedPassword(userPassword);
-
       currentUser = apiResponse.responseData ;
-      yield UserAuthenticated(
-          currentUser: apiResponse.responseData);
+      yield UserAuthenticated(currentUser: apiResponse.responseData);
       return;
     } else {
       yield AuthenticationFailed(error: apiResponse.errorViewModel , failedEvent: event);
       return;
     }
   }
-
   Stream<AuthenticationStates> _logoutUser(event) async*{
 
    ResponseViewModel responseViewModel = await Repository.logout( userId: currentUser.userId.toString());
@@ -83,5 +91,50 @@ class AuthenticationBloc extends Bloc<AuthenticationEvents , AuthenticationState
      yield AuthenticationFailed(failedEvent: event , error: responseViewModel.errorViewModel);
    }
   }
+
+  Stream<AuthenticationStates> _reloadUser(UpdateUserInformation event) async*{
+    yield AuthenticationLoading();
+    ResponseViewModel<UserViewModel> apiResponse = await Repository.refreshUser();
+    if(apiResponse.isSuccess){
+      await Repository.saveUser(apiResponse.responseData);
+      currentUser = apiResponse.responseData ;
+      yield UserAuthenticated(currentUser: apiResponse.responseData);
+      return;
+    } else {
+      yield AuthenticationFailed(error: apiResponse.errorViewModel , failedEvent: event);
+      return;
+    }
+  }
+
+  Stream<AuthenticationStates> _handleForgetPasswordFirstStep(ForgetPassword event) async*{
+
+    yield AuthenticationLoading();
+    ResponseViewModel<bool> apiResponse = await Repository.forgetPassword(userMail: event.userEmail);
+    if(apiResponse.isSuccess){
+      yield UserForgottenPasswordState(userMail : event.userEmail);
+      return;
+    } else {
+      yield AuthenticationFailed(error: apiResponse.errorViewModel , failedEvent: event);
+      return;
+    }
+
+  }
+
+  Stream<AuthenticationStates> _handlePasswordReset(ResetPassword event) async*{
+    yield AuthenticationLoading();
+    ResponseViewModel<bool> apiResponse = await Repository.resetPassword(userMail: event.userEmail , userPassCode : event.userPassCode , newPassword : event.userNewPassword);
+    if(apiResponse.isSuccess){
+      this.add(LoginUser(userPassword: event.userNewPassword , userEmail: event.userEmail));
+      return;
+    } else {
+      yield AuthenticationFailed(error: apiResponse.errorViewModel , failedEvent: event);
+      return;
+    }
+
+  }
+
+
+
+
 }
 

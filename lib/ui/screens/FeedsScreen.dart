@@ -1,5 +1,6 @@
 import 'package:edu360/blocs/bloc/AppDataBloc.dart';
 import 'package:edu360/blocs/bloc/HomePostsBloc.dart';
+import 'package:edu360/blocs/events/AuthenticationEvents.dart';
 import 'package:edu360/blocs/events/HomePostsEvent.dart';
 import 'package:edu360/blocs/states/HomePostsStates.dart';
 import 'package:edu360/blocs/states/UserProfileStates.dart';
@@ -33,16 +34,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
   @override
   void initState() {
     super.initState();
-
-    try{
-      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.listen((state) {
-        if(state is ProfileImageUpdated){
-          setState(() {});
-        }
-      });
-    } catch(exception){}
-
-
   }
 
   @override
@@ -97,7 +88,6 @@ class _FeedsScreenState extends State<FeedsScreen> {
         )
       ),
     );
-
   }
 }
 

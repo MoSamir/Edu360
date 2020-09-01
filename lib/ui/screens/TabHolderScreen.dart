@@ -10,6 +10,7 @@ import 'package:edu360/blocs/states/UserProfileStates.dart';
 import 'package:edu360/ui/screens/CoursesScreen.dart';
 import 'package:edu360/ui/screens/FeedsScreen.dart';
 import 'package:edu360/ui/screens/ProfileScreen.dart';
+import 'package:edu360/ui/screens/SplashScreen.dart';
 import 'package:edu360/ui/widgets/EduAppBar.dart';
 import 'package:edu360/ui/widgets/EduIconImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
@@ -19,19 +20,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import 'ContactUsScreen.dart';
 import 'NotificationsScreen.dart';
 
 class TabsHolderScreen extends StatefulWidget {
 
   int index = 0;
   TabsHolderScreen({this.index});
-  static File profileImage ;
+  static File profileImage , coverImage;
 
   @override
   _TabsHolderScreenState createState() => _TabsHolderScreenState();
 }
 
-class _TabsHolderScreenState extends State<TabsHolderScreen> {
+class _TabsHolderScreenState extends State<TabsHolderScreen> with AutomaticKeepAliveClientMixin {
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => false;
+
 
 
    void _onPostCreated({bool success}){
@@ -106,15 +112,12 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return BlocConsumer(
       listener: (context, state){
         if(state is ProfileImageUpdated){
-          BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(AuthenticateUser());
-          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>TabsHolderScreen(index: state.nextPageIndex,)));
-//          setState(() {});
-//          currentVisiblePageIndex = state.nextPageIndex;
-          TabsHolderScreen.profileImage = null ;
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(UpdateUserInformation());
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> SplashScreen()) , (_)=> false);
         }
       },
       builder: (context, state){
@@ -124,6 +127,7 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
           child: Scaffold(
             bottomNavigationBar: BottomNavigationBar(
               items: barTabs,
+              key: GlobalKey(),
               unselectedItemColor: Colors.grey,
               type: BottomNavigationBarType.fixed,
               currentIndex: currentVisiblePageIndex,
@@ -132,7 +136,7 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
               selectedFontSize: 0,
               onTap: (selectedIndex) async{
                 if(currentVisiblePageIndex == 2){ // profile screen
-                  if(TabsHolderScreen.profileImage != null){
+                  if(TabsHolderScreen.profileImage != null || TabsHolderScreen.coverImage != null){
                     bool confirmedChanges = await showDialog(context: context, barrierDismissible: true ,builder: (context) => AlertDialog(
                       elevation: 2,
                       actions: <Widget>[
@@ -166,21 +170,33 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
                       ),),
                     ));
                     if(confirmedChanges){
-                      BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(UpdateProfileImage(userProfileImage: TabsHolderScreen.profileImage , nextPageIndex : selectedIndex));
+                      if(TabsHolderScreen.profileImage != null || TabsHolderScreen.coverImage != null) {
+                        BlocProvider
+                            .of<AppDataBloc>(context)
+                            .userDataBloc
+                            .userProfileBloc
+                            .add(UpdateProfileImage(
+                            userProfileImage: TabsHolderScreen.profileImage,
+                            userCoverImage: TabsHolderScreen.coverImage,
+                            nextPageIndex: selectedIndex));
+                      }
                     } else {
                       TabsHolderScreen.profileImage = null ;
+                      TabsHolderScreen.coverImage = null ;
                       currentVisiblePageIndex = selectedIndex;
                       setState(() {});
                     }
                   }
                   else {
                     TabsHolderScreen.profileImage = null ;
+                    TabsHolderScreen.coverImage = null ;
                     currentVisiblePageIndex = selectedIndex;
                     setState(() {});
                   }
                 }
                 else {
                   TabsHolderScreen.profileImage = null ;
+                  TabsHolderScreen.coverImage = null ;
                   currentVisiblePageIndex = selectedIndex;
                   setState(() {});
                 }
@@ -197,10 +213,12 @@ class _TabsHolderScreenState extends State<TabsHolderScreen> {
                   backgroundColor: AppColors.mainThemeColor,
                   icon:  Icon(Icons.search , color: AppColors.mainThemeColor, size: 25,),//SvgPicture.asset( Resources.LOGO_IMAGE_SVG, width: 40, height: 40,),
                   actions: <Widget>[
-//              Image(
-//                image: AssetImage(Resources.APPBAR_MESSAGE_IMAGE),
-//                color: Colors.white,
-//              ),
+                    IconButton(
+                      icon: Icon(Icons.error_outline , color: AppColors.redBackgroundColor, size: 25,),
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ContactUsScreen()));
+                      },
+                    ),
                   ],
                   logoWidth: MediaQuery.of(context).size.width / 3,
                   logoHeight: 20,
