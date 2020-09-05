@@ -160,7 +160,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      //widget.onComment("Comment");
+                                      widget.onComment("Comment");
                                       return;
                                     },
                                     child: Row(
@@ -181,7 +181,7 @@ class _UserTextPostCardState extends State<UserTextPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      //widget.onObjection("objection");
+                                      widget.onObjection("objection");
                                       return;
                                     },
                                     child: Row(

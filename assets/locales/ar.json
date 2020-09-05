@@ -93,5 +93,6 @@
   "ERROR_COMPLAINT_MESSAGE": "شيئا ما اعاق وصول استفسارك نعتذر عن الازعاج الغير مقصود يرجي اعاده المحاوله في وقت اخر",
   "FORGET_PASSWORD": "نسيت كلمه المرور",
   "RESET_PASSWORD_FOR": "استعاده كلمه المرور ل \n{}",
-  "RESET_PASSWORD": "استعاده"
+  "RESET_PASSWORD": "استعاده",
+  "EMAIL_OR_PHONE": "الهاتف او البريد الاليكتروني"
 }

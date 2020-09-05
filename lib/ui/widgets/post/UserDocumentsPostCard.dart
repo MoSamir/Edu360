@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:edu360/data/models/PostViewModel.dart';
+import 'package:edu360/ui/screens/CreatePostScreen.dart';
+import 'package:edu360/ui/screens/FullScreenImage.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/ParserHelpers.dart';
 import 'package:edu360/utilities/Resources.dart';
@@ -124,7 +128,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      //widget.onComment("Comment");
+                                      widget.onComment("Comment");
                                       return;
                                     },
                                     child: Row(
@@ -133,8 +137,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                         widget.postModel.numberOfComments < 1 ? Container() :
                                         Text('${ widget.postModel.numberOfComments}',style: TextStyle(color: AppColors.mainThemeColor),),
                                       ],
-                                    )??
-                                            () {},
+                                    )?? () {},
                                   )),
                             ],
                           ),
@@ -145,7 +148,7 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
                                   height: 25,
                                   child: InkWell(
                                     onTap: () {
-                                      //widget.onObjection("objection");
+                                      widget.onObjection("objection");
                                       return;
                                     },
                                     child: Row(
@@ -215,10 +218,39 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
 
   getFiles() {
     List<Widget> widgetList = List<Widget>();
+
+
+    if(widget.postModel.postFilesPath[0].endsWith('.jpg') || widget.postModel.postFilesPath[0].endsWith('.png') ){
+      return [GestureDetector(
+        onTap: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FullScreenImage(imagePath: widget.postModel.postFilesPath[0] , source: ImageSource.NETWORK)));
+        },
+        child: Center(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: AppColors.backgroundColor,
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(widget.postModel.postFilesPath[0] , fit: BoxFit.fill ,width: MediaQuery.of(context).size.width * .25, height: MediaQuery.of(context).size.height * .25,),
+            ),
+          ),
+        ),
+      )];
+    }
+
     for(int i = 0 ; i < widget.postModel.postFilesPath.length ; i ++){
       String document = ParserHelper.parseURL(widget.postModel.postFilesPath[i]);
       widgetList.add(GestureDetector(
         onTap: (){
+          if(document.split("/")[document.split("/").length -1] == '.png' || document.split("/")[document.split("/").length -1] == '.jpg'){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FullScreenImage(imagePath: document , source: ImageSource.NETWORK)));
+            return ;
+          }
           PdftronFlutter.openDocument(document);
         },
         child: Container(

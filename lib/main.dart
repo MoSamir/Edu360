@@ -7,25 +7,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-
-
 import 'package:easy_localization/easy_localization.dart';
-
 import 'ui/screens/SplashScreen.dart';
 
 void main() async{
   BlocSupervisor.delegate = SimpleBlocDelegate();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
+  Firebase.initializeApp();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: AppColors.mainThemeColor,
     statusBarBrightness: Brightness.light,
   ));
-
-
-
   Constants.CURRENT_LOCALE = "ar";
 
   runApp(

@@ -26,9 +26,7 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   TextEditingController userMailController , userNameController , userPhoneNumberController ,
   issueTitleController , issueBodyController ;
   FocusNode userMailNode , userNameNode , userPhoneNumberNode , issueTitleNode , issueBodyNode;
-
   GlobalKey<FormState> issueFormKey = GlobalKey<FormState>();
-
    IssueModel userIssue ;
    AppDataBloc applicationBloc ;
 

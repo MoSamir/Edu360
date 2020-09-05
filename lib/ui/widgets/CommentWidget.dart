@@ -14,7 +14,7 @@ class CommentWidget extends StatelessWidget {
       borderOnForeground: true,
       shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
-          side: BorderSide(width: .5, color: comment.isObjection ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor)),
+          side: BorderSide(width: .7, color: comment.isObjection ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor)),
       elevation: 2,
       shadowColor: AppColors.backgroundColor,
       child: Padding(
@@ -35,16 +35,16 @@ class CommentWidget extends StatelessWidget {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(25),
-                        child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: comment.ownerImagePath , fit: BoxFit.cover,),
+                        child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: comment.ownerImagePath  ?? '', fit: BoxFit.cover,),
                       ),
                     ),
                     SizedBox(width: 5,),
-                    Text(comment.ownerName),
+                    Text(comment.ownerName ?? ''),
                   ],
                 ),
               ),
               SizedBox(height: 5,),
-              Text(comment.commentText),
+              Text(comment.commentText ?? ''),
               SizedBox(height: 5,),
             ],
           ),

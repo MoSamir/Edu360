@@ -26,18 +26,7 @@ class PostViewModel{
 
     List<String> postDocuments = List<String>();
     if(postMap[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH] != null)
-      postDocuments.add(postMap[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH]);
-
-//    try {
-//      if(postMap[ApiParseKeys.POST_ATTACHMENTS] != null && postMap[ApiParseKeys.POST_ATTACHMENTS] is List) {
-//        for (int i  = 0; i < postMap[ApiParseKeys.POST_ATTACHMENTS].length; i++) {
-//          var attachment = postMap[ApiParseKeys.POST_ATTACHMENTS][i];
-//
-//          postDocuments.add(ParserHelper.parseURL(url));
-//        }
-//      }
-//    } catch(Exception){}
-
+      postDocuments.add(ParserHelper.parseURL(postMap[ApiParseKeys.POST_SINGLE_ATTACHMENT_PATH]));
     PostViewModel post =  PostViewModel(
       isLiked: (postMap[ApiParseKeys.POST_USER_INTERACTION] != null && postMap[ApiParseKeys.POST_USER_INTERACTION] == 0),
       postId: postMap[ApiParseKeys.POST_ID],

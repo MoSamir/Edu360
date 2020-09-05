@@ -115,10 +115,6 @@ class ProfileScreenHeader extends StatelessWidget {
                           visible: user.userEmail != null && user.userEmail.length > 0,
                           replacement: Container(width: 0, height: 0,),
                           child: Expanded(child: Text(user.userEmail != null ? user.userEmail ?? "" : "", style: _headerTextStyle,))),
-                      Visibility(
-                          visible: user.userMobileNumber != null && user.userMobileNumber.length > 0,
-                          replacement: Container(width: 0, height: 0,),
-                          child: Expanded(child: Text(user.userMobileNumber != null ? user.userMobileNumber ?? "" : "", style: _headerTextStyle,))),
                       Expanded(child: Text(user.userFieldOfStudy.getStudyFieldName(context) ?? 'No field',style: _headerTextStyle,)),
                     ],
                   ),

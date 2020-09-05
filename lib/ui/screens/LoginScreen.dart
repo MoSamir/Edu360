@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         focusNode: _userEmailFocusNode,
                                         nextFocusNode: _userPasswordFocusNode,
                                         fieldController: _userEmailController,
-                                        placeHolder: (LocalKeys.EMAIL).tr(),
+                                        placeHolder: (LocalKeys.EMAIL_OR_PHONE).tr(),
                                         obscureField: false,
                                         validatorFn: Validator.mailOrPhoneValidator,
                                       ),

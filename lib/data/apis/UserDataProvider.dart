@@ -10,6 +10,7 @@ import 'package:edu360/data/models/IssueModel.dart';
 import 'package:edu360/data/models/CourseViewModel.dart';
 import 'package:edu360/data/models/ErrorViewModel.dart';
 import 'package:edu360/data/models/GradeViewModel.dart';
+import 'package:edu360/data/models/PaymentMethodModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:edu360/data/models/ResponseViewModel.dart';
 import 'package:edu360/data/models/StudyFieldViewModel.dart';
@@ -131,6 +132,10 @@ class UserDataProvider {
         requestHeaders: NetworkUtilities.getHeaders(),
         requestBody: json,
         parserFunction: (jsonResponse) {
+          print("**************Login*************************");
+          print(jsonResponse);
+          print("*************End of Login**************************");
+
           return UserViewModel.fromJson(jsonResponse);
         });
 
@@ -619,7 +624,6 @@ class UserDataProvider {
 
   }
 
-
   static Future<ResponseViewModel<bool>> resetPassword(String userMail , String userCode , String password) async{
 
 
@@ -641,11 +645,24 @@ class UserDataProvider {
       isSuccess: contactUsResponse.isSuccess,
       errorViewModel: contactUsResponse.errorViewModel,
     );
+  }
+
+  static Future<ResponseViewModel<List<PaymentMethodModel>>> getPaymentMethods() async{
+
+    ResponseViewModel contactUsResponse = await NetworkUtilities.handleGetRequest(
+        methodURL: NetworkUtilities.getFullURL(method: URL.GET_RETRIEVE_PAYMENT_ACCOUNT , withLocale : false),
+        requestHeaders: NetworkUtilities.getHeaders(),
+        parserFunction: PaymentMethodModel.fromJson,
+    );
+
+    return ResponseViewModel<List<PaymentMethodModel>>(
+      responseData: contactUsResponse.responseData,
+      isSuccess: contactUsResponse.isSuccess,
+      errorViewModel: contactUsResponse.errorViewModel,
+    );
 
 
   }
-
-
 
 
 }

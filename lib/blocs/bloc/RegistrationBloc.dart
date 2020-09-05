@@ -84,12 +84,16 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
       return ;
     }
 
-    print("Hello Now I'm registering You ");
     ResponseViewModel<int> registerUserResponse = await Repository.registerUser(tobeRegistered , event.profileImage);
 
    if(registerUserResponse.isSuccess) {
      tobeRegistered.userId = registerUserResponse.responseData;
-     yield RegistrationSuccess(tobeRegistered.userEmail , tobeRegistered.userPassword);
+     String userLogin = tobeRegistered.userEmail != null && tobeRegistered.userEmail.length > 0 ? tobeRegistered.userEmail : tobeRegistered.userMobileNumber;
+
+     yield RegistrationSuccess(userLogin , tobeRegistered.userPassword);
+
+
+
      return ;
    }
    else {
@@ -101,7 +105,8 @@ class RegistrationBloc extends Bloc<RegistrationEvents, RegistrationStates>{
     yield RegistrationPageLoading();
     ResponseViewModel<void> verifyUserResponse = await Repository.verifyUser(userID: tobeRegistered.userId.toString() , userVerificationCode: event.verificationCode);
     if(verifyUserResponse.isSuccess){
-      yield RegistrationSuccess(tobeRegistered.userEmail , tobeRegistered.userPassword);
+      String userLogin = tobeRegistered.userEmail != null && tobeRegistered.userEmail.length > 0 ? tobeRegistered.userEmail : tobeRegistered.userMobileNumber;
+      yield RegistrationSuccess(userLogin , tobeRegistered.userPassword);
       return ;
     } else {
       yield RegistrationFailed(failedEvent: event,error: verifyUserResponse.errorViewModel);

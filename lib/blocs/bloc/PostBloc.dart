@@ -64,8 +64,8 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     else
       likePostResult = await Repository.likePost(postId: event.postViewModel.postId);
     if(likePostResult.isSuccess){
+      add(FetchPostComments(postModel: event.postViewModel));
       postExecutionCallback();
-      yield PostLoadedState();
       return;
     } else {
       yield PostLoadedState();
@@ -77,8 +77,8 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.addComment(postId: event.postModel.postId , comment: event.commentViewModel);
     if(likePostResult.isSuccess){
+      add(FetchPostComments(postModel: event.postModel));
       postExecutionCallback();
-      yield PostLoadedState();
       return;
     } else {
       yield PostLoadedState();
@@ -91,8 +91,8 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     ResponseViewModel<void> likePostResult = await Repository.addObjection(postId: event.postModel.postId , comment: event.commentViewModel);
 
     if(likePostResult.isSuccess){
+      add(FetchPostComments(postModel: event.postModel));
       postExecutionCallback();
-      yield PostLoadedState();
       return;
     } else {
       yield PostLoadedState();
@@ -104,9 +104,8 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
     yield PostLoadingState();
     ResponseViewModel<void> likePostResult = await Repository.sharePost(postId: event.postViewModel.postId , shareDescription: event.shareDescription);
     if(likePostResult.isSuccess){
-      yield PostSharedSuccessfully();
+      add(FetchPostComments(postModel: event.postViewModel));
       postExecutionCallback();
-      yield PostLoadedState();
       return;
     } else {
       yield PostLoadedState();
@@ -115,11 +114,7 @@ class PostBloc extends Bloc<PostEvents , PostStates>{
   }
 
   Stream<PostStates> _handlePostCommentsFetching(FetchPostComments event) async*{
-
-
-    if(event.silentLoad != null && event.silentLoad == false)
     yield PostLoadingState();
-
     ResponseViewModel<PostViewModel> postCommentsResponse = await Repository.getPostComments(post: event.postModel);
     PostViewModel postModel = event.postModel;
 

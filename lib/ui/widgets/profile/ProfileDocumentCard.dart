@@ -1,4 +1,6 @@
 import 'package:edu360/data/models/PostViewModel.dart';
+import 'package:edu360/ui/screens/CreatePostScreen.dart';
+import 'package:edu360/ui/screens/FullScreenImage.dart';
 import 'package:edu360/ui/screens/SinglePostScreen.dart';
 import 'package:edu360/utilities/AppStyles.dart';
 import 'package:edu360/utilities/LocalKeys.dart';
@@ -19,6 +21,8 @@ class ProfileDocumentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    for(int i = 0 ; i < postModel.postFilesPath.length ; i++)
+      print("Gesture Detector => ${postModel.postFilesPath[i]}");
 
 
     Color bgColor  = postModel.postFilesPath[0].endsWith(".pdf") ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor;
@@ -121,6 +125,10 @@ class ProfileDocumentCard extends StatelessWidget {
                                 SizedBox(height: 5,),
                                 ...postModel.postFilesPath.map((document) => GestureDetector(
                                   onTap: (){
+                                    if(document.endsWith('.png') || document.endsWith('.jpg')){
+                                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FullScreenImage(imagePath: document , source: ImageSource.NETWORK)));
+                                      return ;
+                                    }
                                     PdftronFlutter.openDocument(document);
                                   },
                                   child: Text(
@@ -213,15 +221,15 @@ class ProfileDocumentCard extends StatelessWidget {
                                 width: 25,
                                 child: InkWell(
                                   onTap: () {
-                                    if(onComment != null)
-                                      //onComment("Comment");
+                                    onComment("Comment");
                                       return;
                                   },
                                   child: Image(
                                       image: AssetImage(
                                           Resources.COMMENT_IMAGE)) ??
                                           () {},
-                                )),
+                                ),
+                            ),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -253,8 +261,7 @@ class ProfileDocumentCard extends StatelessWidget {
                               height: 25,
                               child: InkWell(
                                   onTap: () {
-                                    if(onObjection != null)
-                                      //onObjection("Objection");
+                                      onObjection("Objection");
                                       return;
                                   },
                                   child: Image.asset(Resources.OBJECTION_IMAGE , width: 25, height: 25,)) ?? () {},

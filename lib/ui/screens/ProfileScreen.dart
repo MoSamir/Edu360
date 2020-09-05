@@ -279,7 +279,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
              Padding(
                padding: const EdgeInsets.symmetric(vertical:8.0),
                child: Center(
-                 child: Text('v1.0.8' , textAlign: TextAlign.center, style: TextStyle(
+                 child: Text('v1.0.9' , textAlign: TextAlign.center, style: TextStyle(
                    color: Colors.grey,
                  ),),
                ),

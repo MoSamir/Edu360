@@ -1,3 +1,7 @@
+import 'package:edu360/blocs/bloc/AppDataBloc.dart';
+import 'package:edu360/blocs/bloc/PostBloc.dart';
+import 'package:edu360/blocs/events/HomePostsEvent.dart';
+import 'package:edu360/blocs/events/UserProfileEvents.dart';
 import 'package:edu360/data/models/CategoryPostViewModel.dart';
 import 'package:edu360/ui/UIHelper.dart';
 import 'package:edu360/utilities/AppStyles.dart';
@@ -5,6 +9,8 @@ import 'package:edu360/utilities/LocalKeys.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:math' as Math;
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 class CategoryPostsCardWidget extends StatefulWidget {
   final CategoryPostViewModel category;
   CategoryPostsCardWidget({this.category});
@@ -52,7 +58,8 @@ class _CategoryPostsCardWidgetState extends State<CategoryPostsCardWidget> {
     List<Widget> posts = List();
     if(widget.category!= null && widget.category.fieldPosts != null) {
       for (int i = 0; i < Math.min(widget.category.fieldPosts.length, 2); i++)
-        posts.add(UIHelper.getPostView(widget.category.fieldPosts[i], context ,elevation: 0));
+        posts.add(UIHelper.getPostView(
+        widget.category.fieldPosts[i], context ,elevation: 0));
     }
 //    return Wrap(
 //      children: ,

@@ -133,6 +133,8 @@ class UserViewModel {
   }
 
   bool isAnonymous() {
-    return (userId == -1 || (userEmail == null || userEmail.isEmpty && userMobileNumber == null || userMobileNumber .isEmpty));
+    if(userId == -1) return true ;
+    if((userEmail == null || userEmail.length == 0) && (userMobileNumber == null || userMobileNumber.length == 0)) return true ;
+    return false ;
   }
 }

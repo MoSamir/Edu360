@@ -93,5 +93,6 @@
   "ERROR_COMPLAINT_MESSAGE": "Something went wrong , we are sorry for bothering , please try again in while",
   "FORGET_PASSWORD": "Forget password",
   "RESET_PASSWORD_FOR": "Reset password for\n {}",
-  "RESET_PASSWORD": "Reset"
+  "RESET_PASSWORD": "Reset",
+  "EMAIL_OR_PHONE": "Email or phone number"
 }

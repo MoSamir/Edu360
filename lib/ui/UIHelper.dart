@@ -8,6 +8,7 @@ import 'package:edu360/data/models/CommentViewModel.dart';
 import 'package:edu360/data/models/PostViewModel.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:edu360/data/models/UserViewModel.dart';
+import 'package:edu360/ui/screens/SinglePostScreen.dart';
 import 'package:edu360/ui/widgets/post/UserDocumentsPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserTextPostCard.dart';
 import 'package:edu360/ui/widgets/post/UserVideoPostCard.dart';
@@ -53,10 +54,10 @@ class UIHelper {
             postAction();
         },
         onComment: (String comment) {
-          postBloc.add(AddComment(
-              postModel: post, commentViewModel: createComment(comment, user)));
-          if (postAction != null)
-            postAction();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         },
         onLike: () {
           postBloc.add(LikePost(postViewModel: post));
@@ -70,17 +71,19 @@ class UIHelper {
             postAction();
         },
         onObjection: (String objection) {
-          postBloc.add(AddObjection(postModel: post,
-              commentViewModel: createComment(objection, user)));
-          if (postAction != null)
-            postAction();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         },);
     }
     else if(post.postFilesPath[0].endsWith('.mov') || post.postFilesPath[0].endsWith('.mp4'))
       return UserVideoPostCard(postModel: post, elevation: elevation , onPostClick: onPostClick ?? (){}, onComment: (String comment){
-        postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
-        if(postAction != null)
-          postAction();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+        }, post: post,)));
+        return;
       }, onLike: (){
         postBloc.add(LikePost(postViewModel:  post));
         if(postAction != null)
@@ -90,15 +93,17 @@ class UIHelper {
         if(postAction != null)
           postAction();
       }, onObjection: (String objection){
-        postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
-        if(postAction != null)
-          postAction();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+        }, post: post,)));
       },);
     else
       return UserDocumentsPostCard(postModel: post, elevation: elevation ,onPostClick: onPostClick ??(){}, onComment: (String comment){
-        postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
-        if(postAction != null)
-          postAction();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+          BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+        }, post: post,)));
       },onDelete: () {
         postBloc.add(DeletePost(postViewModel: post));
         if (postAction != null)
@@ -112,10 +117,11 @@ class UIHelper {
           postBloc.add(SharePost(postViewModel: post , shareDescription: shareDescription));
           if(postAction != null)
             postAction();
-        }, onObjection: (String objection){
-          postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
-          if(postAction != null)
-            postAction();
+        }, onObjection: (){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         },);
 
   }
@@ -158,10 +164,10 @@ class UIHelper {
 
 
         onComment: (String comment) {
-          postBloc.add(AddComment(
-              postModel: post, commentViewModel: createComment(comment, user)));
-          if (postAction != null)
-            postAction();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         },
         onLike: () {
           postBloc.add(LikePost(postViewModel: post));
@@ -175,10 +181,10 @@ class UIHelper {
             postAction();
         },
         onObjection: (String objection) {
-          postBloc.add(AddObjection(postModel: post,
-              commentViewModel: createComment(objection, user)));
-          if (postAction != null)
-            postAction();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         },);
     }
     else if(post.postFilesPath[0].endsWith('.mov') || post.postFilesPath[0].endsWith('.mp4'))
@@ -194,9 +200,10 @@ class UIHelper {
         },
 
         onComment: (String comment){
-          postBloc.add(AddComment(postModel: post, commentViewModel: createComment(comment, user)));
-          if(postAction != null)
-            postAction();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         }, onLike: (){
           postBloc.add(LikePost(postViewModel:  post));
           if(postAction != null)
@@ -206,9 +213,10 @@ class UIHelper {
           if(postAction != null)
             postAction();
         }, onObjection: (String objection){
-          postBloc.add(AddObjection(postModel: post, commentViewModel: createComment(objection, user)));
-          if(postAction != null)
-            postAction();
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> SinglePostScreen((){
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.homePostsBloc.add(LoadHomeUserPosts());
+            BlocProvider.of<AppDataBloc>(context).userDataBloc.userProfileBloc.add(LoadUserProfile(userId: BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.currentUser.userId));
+          }, post: post,)));
         },);
   }
 

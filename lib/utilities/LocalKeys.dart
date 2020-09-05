@@ -75,6 +75,7 @@ class LocalKeys{
 
   //-------------------- Login Screen ------------------------------------------
   static const String LOGIN = "LOGIN";
+  static const String EMAIL_OR_PHONE = "EMAIL_OR_PHONE";
   static const String FORGET_PASSWORD = "FORGET_PASSWORD";
 
 
@@ -195,6 +196,8 @@ class LocalKeys{
   static const String BACK_LABEL = "BACK_LABEL";
   static const String SUCCESS_COMPLAINT_MESSAGE = "SUCCESS_COMPLAINT_MESSAGE";
   static const String ERROR_COMPLAINT_MESSAGE = "ERROR_COMPLAINT_MESSAGE";
+
+
 
 
 

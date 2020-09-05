@@ -127,7 +127,9 @@ class _VerificationScreenState extends State<VerificationScreen> {
             }
           }
           else if(state is RegistrationSuccess){
+
             BlocProvider.of<AppDataBloc>(context).userDataBloc.authenticationBloc.add(LoginUser(userEmail: state.userName , userPassword: state.userPassword));
+
             Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> TabsHolderScreen()), (route) => false);
           }
         },

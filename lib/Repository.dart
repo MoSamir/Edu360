@@ -71,7 +71,11 @@ class Repository {
   static Future<ResponseViewModel<UserViewModel>> refreshUser() async{
     String userPassword = await UserDataProvider.getUserPassword();
     UserViewModel user = (await UserDataProvider.getUser());
-    String userMail = user.userEmail ?? user.userMobileNumber;
+    String userMail = '';
+    if(user.userEmail == null || user.userEmail.length > 0)
+      userMail = user.userEmail ;
+    if(user.userMobileNumber == null || user.userMobileNumber.length > 0)
+      userMail = user.userMobileNumber ;
     return await UserDataProvider.login(userMail, userPassword);
   }
 

@@ -33,7 +33,6 @@ class ProfileTextPostCard extends StatelessWidget {
 
             )));
       },
-
       child: Container(
         decoration: BoxDecoration(
             color: AppColors.white,
@@ -47,7 +46,6 @@ class ProfileTextPostCard extends StatelessWidget {
                 child: Material(
                   type: MaterialType.card,
                   color: Colors.white,
-
                   borderRadius: BorderRadius.circular(8),
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
@@ -66,13 +64,11 @@ class ProfileTextPostCard extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: AppColors.mainThemeColor,
-
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: FadeInImage.assetNetwork(placeholder: Resources.USER_PLACEHOLDER_IMAGE, image: postModel.ownerImagePath, fit: BoxFit.cover,),
                                 ),
-                                //child: Center(child:Text('S' , textScaleFactor: 1,style: Styles.baseTextStyle,),),
                               ),
                               SizedBox(
                                 width: 15,
@@ -178,7 +174,7 @@ class ProfileTextPostCard extends StatelessWidget {
                               width: 25,
                               child: InkWell(
                                   onTap: () {
-                                    //onComment("Comment");
+                                    onComment("Comment");
                                     return;
                                   },
                                   child: Image.asset(Resources.COMMENT_IMAGE , width: 25, height: 25,)) ?? () {},
@@ -214,14 +210,14 @@ class ProfileTextPostCard extends StatelessWidget {
                                 height: 25,
                                 child: InkWell(
                                   onTap: () {
-                                    //onObjection("Objection");
+                                    onObjection("Objection");
                                     return;
                                   },
                                   child: Image(
                                       image: AssetImage(
                                           Resources.OBJECTION_IMAGE)) ??
                                           () {},
-                                )),
+                                ),),
                             Visibility(
                               replacement: Container(
                                 width: 0,
@@ -243,7 +239,6 @@ class ProfileTextPostCard extends StatelessWidget {
                                         style: Styles.baseTextStyle,
                                       ))),
                             ),
-
                           ],
                         ),
                       ],
