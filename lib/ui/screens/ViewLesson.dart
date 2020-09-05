@@ -18,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:open_file/open_file.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 import 'package:video_player/video_player.dart';
 
@@ -392,7 +393,10 @@ class _ViewLessonState extends State<ViewLesson> {
     String document = ParserHelper.parseURL(currentLesson.documentURL);
     return GestureDetector(
       onTap: (){
-        PdftronFlutter.openDocument(document);
+        print("Hello World2");
+        //PdftronFlutter.openDocument(document);
+        OpenFile.open(document);
+
       },
       child: Container(
         // height: 40,

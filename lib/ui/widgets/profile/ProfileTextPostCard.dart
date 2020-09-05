@@ -145,8 +145,8 @@ class ProfileTextPostCard extends StatelessWidget {
                                     child: Icon(postModel.isLiked ?? false ? Icons.favorite  : Icons.favorite_border ,color: AppColors.mainThemeColor,))),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfLikes != null
                                   ? postModel.numberOfLikes > 0
@@ -181,8 +181,8 @@ class ProfileTextPostCard extends StatelessWidget {
                             ),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfComments != null
                                   ? postModel.numberOfComments > 0
@@ -220,8 +220,8 @@ class ProfileTextPostCard extends StatelessWidget {
                                 ),),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfObjections != null
                                   ? postModel.numberOfObjections > 0
@@ -262,8 +262,8 @@ class ProfileTextPostCard extends StatelessWidget {
                         ),
                         Visibility(
                           replacement: Container(
-                            width: 0,
-                            height: 0,
+                            width: 20,
+                            height: 20,
                           ),
                           visible: postModel.numberOfShares != null
                               ? postModel.numberOfShares > 0

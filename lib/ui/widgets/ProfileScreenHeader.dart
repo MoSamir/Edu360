@@ -26,6 +26,12 @@ class ProfileScreenHeader extends StatelessWidget {
   ProfileScreenHeader({this.user , this.userProfileImage , this.userCoverFileImage ,this.isMe , this.onEditProfileCoverImageClicked ,this.onEditProfileImageClicked , this.isMyFriend , this.onFollowClicked});
   @override
   Widget build(BuildContext context) {
+
+    print("User Cover");
+    print(user.profileCoverImagePath);
+    print("**********************************");
+
+
     try {
       if (user.userFieldOfStudy.getStudyFieldName(context) == null ||
           user.userFieldOfStudy

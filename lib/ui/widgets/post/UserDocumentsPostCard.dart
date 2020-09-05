@@ -9,6 +9,7 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_file/open_file.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 class UserDocumentsPostCard extends StatefulWidget {
@@ -246,12 +247,19 @@ class _UserDocumentsPostCardState extends State<UserDocumentsPostCard> {
     for(int i = 0 ; i < widget.postModel.postFilesPath.length ; i ++){
       String document = ParserHelper.parseURL(widget.postModel.postFilesPath[i]);
       widgetList.add(GestureDetector(
-        onTap: (){
+        onTap: ()async{
           if(document.split("/")[document.split("/").length -1] == '.png' || document.split("/")[document.split("/").length -1] == '.jpg'){
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FullScreenImage(imagePath: document , source: ImageSource.NETWORK)));
             return ;
           }
-          PdftronFlutter.openDocument(document);
+
+          String filePath = await ParserHelper.getFileFromNetwork(document);
+
+          print("Hello World3");
+          print(document);
+          //PdftronFlutter.openDocument(document);
+          OpenFile.open(filePath);
+
         },
         child: Container(
           height: 40,

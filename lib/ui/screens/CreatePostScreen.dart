@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:open_file/open_file.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 import 'FullScreenImage.dart';
@@ -260,8 +261,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     for(int i = 0 ; i < postFiles.length;i++){
       String ext = postFiles[i].path.substring(postFiles[i].path.lastIndexOf('.')+1);
       filesWidget.add(GestureDetector(
-        onTap: (){
-          PdftronFlutter.openDocument(postFiles[i].path);
+        onTap: ()async{
+
+
+
+          print("Hello World1");
+         // PdftronFlutter.openDocument(postFiles[i].path);
+          OpenFile.open(postFiles[i].path);
+
           return ;
         },
         child: Material(
@@ -360,7 +367,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   pickDocumentFile() async{
     try{
       FilePicker.getMultiFile(
-        type: FileType.custom , allowedExtensions: ['pdf', 'doc'], ).then((value){
+        type: FileType.custom ,  allowedExtensions: ['pdf', 'doc', 'docx' , ''], ).then((value){
         if(value!= null){
           postFiles.addAll(value);
           setState(() {});

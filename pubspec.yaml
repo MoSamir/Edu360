@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
 
   easy_localization: 2.3.2
+  open_file: 3.0.1
+
   flutter_bloc: 4.0.0
   dio: 3.0.9
   file_picker: 1.10.0
@@ -30,6 +32,8 @@ dependencies:
   firebase_auth: 0.18.0+1
   firebase_core : 0.5.0
   international_phone_input: 1.0.4
+  flutter_cache_store: 0.7.2
+
 
 
   pdftron_flutter:

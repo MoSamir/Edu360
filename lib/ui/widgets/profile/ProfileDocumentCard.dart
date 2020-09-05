@@ -8,6 +8,7 @@ import 'package:edu360/utilities/Resources.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_file/open_file.dart';
 import 'package:pdftron_flutter/pdftron_flutter.dart';
 
 class ProfileDocumentCard extends StatelessWidget {
@@ -21,13 +22,8 @@ class ProfileDocumentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    for(int i = 0 ; i < postModel.postFilesPath.length ; i++)
-      print("Gesture Detector => ${postModel.postFilesPath[i]}");
-
-
     Color bgColor  = postModel.postFilesPath[0].endsWith(".pdf") ? AppColors.redBackgroundColor : AppColors.wordBackgroundColor;
     return GestureDetector(
-
       key: _cardKey,
       onTap: onPostClick ?? (){},
       onLongPress: (){
@@ -44,7 +40,6 @@ class ProfileDocumentCard extends StatelessWidget {
                 },
               ),
               value: 0,
-
             )));
       },
       child: Container(
@@ -129,7 +124,10 @@ class ProfileDocumentCard extends StatelessWidget {
                                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> FullScreenImage(imagePath: document , source: ImageSource.NETWORK)));
                                       return ;
                                     }
-                                    PdftronFlutter.openDocument(document);
+                                    print("Hello World4");
+                                    //PdftronFlutter.openDocument(document);
+                                    OpenFile.open(document);
+
                                   },
                                   child: Text(
                                     document.split("/")[document.split("/").length -1],
@@ -187,8 +185,8 @@ class ProfileDocumentCard extends StatelessWidget {
                                     child: Icon(postModel.isLiked ?? false ? Icons.favorite  : Icons.favorite_border ,color: AppColors.mainThemeColor,))),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfLikes != null
                                   ? postModel.numberOfLikes > 0
@@ -232,8 +230,8 @@ class ProfileDocumentCard extends StatelessWidget {
                             ),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfComments != null
                                   ? postModel.numberOfComments > 0
@@ -268,8 +266,8 @@ class ProfileDocumentCard extends StatelessWidget {
                             ),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfObjections != null
                                   ? postModel.numberOfObjections > 0
@@ -313,8 +311,8 @@ class ProfileDocumentCard extends StatelessWidget {
                             ),
                             Visibility(
                               replacement: Container(
-                                width: 0,
-                                height: 0,
+                                width: 20,
+                                height: 20,
                               ),
                               visible: postModel.numberOfShares != null
                                   ? postModel.numberOfShares > 0

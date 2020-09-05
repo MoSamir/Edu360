@@ -1,5 +1,6 @@
 import 'package:edu360/data/apis/helpers/NetworkUtilities.dart';
 import 'package:edu360/data/apis/helpers/URL.dart';
+import 'package:flutter_cache_store/flutter_cache_store.dart';
 
 class ParserHelper {
 
@@ -31,5 +32,11 @@ try{
     if(url.contains(URL.BASE_URL)) return url ;
     return URL.BASE_URL + "/" + url;
   }
+  static Future<String> getFileFromNetwork(String url) async {
+    final store = await CacheStore.getInstance();
+    final file = await store.getFile(url);
+    return file.path;
+  }
+
 
 }
